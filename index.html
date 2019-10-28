@@ -76,6 +76,9 @@
                 background-color: #FFECD1;
                 border-color: #F89406;
             }
+            .small {
+                font-size: 0.7em;
+            }
         </style>
 
     </head>
@@ -93,6 +96,8 @@ class: center, middle
 
 ### Bernhard Mallinger
 
+https://totycro.github.io/python-kurs
+
 ---
 
 # Python
@@ -103,6 +108,17 @@ class: center, middle
 * Plattformunabhängig
 * Immer weiter verbreitet
 * Viele Anwendungsbereiche
+
+---
+
+# Kurs
+
+* Programmieren ist auch Handwerk
+  * Selbst programmieren notwendig
+  * Keine Angst vor Fehlern, alles ausprobieren!
+* Modus: Vortrag + Übungsbeispiele
+* Kurs soll Grundlagen vermitteln und befähigen, sich in speziellere Gebiete einzuarbeiten
+  
 
 ---
 
@@ -151,14 +167,14 @@ class: center, middle
 3
 >>> max(4, 3, 5)
 5
->>> import math
->>> math.log(10)
+>>> from math import *
+>>> log(10)
 2.302585092994046
->>> math.radians(180)
+>>> radians(180)
 3.141592653589793
->>> math.cos(3.141592653589793)
+>>> cos(3.141592653589793)
 -1.0
->>> math.cos(math.radians(180))
+>>> cos(radians(180))
 -1.0
 ```
 
@@ -198,12 +214,17 @@ Help on built-in function dir in module builtins:
 * Welche Funktionen findest du in `math`?
 * Was tun sie genau?
 * Wie kannst du sie verwenden?
+
+Zusätzlich zu `dir` und `help` ist die offizielle Dokumentation oft sehr nützlich:<br/>
+https://docs.python.org/3/library/math.html
 ]
 &nbsp;
 
 ---
 
 # Fehlermeldungen
+
+Bei Problemen versucht Python euch genaue Hilfestellung zu geben
 
 ```
 >>> math.cos(0)
@@ -214,6 +235,11 @@ NameError: name 'math' is not defined
 Traceback (most recent call last):
   File "<pyshell>", line 1, in <module>
 ZeroDivisionError: division by zero
+>>> 3 +
+  File "<pyshell>", line 1
+    3 +
+      ^
+SyntaxError: invalid syntax
 ```
 
 ---
@@ -223,12 +249,125 @@ ZeroDivisionError: division by zero
 ```
 >>> "hello world"
 'hello world'
->>> "hello" + " " + "wo" + "rld"
+>>> "hello" + " " + 'wo' + 'rld'
 'hello world'
 >>> len("hello")
 5
 ```
 
+`"` und `'` gleichbedeutend, jeder String darf aber nur eine Variante verwenden:
+```
+>>> "boku'
+  File "<pyshell>", line 1
+    "boku'
+         ^
+SyntaxError: EOL while scanning string literal
+```
+* Syntax: Grammatik
+* EOL: End of line
+
+---
+
+# Typen von Werten sind entscheidend
+
+```
+>>> "Python " + 2019
+Traceback (most recent call last):
+  File "<pyshell>", line 1, in <module>
+TypeError: can only concatenate str (not "int") to str
+>>> 1 + "3"
+Traceback (most recent call last):
+  File "<pyshell>", line 1, in <module>
+TypeError: unsupported operand type(s) for +: 'int' and 'str'
+```
+
+Es gibt aber Konvertierungsfunktionen:
+
+```
+>>> "Python " + str(2019)
+'Python 2019'
+>>> 1 + int("3")
+4
+```
+---
+
+# Stringfunktionen: `replace`
+
+* Viele Objekte bieten Funktionen direkt an
+* Aufruf durch `obj.funktion()` (im Gegensatz zu `min(1,2,3)`)
+
+```
+>>> "hello world".replace("world", "boku")
+'hello boku'
+```
+
+.box.moody[.label[Aufgabe]
+<br/>Bei  `"IOOIO"` wurden die Buchstaben `"I"` und `"O"` statt `1` und `0` verwendet.
+Verwende `replace` um hier wieder die richtigen Ziffern einzusetzen und `int` um schließlich eine Zahl daraus zu machen.
+
+]&nbsp;
+---
+
+# Stringfunktionen: `find`
+
+Gibt Position von gesuchtem "Substring" zurück (oder `-1`):
+
+```
+>>> "hello world".find("wor")
+6
+>>> "hello world".find("work")
+-1
+```
+
+Computer beginnen bei 0 zu zählen:
+
+```
+>>> "holzwirtschaft".find("h")
+0
+```
+
+---
+
+# Stringfunktionen: `find`
+```
+>>> help("".find)
+Help on built-in function find:
+
+find(...) method of builtins.str instance
+    S.find(sub[, start[, end]]) -> int
+
+    Return the lowest index in S where substring sub is found,
+    such that sub is contained within S[start:end].  Optional
+    arguments start and end are interpreted as in slice notation.
+
+    Return -1 on failure.
+```
+
+
+```
+>>> "holzwirtschaft".find("h", 4)
+10
+```
+
+---
+
+# Stringfunktionen
+
+* Es gibt noch viele weitere Stringfunktionen
+* In der Praxis muss man ständig hier nachsehen:
+
+```
+>>> dir(str)
+>>> help(str)
+>>> help(str.find)
+>>> help("".find)
+```
+.small[https://docs.python.org/3.8/library/stdtypes.html#string-methods]
+
+.box.moody[.label[Aufgabe]
+* Finde und verwende eine Stringfunktion, die unnötigte Leerzeichen links und rechts entfernt (`"  world "`).
+* Finde und verwende eine Stringfunktion, die einen String in Großbuchstaben umwandelt (`"world"` -> `"WORLD"`).
+]&nbsp;
 ---
 
 # foooooo
