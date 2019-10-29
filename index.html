@@ -105,9 +105,16 @@ https://totycro.github.io/python-kurs
 * Elegant
   * High-Level
   * Grunddatentypen (Listen, Dictionaries)
+* Wächst seit 1991 beständig durch gutes Design
 * Plattformunabhängig
 * Immer weiter verbreitet
 * Viele Anwendungsbereiche
+
+--
+---
+
+* Viele Programmiersprachen ähnlich
+  &rarr; Wissen übertragbar
 
 ---
 
@@ -119,6 +126,11 @@ https://totycro.github.io/python-kurs
 * Modus: Vortrag + Übungsbeispiele
 * Kurs soll Grundlagen vermitteln und befähigen, sich in speziellere Gebiete einzuarbeiten
   
+--
+---
+
+* Vorschläge zu konkreten Anwendungen von Python erwünscht!
+
 
 ---
 
@@ -366,22 +378,361 @@ find(...) method of builtins.str instance
 
 .box.moody[.label[Aufgabe]
 * Finde und verwende eine Stringfunktion, die unnötigte Leerzeichen links und rechts entfernt (`"  world "`).
-* Finde und verwende eine Stringfunktion, die einen String in Großbuchstaben umwandelt (`"world"` -> `"WORLD"`).
+* Finde und verwende eine Stringfunktion, die einen String in Großbuchstaben umwandelt (`"world"` &rarr; `"WORLD"`).
 ]&nbsp;
 ---
 
-# foooooo
+# Wahrheitswerte (`bool`)
 
-* Number (int)
-* Rechnen
-* Funktionen auf ints
-* strings, +
-* string.algo()
-* comparison
-* in bei strings
+Ja/Nein-Abfragen geben `True` oder `False` zurück
+
+```
+>>> "boku.ac.at".endswith(".ac.at")
+True
+>>> "orf.at".endswith(".ac.at")
+False
+>>> True
+True
+>>> "123".isdecimal()
+True
+>>> "orf.at".isdigit()
+False
+>>> type("world".find)
+<class 'builtin_function_or_method'>
+```
+
+---
+
+# Typen herausfinden
+
+`type` zeigt den Typ eines Ausdrucks an
+
+```
+>>> type("orf.at")
+<c&#8203;lass 'str'>
+>>> type(True)
+<c&#8203;lass 'bool'>
+>>> type("orf.at".isdigit())
+<c&#8203;lass 'bool'>
+>>> type(1 + 2)
+<c&#8203;lass 'int'>
+>>> type(1 / 3)
+<c&#8203;lass 'float'>
+```
+
+---
+
+# Variablen (1/3)
+
+* Variablen speichern Werte
+* Können wie ihre Werte verwendet werden
+* Können sich jederzeit ändern
+
+
+```
+>>> boku_address = "boku.ac.at"
+>>> boku_address
+'boku.ac.at'
+>>> number_of_students = 15
+>>> number_of_students
+15
+>>> number_of_students + 5
+20
+>>> number_of_students + 5
+20
+>>> number_of_students = number_of_students + 5
+>>> number_of_students
+20
+>>> number_of_students + 5
+25
+```
+
+---
+
+# Variablen (2/3)
+
+* Erlaubte Namen:
+  * Groß- und Kleinbuchstaben und `_`
+  * keine Leerzeichen, kein `-`
+* Richtline für Variablennamen in Python:  
+  snake case (`number_of_students`)  
+  (im Gegensatz zu camel case `numberOfStudents`)
+* Name muss immer links stehen:
+  ```
+  >>> 5 = number_of_students
+  File "<pyshell>", line 1
+SyntaxError: can't assign to literal
+    ```
+
+---
+
+# Variablen (3/3)
+
+* Neuer Wert kann neuen Typ haben
+* Nicht unbedingt empfohlen!
+
+```
+>>> weight = 4.54
+>>> weight + 3.2
+7.74
+>>> type(weight)
+<c&#8203;lass 'float'>
+>>> weight = "heavy"
+>>> weight + 3.2
+Traceback (most recent call last):
+  File "<pyshell>", line 1, in <module>
+TypeError: can only concatenate str (not "float") to str
+>>> type(weight)
+<c&#8203;lass 'str'>
+```
+
+---
+
+# Wert austauschen
+
+
+.box.moody[.label[Aufgabe]
+
+Schreibe ein Programm, das die Werte von 2 Variablen vertauscht:
+```
+>>> a = "apple"
+>>> b = 2.3
+[dein Programm hier]
+>>> a
+2.3
+>>> b
+'apple'
+```
+]
+Hilfestellung hier unter "Exchange Program":
+https://cscircles.cemc.uwaterloo.ca/1-variables/
+
+---
+
+# Programme und Variablen in Thonny
+
+* Script als Datei speichern (nicht in Shell)
+* "Play"-Button zum Ausführen
+* "Bug"-Button um bei der Ausführung zuzuschauen (*Debuggen*)
+* Ausführung lädt neue Werte auch in Shell
+
+<img src="img/thonny-variables.png" alt="Variablen in Thonny" width="70%"/>
+
+---
+
+# `print`
+
+Während des Programmablaufs mit `print` aktuellen Wert ausgeben (in Shell)
+
+```
+a = 2
+print(a)
+a = "apple"
+print(a)
+```
+Output:
+```
+2
+apple
+```
+---
+
+# `if`-`then`-`else` (1/2)
+
+```
+weight = 3.2
+
+if weight > 2:
+    use_production_process = "A"
+else:
+    use_production_process = "B"
+
+print(use_production_process)
+```
+Output:
+```
+A
+```
+
+---
+
+# `if`-`then`-`else` (2/2)
+
+* Einrückung entscheidend (4 Leerzeichen)
+  * `then`- und `else`-Teil können beliebig lang sein  
+    jede Zeile muss aber eingerückt sein
+* `else` ist optional
+* Nach `if` muss ein `bool` stehen, oder ein zu `bool` konvertierbarer Wert
+
+```
+if False:
+    print("never executed")
+```
+```
+a = ""
+if a:
+    print("not executed")
+else:
+    print("empty string is considered false")
+```
+
+---
+
+# Vergleichsoperatoren (1/2)
+
+* Wie in Mathematik
+* Gleichheit wird als `==` geschrieben  
+  (`=` bedeutet Variablenzuweisung)
+* &ne; als `!=`
+
+```
+>>> 2 > 3
+False
+>>> 5.5 < 20
+True
+>>> 4 == 4
+True
+>>> 3 != 3
+False
+```
+
+---
+
+# Vergleichsoperatoren (2/2)
+
+Bei Strings nur `==` und `!=` sinnvoll:
+
+```
+>>> a = "apple"
+>>> a == "apple"
+True
+```
+
+Verkettung auch möglich:
+```
+>>> weight = 3.2
+>>> 2.0 &lt;= weight &lt; 4.0
+True
+>>> 2.0 &lt;= weight &lt; 2.333
+False
+```
+
+---
+
+# Logische Operatoren
+
+`and`, `or` und `not`
+
+```
+>>> True and True
+True
+>>> False and False
+False
+>>> False or True
+True
+>>> (weight > 2.0) and (length &lt;= 25)
+True
+```
+
+```
+a = ""
+if not a:
+    print("string is empty")
+```
+
+
 
 
 ---
+
+# Komplexere Abfragen (1/2)
+
+Verschachtelt (nested):
+```
+if production_process == "A":
+    if weight > 3.0:
+        presstakte = 5
+    else:
+        presstakte = 4
+else:
+    presstakte = 1
+
+```
+
+---
+
+# Komplexere Abfragen (2/2)
+
+```
+if production_process == "A":
+    configuration = 1
+else:
+    if production_process == "B":
+        configuration = 2
+    else:
+        configuration = 3
+```
+kann verkürzt werden zu
+
+```
+if production_process == "A":
+    configuration = 1
+elif production_process == "B":
+    configuration = 2
+else:
+    configuration = 3
+```
+
+---
+
+# Herbst / Winter
+
+.box.moody[.label[Aufgabe]
+
+Angenommen, die aktuelle Temperatur in Grad steht in der Variable `temperature`.
+
+Schreibe ein Programm, das berechnet, ob man eine Jacke anziehen muss.
+* Über 20 Grad: "Keine Jacke"
+* Nur über 10 Grad: "Herbstjacke"
+* Unter 10 Grad: "Winterjacke"
+
+Verwende `print` für Ausgaben.
+
+Variante: Speichere das Ergebnis in einer Variable.
+]
+&nbsp;
+
+---
+
+
+# Positiv / Negativ
+
+.box.moody[.label[Aufgabe]
+
+Schreibe ein Programm, dass durch eine `print`-Ausgabe angibt, ob eine Variable positiv, 0 oder negativ ist.
+
+]
+
+---
+
+# Lohnverrechnung
+
+.box.moody[.label[Aufgabe]
+
+Schreibe ein Programm für eine Lohnverrechnung.
+Die Variable `hours` enthält die Anzahl der gearbeiteten Stunden für eine Woche.
+
+Berechne den Wochenlohn wie folgt:
+* Für die ersten 40 Stunden: 20 Euro pro Stunde
+* Alle darüberliegenden Stunden mit 50% Überstundenzuschlag
+
+Versuche noch Varianten einzubauen (48 Stunden Limit, Abzug wenn nur unter 8 Stunden, ...).
+
+Zahlen, die sich ändern können, können auch am Anfang definiert werden (Stundenlohn, 48 Stunden Limit), um sie später leicht anpassen zu können.
+
+] &nbsp;
+---
+
 
 # Architektur eines Computers
 
