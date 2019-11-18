@@ -15,6 +15,16 @@
             }
             .footer { position: absolute; bottom: 12px; left: 20px; opacity: 0.5; }
             .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+            table {
+                border-collapse: collapse;
+            }
+            th, td {
+                padding: 5px;
+                border: 0px solid black;
+            }
+            th {
+                border-bottom: 1px solid black;
+            }
 
 
         </style>
@@ -763,9 +773,10 @@ A
 
 # `if`-`then`-`else` (2/2)
 
-* Einrückung entscheidend (4 Leerzeichen)
+* Einrückung entscheidend
+  * 4 Leerzeichen laut Style Guide
   * `then`- und `else`-Teil können beliebig lang sein  
-    jede Zeile muss aber eingerückt sein
+      &rarr; jede Zeile muss aber eingerückt sein
 * `else` ist optional
 * Nach `if` muss ein `bool` stehen, oder ein zu `bool` konvertierbarer Wert
 
@@ -773,21 +784,63 @@ A
 if False:
     print("never executed")
 ```
+
+---
+
+# Wahrheitswerte von nicht `bool`-Werten (1/2)
+
+
+* Konvertierungsfunktion `bool()` 
+* Bei `if x:` wird intern `if bool(x):` aufgerufen
+* "leer" bedeutet `False`
+
 ```
-a = ""
-if a:
-    print("not executed")
+>>> bool("")
+False
+>>> bool("a")
+True
+>>> bool(" ")
+True
+>>> bool(" ".strip())
+False
+```
+```
+if value.strip():
+    print("value contains non-whitespace characters")
 else:
-    print("empty string is considered false")
+    print("value contains only whitespace characters")
 ```
 
 ---
 
-# Logische Operatoren
+# Wahrheitswerte von nicht `bool`-Werten (2/2)
 
-`and`, `or` und `not`
+* Null bedeutet `False`
 
 ```
+>>> bool(0)
+False
+>>> bool(-1)
+True
+>>> bool(1)
+True
+>>> bool(0.0)
+False
+>>> bool(0.0000001)
+True
+```
+
+---
+
+
+# Logische Operatoren
+
+* `and`, `or` und `not`
+* Oder ist nicht ausschließend
+
+```
+>>> True or True
+True
 >>> True and True
 True
 >>> False and False
@@ -799,9 +852,8 @@ True
 ```
 
 ```
-a = ""
-if not a:
-    print("string is empty")
+if not username.strip():
+    print("The username you have entered is empty.")
 ```
 
 
@@ -814,7 +866,7 @@ if not a:
 Verschachtelt (nested):
 ```
 if production_process == "A":
-    if weight > 3.0:
+    if weight > 2.6:
         presstakte = 5
     else:
         presstakte = 4
@@ -822,6 +874,13 @@ else:
     presstakte = 1
 
 ```
+
+
+`production_process` | `weight` | `presstakte`
+------------ | -------------
+`"A"` | `&gt;2.6` | &nbsp;`5`
+`"A"` | `&le;2.6` | &nbsp;`4`
+ sonst |  | &nbsp;`1`
 
 ---
 
@@ -897,6 +956,9 @@ Zahlen, die sich ändern können, können auch am Anfang definiert werden (Stund
 ] &nbsp;
 ---
 
+                                                              #
+
+---
 
 # Architektur eines Computers
 
