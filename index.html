@@ -581,26 +581,54 @@ class: center, middle
 
 ---
 
-# Programme (1/2)
+# Programme (1/3)
+
+## Under the hood
 
 * Historisch: Befehle abarbeiten
 * CPU (Prozessor) verarbeitet Befehle
-  * CPU ist "schlau"
-* Zwischenergebnisse in Arbeitsspeicher
+  * CPU ist "schlau"  
+  &rarr; Hat Schaltkreise zum Ausführen von Befehlen
+* Zwischenergebnisse in Arbeitsspeicher (RAM)
 * Input von Eingaben, Festplatte, Internet
 * Ouput auf Bildschirm, Festplatte, Internet
+* Betriebssystem & Python kümmern sich um Details dieser Ressourcen
 
 ---
 
-# Programme (2/2)
-
-* Spannungsfeld Programmierung:
-  * Befehle für die Maschine formulieren
-  * Beschreiben, welches Ergebnis du haben möchtest
+# Programme (2/3)
 
 
 * Programme sind Textdateien<sup>*</sup>
   * in menschen- und computerlesbarer Sprache
+
+
+* Spannungsfeld Programmierung:
+  * Befehle für die Maschine formulieren (*imperativ*)
+  * Beschreiben, welches Ergebnis du haben möchtest (*deklarativ*)
+
+---
+
+# Programme (3/3)
+
+Gegeben: ```Liste von Zahlen l```
+
+Beispiel imperativ:
+
+```
+Setze x auf 0
+Für alle Indizes i zwischen 0 und der Länge von l:
+    Setze x auf x plus dem i-ten Element von l
+&rarr; x ist die Summe der Elemente
+```
+
+--
+
+Beispiel deklarativ:
+
+```
+Verbinde alle Elemente der Liste l mit der Operation "plus"
+```
 
 ---
 
@@ -629,6 +657,89 @@ Output:
 2
 apple
 ```
+
+Vgl. `print("a")` und `"a"` in Shell und Programm
+---
+
+# Vergleichsoperatoren (1/4)
+
+* Wie in Mathematik
+  * Funktion mit 2 Parametern, gibt `bool` zurück
+* Gleichheit wird als `==` geschrieben  
+  (`=` bedeutet Variablenzuweisung!)
+* &ne; als `!=`  
+  &ge; als >=  
+  &le; als <=
+
+```
+>>> 2 > 3
+False
+>>> 5.5 <= 20.3
+True
+>>> 4 == 4
+True
+>>> 3 != 3
+False
+```
+
+---
+
+# Vergleichsoperatoren (2/4)
+
+Verkettung auch möglich:
+```
+>>> weight = 3.2
+>>> 2.0 &lt;= weight &lt; 4.0
+True
+>>> 2.0 &lt;= weight &lt; 2.333
+False
+```
+
+Bei Strings nur `==` und `!=` wirklich sinnvoll:
+
+```
+>>> a = "apple"
+>>> a == "apple"
+True
+>>> a != "pear"
+True
+```
+
+---
+
+# Vergleichsoperatoren (3/4)
+
+Gewisse Typkombinationen möglich:
+```
+>>> "apple" < 4
+Traceback (most recent call last):
+  File "<pyshell>", line 1, in <module>
+TypeError: '<' not supported between instances of 'str' and 'int'
+>>> 2 < 2.2
+True
+```
+
+Auch möglich, aber sinnvoll?
+```
+>>> "2" == 2
+False
+>>> "2" != 2
+True
+```
+
+---
+
+# Vergleichsoperatoren (4/4)
+Achtung bei `float`:
+```
+>>> 2 == 2.0
+True
+>>> 0.1 + 0.1 == 0.2
+True
+>>> 0.1 + 0.1 + 0.1 == 0.3
+False
+```
+
 ---
 
 # `if`-`then`-`else` (1/2)
@@ -668,47 +779,6 @@ if a:
     print("not executed")
 else:
     print("empty string is considered false")
-```
-
----
-
-# Vergleichsoperatoren (1/2)
-
-* Wie in Mathematik
-* Gleichheit wird als `==` geschrieben  
-  (`=` bedeutet Variablenzuweisung)
-* &ne; als `!=`
-
-```
->>> 2 > 3
-False
->>> 5.5 < 20
-True
->>> 4 == 4
-True
->>> 3 != 3
-False
-```
-
----
-
-# Vergleichsoperatoren (2/2)
-
-Bei Strings nur `==` und `!=` sinnvoll:
-
-```
->>> a = "apple"
->>> a == "apple"
-True
-```
-
-Verkettung auch möglich:
-```
->>> weight = 3.2
->>> 2.0 &lt;= weight &lt; 4.0
-True
->>> 2.0 &lt;= weight &lt; 2.333
-False
 ```
 
 ---
