@@ -621,7 +621,7 @@ class: center, middle
 
 # Programme (3/3)
 
-Gegeben: ```Liste von Zahlen l```
+Gegeben: Liste von Zahlen `l`
 
 Beispiel imperativ:
 
@@ -787,51 +787,6 @@ if False:
 
 ---
 
-# Wahrheitswerte von nicht `bool`-Werten (1/2)
-
-
-* Konvertierungsfunktion `bool()` 
-* Bei `if x:` wird intern `if bool(x):` aufgerufen
-* "leer" bedeutet `False`
-
-```
->>> bool("")
-False
->>> bool("a")
-True
->>> bool(" ")
-True
->>> bool(" ".strip())
-False
-```
-```
-if value.strip():
-    print("value contains non-whitespace characters")
-else:
-    print("value contains only whitespace characters")
-```
-
----
-
-# Wahrheitswerte von nicht `bool`-Werten (2/2)
-
-* Null bedeutet `False`
-
-```
->>> bool(0)
-False
->>> bool(-1)
-True
->>> bool(1)
-True
->>> bool(0.0)
-False
->>> bool(0.0000001)
-True
-```
-
----
-
 
 # Logische Operatoren
 
@@ -852,11 +807,11 @@ True
 ```
 
 ```
-if not username.strip():
-    print("The username you have entered is empty.")
+>>> elevator_can_operate = \
+    not ((number_persons > 6) or (person_weight_sum > 200))
+>>> elevator_can_operate = \
+    (number_persons <= 5) and (person_weight_sum <= 200)
 ```
-
-
 
 
 ---
@@ -911,7 +866,7 @@ else:
 # Herbst / Winter
 
 .box.moody[.label[Aufgabe]
-
+<br/>
 Angenommen, die aktuelle Temperatur in Grad steht in der Variable `temperature`.
 
 Schreibe ein Programm, das berechnet, ob man eine Jacke anziehen muss.
@@ -921,7 +876,8 @@ Schreibe ein Programm, das berechnet, ob man eine Jacke anziehen muss.
 
 Verwende `print` für Ausgaben.
 
-Variante: Speichere das Ergebnis in einer Variable.
+Variante: Speichere das Ergebnis in einer Variable.  
+Variante: Berücksichtige auch die Windgeschwindigkeit.
 ]
 &nbsp;
 
@@ -954,6 +910,53 @@ Versuche noch Varianten einzubauen (48 Stunden Limit, Abzug wenn nur unter 8 Stu
 Zahlen, die sich ändern können, können auch am Anfang definiert werden (Stundenlohn, 48 Stunden Limit), um sie später leicht anpassen zu können.
 
 ] &nbsp;
+
+---
+
+# Wahrheitswerte von nicht `bool`-Werten (1/2)
+
+
+* Konvertierungsfunktion `bool()` 
+* Bei `if x:` wird intern `if bool(x):` aufgerufen
+* "leer" bedeutet `False`
+
+```
+>>> bool("")
+False
+>>> bool("a")
+True
+>>> bool(" ")
+True
+>>> bool(" ".strip())
+False
+```
+```
+if value.strip():
+    print("value contains non-whitespace characters")
+else:
+    print("value contains only whitespace characters")
+```
+
+---
+
+# Wahrheitswerte von nicht `bool`-Werten (2/2)
+
+* Null bedeutet `False`
+
+```
+>>> bool(0)
+False
+>>> bool(-1)
+True
+>>> bool(1)
+True
+>>> bool(0.0)
+False
+>>> bool(0.0000001)
+True
+```
+
+
 ---
 
 # Kommentare (1/2)
@@ -974,7 +977,7 @@ Vermeide nichtssagende Kommentare:
 presstakte = presstakte + 1
 ```
 
-vor dem Kommentarschreiben: Versuche den Code so zu formulieren, dass Kommentare nicht notwendig sind
+Vor dem Kommentarschreiben: Versuche den Code so zu formulieren, dass Kommentare nicht notwendig sind
 
 ---
 
@@ -1013,8 +1016,10 @@ print(a)
 
 # Liste
 
-* Essentielle und allgegenwärtige Datenstruktur
-* Enthält 0 oder mehr Elemente
+* Essentielle und allgegenwärtige *Datenstruktur*
+* Enthält 0 oder mehr Elemente  
+  &rarr; nacheinander im Speicher
+
 
 ```
 >>> woods = ["fichte", "erle", "tanne"]
@@ -1047,6 +1052,7 @@ Beispiele:
 `[1, 2, 3, 4] &rarr; 2 oder 3`
 
 
+Achtung bei leeren Listen!
 
 ]
 &nbsp;
@@ -1180,6 +1186,8 @@ Vgl. `[1, 2] + [3]`
 ---
 
 hier for-schleife basics, dann übungen für beides (dann wahrschl dritte einheit vorbei)
+
+vllt 2 übungen in der einheit machen, dann hausübungen
 
 danach listen und schleifen rest
 
