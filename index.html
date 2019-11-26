@@ -1105,6 +1105,23 @@ Essentiell um alles von nicht-fixer Anzahl auszudrücken
 >>> min(shipment_sizes)
 20
 ```
+
+---
+
+# Liste
+
+* Datentypen können gemischt werden
+* Verarbeitung von gemischten Listen womöglich schwierig
+
+```
+>>> l = [1, 5.53, "foo"]
+>>> sum(l)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: unsupported operand type(s) for +: 'float' and 'str'
+```
+
+
 ---
 
 # Liste: Slices
@@ -1217,7 +1234,28 @@ print(size)
 
 .box.moody[.label[Aufgabe]
 <br/>
-Berechne die Summe einer Liste (ohne `sum` zu verwenden)
+Berechne die Summe der Zahlen einer Liste (ohne `sum` zu verwenden).
+
+Für diese und zukünftige Aufgaben: Das Ergebnis soll mit `print()` ausgegeben werden.
+]
+&nbsp;
+
+---
+
+# Schleifen
+
+.box.moody[.label[Aufgabe]
+<br/>
+Berechne, wie viele Zahlen in einer Liste größer oder gleich 3 und kleiner als 7 sind.
+
+`[1, 3, 9, 7, 4]` &rarr; `2`  
+`[1]` &rarr; `0`
+
+Erweiterung:  
+Berechne die Summe dieser Zahlen
+
+`[1, 3, 9, 7, 4]` &rarr; `7`  
+`[1]` &rarr; `0`
 ]
 &nbsp;
 
@@ -1250,7 +1288,7 @@ B
 
 .box.moody[.label[Aufgabe]
 <br/>
-Schreibe ein Programm, das mithilfe von `for` zählt, wie oft der Buchstabe "a" in einem String vorkommt. Das Ergebnis soll mit `print()` ausgegeben werden.
+Schreibe ein Programm, das mithilfe von `for` zählt, wie oft der Buchstabe "a" in einem String vorkommt.
 
 Erweiterung:  
 Das Programm soll auch ausgeben, ob der Buchstabe "b" öfter als der Buchstabe "a" vorkommt.
@@ -1259,11 +1297,49 @@ Das Programm soll auch ausgeben, ob der Buchstabe "b" öfter als der Buchstabe "
 &nbsp;
 
 
+---
+
+# Liste: Operationen
+
+`in` überprüft, ob ein Element in einer Liste vorkommt:
+
+```
+>>> 2 in [1, 2, 3]
+True
+>>> "x" in ["a", "b", "c"]
+False
+```
+
+`not in` für das Gegenteil:
+
+```
+>>> 2 not in [1, 2, 3]
+False
+```
+
+Ineffiziente und nicht empfohlene Variante:
+```
+>>> not (2 in [1, 2, 3])
+False
+```
 
 ---
 
+# Liste: Operationen
 
-====
+`l.sort()` sortiert die Liste  
+`sorted(l)` gibt eine sortierte Liste zurück
+```
+>>> shipment_sizes
+[44, 20, 90, 50, 44, 200]
+>>> sorted(shipment_sizes)
+[20, 44, 44, 50, 90, 200]
+>>> shipment_sizes
+[44, 20, 90, 50, 44, 200]
+>>> shipment_sizes.sort()
+>>> shipment_sizes
+[20, 44, 44, 50, 90, 200]
+```
 
 ---
 
@@ -1294,21 +1370,136 @@ ValueError: 123 is not in list
 
 # Liste: Operationen
 
-`l.sort()` sortiert die Liste  
-`sorted(l)` gibt eine sortierte Liste zurück
+Entfernen von Items auf Basis von Index (`del`):
+
 ```
->>> shipment_sizes
-[44, 20, 90, 50, 44, 200]
->>> sorted(shipment_sizes)
-[20, 44, 44, 50, 90, 200]
->>> shipment_sizes
-[44, 20, 90, 50, 44, 200]
->>> shipment_sizes.sort()
->>> shipment_sizes
-[20, 44, 44, 50, 90, 200]
+>>> l = [33, 25, 48]
+>>> del l[0]
+>>> l
+[25, 48]
+```
+
+Entfernen von Items auf Basis von  Wert (`remove`):
+
+```
+>>> l = [33, 25, 48]
+>>> l.remove(33)
+>>> l
+[25, 48]
+```
+
+Achtung: Nie aus einer Liste löschen, während man über sie iteriert!
+
+---
+
+# Änderungen von Listen
+
+
+Erweiterungen | &nbsp;
+- | -
+`l.append(3)` | Elemente an eine Liste anhängen
+`l.extend([2, 3])` | Eine Liste um eine Liste erweitern
+`l1 + l2` | 2 Listen zusammenfügen
+
+<br/>Austauschen| &nbsp;
+- | -
+`l[2] = "a"` | Einzelne Elemente überschreiben
+
+<br/>Entfernen| &nbsp;
+- | -
+`del l[2]` | Elemente an Position löschen
+`l.remove(3)` | Element entfernen
+
+---
+
+# Liste: Operationen
+
+.box.moody[.label[Aufgabe]
+<br/>
+Gegeben eine Liste von Zahlen `l1`: Erzeuge eine Liste `l2`, die alle Zahlen aus `l1` enthält, die größer als 5 sind.  
+`l1 = [4, 7, 2, 5, 9]`  
+&rarr; `[7, 9]`
+]
+&nbsp;
+
+.box.moody[.label[Aufgabe]
+<br/>
+TODO
+Gegeben 2 Listen `l1` und `l2`: Entferne alle Einträge von `l1`, die nicht auch in `l2` vorkommen.  
+`l1 = [4, 7, 5, 3, 9]`  
+`l2 = [1, 3, 8,  5]`  
+&rarr; `[5, 3]`
+]
+&nbsp;
+
+---
+
+# Liste: Operationen
+
+`range(n)` gibt ein Iterable über alle Zahlen kleiner `n` zurück.
+```
+for i in range(3):
+    print(i)
+```
+Output:
+```
+0
+1
+2
+```
+
+---
+
+# Liste: Operationen
+
+`enumerate(l)` fügt zu den Listenelementen deren Index hinzu.
+
+```
+l = [40, 24, 31]
+for index, item in enumerate(l):
+    print(index, item)
+```
+
+Output:
+```
+0 40
+1 24
+2 31
+```
+
+Vgl.
+```
+for index in range(len(l)):
+    print(index, l[index])
 ```
 
 
+---
+
+# Beispiel
+
+Alle "Anstiege" in einer Liste finden:
+```
+l = [5, 4, 7, 7, 3, 9, 4]
+for index, item in enumerate(l):
+    next_index = index + 1
+    if next_index < len(l):
+        next_item = l[next_index]
+        if next_item > item:
+            print("increase:", item, "to", next_item)
+```
+
+Output
+```
+increase: 4 to 7
+increase: 3 to 9
+```
+
+&rarr; Vorsicht bei Indexberechnungen
+
+---
+
+# List comprehension
 ---
 
 
@@ -1335,24 +1526,11 @@ list of lists (matrix?)
 
 values / instances: [l]; dann l.append()
 
-range
 while
 continue, break
 
+enumerate (braucht tuple?)
 ---
-
-# Liste
-
-* Datentypen können gemischt werden
-* Verarbeitung von gemischten Listen womöglich schwierig
-
-```
->>> l = [1, 5.53, "foo"]
->>> sum(l)
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-TypeError: unsupported operand type(s) for +: 'float' and 'str'
-```
 
     </textarea>
     <script type="text/javascript">
