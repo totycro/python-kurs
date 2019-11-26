@@ -897,7 +897,7 @@ Schreibe ein Programm, dass durch eine `print`-Ausgabe angibt, ob eine Variable 
 # Lohnverrechnung
 
 .box.moody[.label[Aufgabe]
-
+<br/>
 Schreibe ein Programm für eine Lohnverrechnung.
 Die Variable `hours` enthält die Anzahl der gearbeiteten Stunden für eine Woche.
 
@@ -942,6 +942,7 @@ else:
 # Wahrheitswerte von nicht `bool`-Werten (2/2)
 
 * Null bedeutet `False`
+* Explizite Vergleiche oft sinnvoll (Lesbarkeit)
 
 ```
 >>> bool(0)
@@ -1036,6 +1037,30 @@ Traceback (most recent call last):
 IndexError: list index out of range
 ```
 
+---
+
+# Liste
+
+Index muss nicht fix sein, kann Programmausdruck sein
+
+```
+>>> shipment_sizes
+[44, 20, 90, 50, 44, 200]
+>>> len(shipment_sizes)
+6
+>>> shipment_sizes[len(shipment_sizes) - 1]
+200
+```
+
+Negative Indizes &rarr; von hinten beginnen
+```
+>>> shipment_sizes[-1]
+200
+>>> shipment_sizes[-2]
+44
+```
+
+
 
 ---
 
@@ -1052,7 +1077,7 @@ Beispiele:
 `[1, 2, 3, 4] &rarr; 2 oder 3`
 
 
-Achtung bei leeren Listen!
+Achtung bei leeren Listen (`[]`)!
 
 ]
 &nbsp;
@@ -1080,30 +1105,6 @@ Essentiell um alles von nicht-fixer Anzahl auszudrücken
 >>> min(shipment_sizes)
 20
 ```
-
----
-
-# Liste
-
-Index muss nicht fix sein, kann Programmausdruck sein
-
-```
->>> shipment_sizes
-[44, 20, 90, 50, 44, 200]
->>> len(shipment_sizes)
-6
->>> shipment_sizes[len(shipment_sizes) - 1]
-200
-```
-
-Negative Indizes &rarr; von hinten beginnen
-```
->>> shipment_sizes[-1]
-200
->>> shipment_sizes[-2]
-44
-```
-
 ---
 
 # Liste: Slices
@@ -1185,11 +1186,84 @@ Vgl. `[1, 2] + [3]`
 
 ---
 
-hier for-schleife basics, dann übungen für beides (dann wahrschl dritte einheit vorbei)
+# Schleifen
 
-vllt 2 übungen in der einheit machen, dann hausübungen
+```
+shipment_sizes = [44, 20, 90]
+for size in shipment_sizes:
+    print(size)
+```
 
-danach listen und schleifen rest
+Output:
+```
+44
+20
+90
+```
+
+Vgl.
+```
+size = shipment_sizes[0]
+print(size)
+size = shipment_sizes[1]
+print(size)
+size = shipment_sizes[2]
+print(size)
+```
+
+---
+
+# Schleifen
+
+.box.moody[.label[Aufgabe]
+<br/>
+Berechne die Summe einer Liste (ohne `sum` zu verwenden)
+]
+&nbsp;
+
+---
+
+# Schleifen
+
+Die `for`-Schleife funktioniert auf "iterables", auch `str`:
+
+```
+for character in "Hello Boku!":
+    print(character)
+```
+
+Output:
+```
+H
+e
+l
+l
+o
+ 
+B
+[...]
+```
+
+---
+
+# Schleifen
+
+.box.moody[.label[Aufgabe]
+<br/>
+Schreibe ein Programm, das mithilfe von `for` zählt, wie oft der Buchstabe "a" in einem String vorkommt. Das Ergebnis soll mit `print()` ausgegeben werden.
+
+Erweiterung:  
+Das Programm soll auch ausgeben, ob der Buchstabe "b" öfter als der Buchstabe "a" vorkommt.
+
+]
+&nbsp;
+
+
+
+---
+
+
+====
 
 ---
 
@@ -1240,7 +1314,6 @@ ValueError: 123 is not in list
 
 
 normale list operationen:
-append
 remove / del
 sorted / sort -> übung median
 reverse
@@ -1259,6 +1332,12 @@ range (hier auch reverse VS reversed weil reversed ist iterator)
 list("abc")
 
 list of lists (matrix?)
+
+values / instances: [l]; dann l.append()
+
+range
+while
+continue, break
 
 ---
 
