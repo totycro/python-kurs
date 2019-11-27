@@ -1068,7 +1068,7 @@ Negative Indizes &rarr; von hinten beginnen
 
 .box.moody[.label[Aufgabe]
 <br/>
-Für eine gegebene Liste `l`, schreibe Code der das "mittlere" Element zurückgibt.
+Für eine gegebene Liste `l`, schreibe Code, der das "mittlere" Element zurückgibt.
 
 Beispiele:
 
@@ -1171,6 +1171,8 @@ So weit es Sinn macht haben Strings und Listen gleiche Interfaces
 4
 >>> "holz"[2:]
 'lz'
+>>> "ho" + "lz"
+'holz'
 ```
 
 Schreibzugriff geht bei Strings (aus technischen Gründen) nicht.
@@ -1424,11 +1426,10 @@ Gegeben eine Liste von Zahlen `l1`: Erzeuge eine Liste `l2`, die alle Zahlen aus
 
 .box.moody[.label[Aufgabe]
 <br/>
-TODO
-Gegeben 2 Listen `l1` und `l2`: Entferne alle Einträge von `l1`, die nicht auch in `l2` vorkommen.  
-`l1 = [4, 7, 5, 3, 9]`  
-`l2 = [1, 3, 8,  5]`  
-&rarr; `[5, 3]`
+Gegeben 2 Listen `l` und `forbidden`: Erzeuge eine Liste `safe` mit allen Einträgen aus `l`, die nicht in `forbidden` vorkommen.  
+`l = ["a", "j", "i", "d", "e"]`  
+`forbidden = ["i", "j"]`  
+&rarr; `safe == ["a", "d", "e"]`
 ]
 &nbsp;
 
@@ -1446,6 +1447,12 @@ Output:
 0
 1
 2
+```
+
+`range()` gibt keine Liste zurück, kann aber iteriert werden:
+```
+>>> range(10)
+range(0, 10)
 ```
 
 ---
