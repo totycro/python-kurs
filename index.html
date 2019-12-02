@@ -1345,6 +1345,34 @@ False
 
 ---
 
+
+
+
+# Liste: Operationen
+
+.box.moody[.label[Aufgabe]
+<br/>
+Schreibe Code, der für eine Liste von Werten den Median berechnet.
+
+`[3, 4, 2] ` &rarr; `3`  
+`[6.7, 5.2, 4.3, 2.2, 8.7]` &rarr; `'5.2'`
+
+Ist die Anzahl der Elemente gerade, kann als Vereinfachung ein beliebiges dieser Elemente verwendet werden:
+
+`[0, 1, 2, 3]` &rarr; `1` oder `2`
+
+In der vollständigen Version soll der Durchschnitt der beiden Kandidaten ausgegeben werden:
+
+`[0, 1, 2, 3]` &rarr; `1.5`
+
+]
+&nbsp;
+
+
+
+
+---
+
 # Liste: Operationen
 
 `count` zählt Vorkommen:
@@ -1358,7 +1386,7 @@ False
 0
 ```
 
-`index` findet Position von Element
+`index` findet Position von Element (Vgl `"".find()`)
 ```
 >>> shipment_sizes.index(50)
 2
@@ -1420,7 +1448,7 @@ Erweiterungen | &nbsp;
 <br/>
 Gegeben eine Liste von Zahlen `l1`: Erzeuge eine Liste `l2`, die alle Zahlen aus `l1` enthält, die größer als 5 sind.  
 `l1 = [4, 7, 2, 5, 9]`  
-&rarr; `[7, 9]`
+&rarr; `l2 == [7, 9]`
 ]
 &nbsp;
 
@@ -1429,13 +1457,14 @@ Gegeben eine Liste von Zahlen `l1`: Erzeuge eine Liste `l2`, die alle Zahlen aus
 Gegeben 2 Listen `l` und `forbidden`: Erzeuge eine Liste `safe` mit allen Einträgen aus `l`, die nicht in `forbidden` vorkommen.  
 `l = ["a", "j", "i", "d", "e"]`  
 `forbidden = ["i", "j"]`  
-&rarr; `safe == ["a", "d", "e"]`
+&rarr; `safe == ["a", "d", "e"]`  
+Könnte man das auch mit Strings statt Listen implementieren?
 ]
 &nbsp;
 
 ---
 
-# Liste: Operationen
+# `range` (1/2)
 
 `range(n)` gibt ein Iterable über alle Zahlen kleiner `n` zurück.
 ```
@@ -1448,6 +1477,17 @@ Output:
 1
 2
 ```
+
+---
+
+# `range` (2/2)
+
+Man kann auch untere und obere Grenzen angeben sowie die Schrittweite.
+```
+# aus help(range):
+range(stop) -> range object
+range(start, stop[, step]) -> range object
+ ```
 
 `range()` gibt keine Liste zurück, kann aber iteriert werden:
 ```
