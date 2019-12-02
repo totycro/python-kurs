@@ -1568,8 +1568,91 @@ increase: 3 to 9
 ---
 
 # List comprehension
+
+<img src="img/comprehension.jpg" alt="list comprehension" width="55%"/>
+
 ---
 
+# List comprehension
+
+Wunderbar einfache Schreibweise für komplexe Berechnungen
+
+Statt:
+```
+numbers = [3, 5, 8]
+squares = []
+
+for n in number:
+    squares.append(n ** 2)
+```
+
+Einfach:
+
+```
+numbers = [3, 5, 8]
+squares = [ (n ** 2) for n in numbers ]
+```
+
+---
+
+<img src="img/comprehension2.png" alt="list comprehension" width="65%"/>
+
+---
+
+# List comprehension
+
+Ähnlichkeit zu Mengenschreibweise:
+
+<img src="img/set-notation.png" alt="set notation" width="60%"/>
+
+```
+[ x ** 2 for x in range(10, 20) ]
+```
+
+---
+
+# List comprehension
+
+Auch Auswahl möglich:
+
+```
+numbers = [3, 5, 8]
+squares_large = [ (n ** 2) for n in numbers if n > 4 ]
+```
+
+Vergleiche:
+```
+numbers = [3, 5, 8]
+squares = []
+
+for n in number:
+    if n > 4:
+        squares.append(n ** 2)
+```
+
+---
+
+# List comprehension
+
+Auf gute Lesbarkeit achten:
+```
+squares_large = [ (n ** 2) for n in range(10, 21) if n % 4 == 0 ]
+```
+VS
+
+```
+squares_large = [
+    n ** 2
+    for n in numbers
+    if n > 4
+]
+```
+
+
+
+
+
+---
 
 
 normale list operationen:
