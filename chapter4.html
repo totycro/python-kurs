@@ -116,7 +116,38 @@ https://totycro.github.io/python-kurs
 
 # Funktionen
 
+Hier muss `a` in einem Wertebereich bleiben, der Code dafür wird wiederholt:
+
+```
+MAX = 5.0
+MIN = 3.0
+
+a = [...]
+
+if a < MIN:
+     a = MIN
+elif a > MAX:
+    a = MAX
+
+a = [...]
+
+if a < MIN:
+     a = MIN
+elif a > MAX:
+    a = MAX
+
+print(a)
+
+```
+
+
+---
+
+# Funktionen
+
+
 * Können selber definiert werden durch beliebigen Code
+* Übernehmen Daten via Parameter/Argumente und geben Daten zurück
 * Wichtige Werkzeuge im Strukturieren von Code
 * Code in Funktionen kann an verschiedenen Stellen aufgerufen werden
 * Soll einen Schritt in der Verarbeitung / Programmlogik darstellen
@@ -144,6 +175,7 @@ middle
 9 b
 after
 ```
+
 
 ---
 
@@ -188,6 +220,69 @@ Output:
 Good morning Bernhard
 None
 ```
+
+---
+
+# Funktionen
+
+ .box.moody[.label[Aufgabe]
+ <br/>
+ Definiere eine Funktion `trim_value`, die im Code auf der Folie 2 eingesetzt werden könnte.
+ ]
+ &nbsp;
+
+---
+
+# Parameterübergabe
+
+* Parameterübergabe kann wie Variablendefinition verstanden werden  
+  * rechte Seite (Werte) kommen von außerhalb der Funktion  
+  * linke Seite (Variablennamen) wird in Funktion definiert
+* Wichtig um zu verstehen welche Änderungen sich außerhalb der Funktion auswirken
+
+---
+
+# Parameterübergabe
+
+Code mit Parameterübergabe:
+
+```
+def f(l, a):
+   l.append(a)
+   a = a + 1
+   l.append(a)
+
+
+my_list = [5]
+my_number = 3
+
+f(my_list, my_number)
+
+print(my_list, my_number)
+```
+
+---
+
+# Parameterübergabe
+
+Gleicher Code ohne Funktion:
+
+```
+my_list = [5]
+my_number = 3
+
+l = my_list
+a = my_number
+l.append(a)
+a = a + 1
+l.append(a)
+
+print(my_list, my_number)
+```
+
+&rarr; Bei Listen und andere Datenstrukturen wird immer auf das gleiche Objekt verwiesen, also wirken sich Änderungen außerhalb der Funktion aus  
+&rarr; Basistypen wie `str` oder `int` sind hingegen unveränderlich
+
 
 ---
 
@@ -267,7 +362,7 @@ f(5)
 print(a)
 ```
 
-&rarr; Führt eher zu Verwirrung, also eher vermeiden!
+&rarr; Führt eher zu Verwirrung, also vermeiden!
 
 
 ---
@@ -290,75 +385,6 @@ main()
 &rarr; Erleichtert Handhabung von Code (Funktionen sind isoliert)  
 &rarr; Keine globalen Variablen
 
-
-
----
-
-# `float` equal
- .box.moody[.label[Aufgabe]
- <br/>
- Implementiere die Funktion epsilon_equals, die überprüft, ob die Differenz zwischen den Fließkommazahlen `a` und `b` höchstens `epsilon` ist.
- ```
- def epsilon_equals(a, b, epsilon):
- ```
- <br/>
-Überprüfe anhand dieser Eingaben:
-```
-epsilon_equals(0.4, 0.4, 1e-12) == True
-epsilon_equals(0.4, 0.5, 1e-12) == False
-epsilon_equals(0.400001, 0.4, 1e-6) == True
-epsilon_equals(0.1 + 0.2, 0.3, 1e-10) == True
-epsilon_equals(0.3, 0.1 + 0.2, 1e-10) == True
-epsilon_equals(0.3000001, 0.1 + 0.2, 1e-9) == False
-```
-
-]
-&nbsp;
-
----
-
-# Parameterübergabe
-
-* Parameterübergabe kann wie Variablendefinition verstanden werden
-* Wichtig um zu verstehen welche Änderungen sich außerhalb der Funktion auswirken
-
-
-```
-def f(l, a):
-   l.append(a)
-   a = a + 1
-   l.append(a)
-
-
-my_list = [5]
-my_number = 3
-
-f(my_list, my_number)
-
-print(my_list, my_number)
-```
-
----
-
-# Parameterübergabe
-
-Auflösung der Funktion der vorigen Folie:
-
-```
-my_list = [5]
-my_number = 3
-
-l = my_list
-a = my_number
-l.append(a)
-a = a + 1
-l.append(a)
-
-print(my_list, my_number)
-```
-
-&rarr; Bei Listen und andere Datenstrukturen wird immer auf das gleiche Objekt verwiesen, also wirken sich Änderungen außerhalb der Funktion aus  
-&rarr; Basistypen wie `str` oder `int` sind hingegen unveränderlich
 
 ---
 
@@ -401,6 +427,94 @@ Output:
 9
 6
 ```
+
+---
+
+# `float` equal
+ .box.moody[.label[Aufgabe]  
+ Implementiere die Funktion `epsilon_equals`, die überprüft, ob die Differenz zwischen zwei Fließkommazahlen höchstens `epsilon` ist.  
+Überprüfe anhand dieser Eingaben:
+```
+epsilon_equals(0.4, 0.4, 1e-12) == True
+epsilon_equals(0.4, 0.5, 1e-12) == False
+epsilon_equals(0.400001, 0.4, 1e-6) == True
+epsilon_equals(0.1 + 0.2, 0.3, 1e-10) == True
+epsilon_equals(0.3, 0.1 + 0.2, 1e-10) == True
+epsilon_equals(0.3000001, 0.1 + 0.2, 1e-9) == False
+```
+<br/>
+Definiere auch einen default value für `epsilon`.
+]
+&nbsp;
+
+---
+
+# Liste von Studierenden
+
+.box.moody[.label[Aufgabe]  
+Schreibe eine Funktion, die eine Liste von Vornamen alphabetisch sortiert ausgibt. Optional kann eine Nachricht dazu angegeben werden.
+
+```
+>>> print_students(students=["Emilia", "Maximilian", "Anna"])
+3 Studierende:
+\* Anna
+\* Emilia
+\* Maximilian
+>>> print_students(message="Auszeichnungen 2019", students=["David"])
+Auszeichnungen 2019
+\* David
+
+```
+
+]
+&nbsp;
+
+
+---
+
+# Wechselgeld
+
+.box.moody[.label[Aufgabe]  
+Schreibe eine Funktion für einen Automat, der Wechselgeld berechnet:
+`calculate_change(price, inserted_money)`.
+Verwende Strings zur Beschreibung der Geldstücke und Listen zur Rückgabe.
+<br/>
+
+Verwende Cent statt Euro als Geldeinheit, um Geldberechnungen mit ungenauen `float`s zu vermeiden.
+Beschränke dich auf Beträge unter 1 Euro.
+
+
+`calculate_change(price=15, inserted_money=20)`  
+&rarr; `["5 cent"]`  
+`calculate_change(price=16, inserted_money=50)`  
+&rarr; `['20 cent', '10 cent', '2 cent', '2 cent']`  
+`calculate_change(price=61, inserted_money=100)`  
+&rarr; `["20 cent", "10 cent", "5 cent", "2 cent", "2 cent"]`
+
+]
+&nbsp;
+
+---
+
+# Lohnverrechnung revisited
+
+
+.box.moody[.label[Aufgabe]  
+Löse die Aufgabe "Lohnverrechnung" aus Kapitel 2 (Folie 19) mittels Funktionen.
+
+Dabei könntest du etwa folgende Funktionen definieren:  
+`worked_overtime`: Gibt einen `bool` zurück, je nach dem ob Überstunden geleistet wurden.  
+`calculate_amount_overtime`: Anzahl der Überstunden  
+`calculate_amount_non_overtime`: Anzahl der regulären Stunden  
+`calculate_non_overtime_pay`: Lohn nur für reguläre Stunden  
+`calculate_overtime_pay`: Lohn nur für Überstunden
+
+Welche dieser Funktionen sind nützlich und führen zu einem einfachen Programm?  
+Welche Daten sollen als Konstanten gespeichert werden und welche werden über Parameter übergeben?
+
+]
+&nbsp;
+
 
  <!--
      TODO: exercises!
