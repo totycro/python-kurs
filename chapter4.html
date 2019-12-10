@@ -430,6 +430,27 @@ Output:
 
 ---
 
+# Funktionen als Variablen
+
+Eine Funktion kann auch wie eine Variable übergeben werden:
+
+```
+def check_greater_3(x):
+    return x > 3
+
+def print_filtered(l, check):
+    print([x for x in l if check(x)])
+
+print_filtered([3, 4, 5], check_greater_3)
+```
+
+Output:
+```
+[4, 5]
+```
+
+---
+
 # `float` equal
  .box.moody[.label[Aufgabe]  
  Implementiere die Funktion `epsilon_equals`, die überprüft, ob die Differenz zwischen zwei Fließkommazahlen höchstens `epsilon` ist.  
@@ -515,10 +536,6 @@ Welche Daten sollen als Konstanten gespeichert werden und welche werden über Pa
 ]
 &nbsp;
 
-
- <!--
-     TODO: exercises!
- -->
 
     </textarea>
     <script type="text/javascript">
