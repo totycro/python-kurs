@@ -678,7 +678,7 @@ increase: 4 to 7
 increase: 3 to 9
 ```
 
-&rarr; Vorsicht bei Indexberechnungen:
+&rarr; Vorsicht bei Indexberechnungen
 
 ---
 
@@ -730,9 +730,11 @@ for previous_item, current_item in pairwise(l):
 # Programmiertipps
 
 * Gib Ausdrücken, die öfter vorkommen, einen Namen:
-  `next_item` ist lesbarer und ungefährlicher als `l[i +1]`
-* Gib auch auf Randfälle, z.B. bei Beginn und Ende von Datenstrukturen und bei leeren Listen und Strings
+  `next_item` ist lesbarer und ungefährlicher als `l[i + 1]`
+* Achte auf Randfälle, z.B. bei Beginn und Ende von Datenstrukturen und bei leeren Listen und Strings
 * Verwende möglichst sprechende Namen statt z.B. einzelne Buchstaben
+  * `l` ist ein schlechter Name, `liste` auch.
+  * In echtem Code am besten echte Namen verwenden, z.B. `students`, `shipments` (statt `student_list`).
 * Funktionen aus Libraries sind meistens besser als eigene Implementierungen  
   &rarr; möglichst guter Überblick bzw. Recherche zahlt sich aus
 

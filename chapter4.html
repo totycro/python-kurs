@@ -194,12 +194,11 @@ if is_even(a):
 
 `return` beendet Funktionsaufrufe, egal wo es steht:
 ````
-def is_even_and_foo(number):
-    if not is_even(number):
-        return False
+def safe_divide(a, b):
+    if b == 0:
+        return 0
 
-    foo = calculate_foo()
-    return foo == number
+    return a / b
 ```
 
 ---
@@ -441,7 +440,7 @@ def check_greater_3(x):
 def print_filtered(l, check):
     print([x for x in l if check(x)])
 
-print_filtered([3, 4, 5], check_greater_3)
+print_filtered([3, 4, 5], check=check_greater_3)
 ```
 
 Output:
@@ -465,6 +464,29 @@ epsilon_equals(0.3000001, 0.1 + 0.2, 1e-9) == False
 ```
 <br/>
 Definiere auch einen default value für `epsilon`.
+]
+&nbsp;
+
+---
+
+# Überprüfter Listenindexzugriff
+.box.moody[.label[Aufgabe]  
+Implementiere die Funktion `safe_list_get`, die ein Item einer Liste an einem Index zurückgibt.
+
+Falls dieser Index nicht im Bereich der Liste ist, gibt einen definierbaren Defaultwert zurück. Wenn dieser nicht definiert ist, soll im Fehlerfall "not found" zurückgegeben werden.
+
+```
+>>> l = [7, 8, 9]
+>>> safe_list_get(l, 1, 404)
+8
+>>> safe_list_get(l, 99, default_value=404)
+404
+>>> safe_list_get(l, 99)
+"not found"
+>>> safe_list_get(l=l, index=99, default_value=404)
+404
+```
+
 ]
 &nbsp;
 
