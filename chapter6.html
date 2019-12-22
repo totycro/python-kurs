@@ -104,7 +104,9 @@ class: center, middle
 
 # Python Kurs 2019/2020
 
-# 5: Dictionaries
+# 6: Entwicklungstooling
+
+# Testing Versionskontrolle 1
 
 ### Bernhard Mallinger
 
@@ -114,369 +116,169 @@ https://totycro.github.io/python-kurs
 
 ---
 
-# Dictionaries
+# Automatisches Testen
 
-* Dictionaries ordnen Werte andere Werte zu (Key-Value)
-* Z.B. Wörterbuch, Telefonbuch:
+* Während dem Entwickeln test man Code immer wieder  
+&rArr; Warum nicht automatisch ausführen lassen?
+* Zusätzlich zum Code schreibt man auch Testcases, die den eigentlichen Code ausführen
+* Bei Weiterentwicklungen wird alles nochmal getestet, damit nichts kaputt wird
+* Nachteil: Bei Verhaltensänderungen muss der Test auch geändert werden
+
+---
+
+# Test-driven development (TDD)
+
+* Noch besser: Tests schreiben, bevor man den Code schreibt
+* Hilft im Designprozess: Nachdenken über Verhalten
+* Ablenkung und fehlende Konzentration sind weniger problematisch
+  * Man weiß genau, was schon funktioniert und woran man jetzt arbeiten muss
+* Beim Codeschreiben hat man instant feedback
+
+---
+
+# `pytest`
+
+* Ein verbreitetes und einfach Testtool
+* Tests sind Funktionen, deren Name mit `test_` beginnt
+* Überprüfungen mit `assert()`
 
 ```
-dictionary = {
-    "language": "Sprache",
-    "value": "Wert",
-}
-print(dictionary["value"])
-```
-Output:
-```
-Wert
+def invert_dictionary(l, ):
+    # dummy implementation to be able to write tests
+    return d
+
+def test_invert_dictionary_handles_empty_dict():
+    assert invert_dictionary({}) == {}
+
+def test_invert_dictionary_inverts_single_elements():
+    assert invert_dictionary({1: "a"}) == {"a": [1]}
+
+def test_invert_dictionary_merges_duplicate_values():
+    assert invert_dictionary({1: "a", 2: "a"}) == {"a": [1, 2]}
 ```
 
 ---
 
-# Dictionaries
+# `pytest`
 
-* Key und Value können beliebige Typen haben
-* Keys können aber nur unveränderliche Werte sein
- * z.B. Zahlen, Strings, Tuple
- * Listen oder Dictionaires gehen nicht!
+* Ausführen in Thonny über Tools &rarr; Open system shell
+* Dort eingeben: `pytest dateiname.py` und Enter drücken
 
-```
-course = {
-    "participants": ["Alice", "Bob"],
-    "weekday": "Thursday",
-    "rating": 4,
-}
-natural_logarithm_table = {
-    5: 1.6094379124341003,
-    6: 1.791759469228055,
-    7: 1.9459101490553132,
-    8: 2.0794415416798357,
-}
-prices = {
-    'apple': 3,
-    'pear': 2,
-}
-```
-
----
-
-# Dictionaries: Zugriff
-
-Zugriff mit `[]` gibt Element oder Error:
-```
->>> prices["apple"]
-3
->>> prices["banana"]
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-KeyError: 'banana'
-```
-
-Zugriff mit `get()` erlaubt Angabe von default-Wert:
-```
->>> prices.get("banana", 0)
-0
-```
-
----
-
-# Dictionaries: Auflisten
-
-Keys:
-```
-for product in prices:
-    print(product)  # apple, pear
-for product in prices.keys():
-    print(product)  # apple, pear
-```
-
-Items:
-```
-for product, price in prices.items():
-    print(product, price)  # apple 3, pear 2
-```
-
-Values:
-```
-for price in prices.values():
-    print(price)  # 3, 2
-```
-
----
-
-# Dictionaries: Beispiele
-
-Nützliche Anwendungen:
 
 ```
-cheap_products = [
-    product
-    for price, product in prices.items()
-    if price < 3
-]
+[totycro@unten5 playground]$ pytest invert_dictionary.py 
+===================== test session starts ======================
+collected 3 items                                               
 
-highest_price = max(prices.values())
+invert_dictionary.py .FF                                  [100%]
 
-number_of_products = len(prices)
+=========================== FAILURES ============================
+________ test_invert_dictionary_inverts_single_elements _________
 
-# "in" arbeitet mit Keys (vgl. Telefonbuch)
-have_apples = "apple" in prices
-```
-
----
-
-# Teuerstes Produkt: 3 Möglichkeiten
-
-```
-expensive_product = [
-     product
-     for product, price in prices.items()
-     if price == highest_price
-][0]
-```
-
-```
-highest_price = 0
-expensive_product = ""
-for product, price in prices.items():
-     if price > highest_price:
-         highest_price = price
-         expensive_product = product
-```
-
-```
-expensive_product = max(
-    [price, product] for product, price in prices.items()
-)[1]
-```
----
-
-# Dictionaries: Verändern
-
-Syntax zum Einfügen/Updaten wie bei Listenindices
-```
->>> prices
-{'apple': 3, 'pear': 2}
->>> prices["banana"] = 5
->>> prices
-{'apple': 3, 'pear': 2, 'banana': 5}
->>> prices["apple"] = 2
->>> prices
-{'apple': 2, 'pear': 2, 'banana': 5}
-```
-
-Löschen auch:
-```
->>> del prices['pear']
->>> prices
-{'apple': 2, 'banana': 5}
-```
-
-Bei neueren Python-Versionen sind die Keys nach der Einfügereihenfolge gereiht.
-
----
-
-# Dictionaries: `setdefault`
-
-Nützliche, aber schlecht benannte Operation  
-`d.setdefault(key, default)` ist äquivalent zu:
-```
-if key not in d:
-    d[key] = default
-return d[key]
-```
-
-```
-course = {"title": "Holzverarbeitung 1"}
+    def test_invert_dictionary_inverts_single_elements():
+>       assert invert_dictionary({1: "a"}) == {"a": [1]}
+E       AssertionError: assert {1: 'a'} == {'a': [1]}
+E         Left contains 1 more item:
+E         {1: 'a'}
+E         Right contains 1 more item:
+E         {'a': [1]}
+E         Use -v to get the full diff
 [...]
-rating = course.setdefault("rating", 3)
-# course enthält jetzt "rating" mit dem Wert 3
-print("Bewertung:", rating)
-```
-
-TODO: dictionary comprehension + exercise
-
----
-
-# Einschub: Imports
-
-2 wesentliche Möglichkeiten:
-
-```
-import collections
-collections.Counter()
-```
-```
-from collections import Counter
-Counter()
-```
-
-Man kann auch alle Namen eines Moduls importieren, das ist aber oft verwirrdend:
-```
-from math import *
-from collections import *
-from datetime import *
-
-# jeder Name hier könnte von jedem Modul kommen
 ```
 
 ---
 
+# `pytest`
 
-# Vorkommnisse zählen
-
-.box.moody[.label[Aufgabe]  
-Schreibe eine Funktion, welche die Vorkommnisse von Elementen in einem Iterable zählt:
-```
->>> count_occurrences([1, 3, 2, 1, 2, 2])
-{1: 2, 3: 1, 2: 3}
->>> count_occurrences("access")
-{'a': 1, 'c': 2, 'e': 1, 's': 2}
-```
-<br/>
-
-* Die Aufgabe ist normalen Dictionaryoperationen gut lösbar
-* Die weiterführende Datenstruktur `defaultdict` aus `collections` kann helfen.
-* `Counter` aus `collections` löst diese Aufgabe auch. Verwende `Counter` in produktivem Code!
-]
-&nbsp;
-
----
-
-# Vorkommnisse zählen 2
-
-.box.moody[.label[Aufgabe]  
-Schreibe eine Funktion, die die Verteilung der Anzahl der KursteilnehmerInnen beschreibt.
-
-Verwende z.B. die Gruppen "0 bis 4 TeilnehmerInnen", "5 bis 10 TeilnehmerInnen", "darüber".
+Test möchte, dass bei Input `{1: 'a'}` das Ergebnis `{'a': [1]}` herauskommt.
 
 ```
->>> courses = [
-    {'title': 'Holz 1', participants: ["Noah", "Max", "Anna", "Sara", "Emma"]},
-    {'title': 'Python', participants: ["Laura", "Leon"]},
-    {'title': 'R', participants: ["Mia"]},
-]
->>> participant_counts(courses)
-{"0-4": 2, "5-10": 1, "10-": 0}
-```
-
-
-]
-&nbsp;
-
----
-
-# Dictionary umkehren
-
-.box.moody[.label[Aufgabe]  
-Schreibe eine Funktion, die ein umgekehrtes Dictionary zurückgibt. Wenn der Input ein z.B. Telefonbuch ist (Name -> Nummer), soll der Output ein Mapping von Nummer auf Name sein.
-
-Achtung: Keys können den gleichen Value haben. Deswegen muss der Value-Typ beim Ergebnis eine Liste mit allen entsprechenden Keys des ursprünglichen Dictionaries sein.
-```
->>> invert_dictionary({
-"Leon": "555-1234",
-"Emilia": "555-1234",
-"Max": "555-789",
-})
-{"555-1234": ["Emilia", "Leon"], "555-789": ["Max"]})
-```
-
-]
-&nbsp
-
----
-
-# Kassensystem
-
-&rArr; In der Einheit lösen oder als Hausübung?
-
-.box.moody[.label[Aufgabe]  
-Wir haben eine Preistabelle (Dictionary) für die Produkte und eine Liste von jä-Kunden. Diese Kunden erhalten 20% Rabatt.
-
-Als Lockangebote gibt es auch ein paar Produkte, die gratis sind.
-
-Wenn ein Kunde zur Kassa kommt, erhalten wir von unserem biometrischen Erkennungssystem den Namen des Kunden und vom automatischen Scanner eine Liste der Produkte.
-
-Berechne die Summe, die der Kunde bezahlen muss.
-
-Hinweis: Verwende einfach Strings um die Kundennamen und Produkte zu modellieren.
-]
-&nbsp;
-
----
-
-# Datetime
-
-* `datetime` enthält Datentypen für ein Datum (`date`), Datum+Uhrzeit (`datetime`) und Zeitdauer (`timedelta`).
-* Sinnvolle Operationen wie `<` oder `-` werden unterstützt
-
-```
->>> import datetime
->>> march_30 = datetime.date(2020, 3, 30)
->>> this_day = datetime.date.today()
->>> march_30 > this_day
-True
->>> march_30 - datetime.date(2020, 2, 5)
-datetime.timedelta(days=54)
->>> march_30.month  # other properties: day, year
-3
-
+def invert_dictionary(d):
+    inverted_d = {}
+    for k, v in d.items():
+        inverted_d[v] = [k]
+    return inverted_d
 ```
 
 ---
 
-# Datetime
+# `pytest`
 
-Achtung: Das Modul und der Datentyp heißen `datetime`.
-
-<img src="img/datetime.png" alt="datetime" width="65%"/>
-
----
-
-# `dateutil`
-
-Empfohlene `datetime`-Erweiterung: `python-dateutil`
-
-Ggf. Installation über Thonny: Tools &rarr; Manage packages
-
-<img src="img/thonny-dateutil.png" alt="dateutil Installation" width="70%"/>
-
----
-
-# `dateutil`
-
-Ermöglicht erweiterte Datumsoperationen
 
 ```
->>> from dateutil.relativedelta import relativedelta
->>> datetime.date(2020, 1, 31) + relativedelta(months=1)
-datetime.date(2020, 2, 29)
->>> datetime.date(2020, 1, 31) + relativedelta(months=1, day=1)
-datetime.date(2020, 2, 1)
-```
-Alter berechnen:
-```
->>> datetime.date.today() - datetime.date(1989, 6, 13)
-datetime.timedelta(days=11149)
->>> relativedelta(datetime.date.today(), datetime.date(1989, 6, 13))
-relativedelta(years=+30, months=+6, days=+9)
+====================== test session starts =======================
+collected 3 items                                                
+
+invert_dictionary.py ..F                                   [100%]
+
+============================ FAILURES ============================
+_________ test_invert_dictionary_merges_duplicate_values _________
+
+    def test_invert_dictionary_merges_duplicate_values():
+>       assert invert_dictionary({1: "a", 2: "a"}) == {"a": [1, 2]}
+E       AssertionError: assert {'a': [2]} == {'a': [1, 2]}
+E         Differing items:
+E         {'a': [2]} != {'a': [1, 2]}
+E         Use -v to get the full diff
+
+invert_dictionary.py:11: AssertionError
+================== 1 failed, 2 passed in 0.03s ===================
 ```
 
 ---
 
-# Kassensystem 2
+# `pytest`
 
-.box.moody[.label[Aufgabe]  
-Erweitere das Kassensystem:
+Jetzt brauchen wir nur noch das Mergen bei `{1: "a", 2: "a"}`
 
-Am Dienstag ist Studierendentag. Alle Studierenden bekommen 15% zusätzlichen Rabatt.
-Das System hat eine Liste von Studierenden.
+```
+    inverted_d = {}
+    for key, value in d.items():
+        if value not in d:
+            d[value] = []
+        d[value].append(key)
+    return inverted_d
+```
+```
+    inverted_d = {}
+    for key, value in d.items():
+        inverted_d[value] = d.get(value, []).append(key)
+    return inverted_d
+```
+```
+    inverted_d = {}
+    for key, value in d.items():
+        inverted_d.setdefault(value , []).append(key)
+    return inverted_d
+```
 
-Am Donnerstag ist Seniorentag. Alle über 65 erhalten 65% zusätzlichen Rabatt.
-Im System gibt es ein Dictionary, das die Geburtstage aller Kunden gespeichert hat.
+---
 
-]
-&nbsp;
+# `pytest`
+
+```
+[totycro@unten5 playground]$ pytest invert_dictionary.py 
+====================== test session starts =======================
+collected 3 items                                                
+
+invert_dictionary.py ...                                   [100%]
+
+======================= 3 passed in 0.02s ========================
+```
+
+<img src="img/tests-passed.jpeg" width="75%"/>
+
+---
+
+# Testing Hinweise
+
+* Jeder Test sollte möglichst kurz sein und möglichst nur einen Aspekt abdecken
+* Testdaten können je nach Anwendung schwer zu generieren sein  
+  &rArr; Datengenerierung von Tests trennen
+* Wartbarkeit auch von Tests ist essentiell
+ 
+
+
 
 
 
