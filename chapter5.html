@@ -331,12 +331,11 @@ Schreibe eine Funktion, welche die Vorkommnisse von Elementen in einem Iterable 
 >>> count_occurrences("access")
 {'a': 1, 'c': 2, 'e': 1, 's': 2}
 ```
-
 <br/>
-Hinweise:
+
 * Die Aufgabe ist normalen Dictionaryoperationen gut lösbar
 * Die weiterführende Datenstruktur `defaultdict` aus `collections` kann helfen.
-* `Counter` aus `collections` löst diese Aufgabe auch. Verwende `Counter` in echtem Code!
+* `Counter` aus `collections` löst diese Aufgabe auch. Verwende `Counter` in produktivem Code!
 ]
 &nbsp;
 
@@ -375,9 +374,9 @@ Achtung: Keys können den gleichen Value haben. Deswegen muss der Value-Typ beim
 >>> invert_dictionary({
 "Leon": "555-1234",
 "Emilia": "555-1234",
-"Max": "5555-789",
+"Max": "555-789",
 })
-{"555-1234": ["Emilia", "Leon"], "5555-789": ["Max"]})
+{"555-1234": ["Emilia", "Leon"], "555-789": ["Max"]})
 ```
 
 ]
