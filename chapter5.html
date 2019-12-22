@@ -95,25 +95,327 @@
     <body onload="var slideshow = remark.create({highlightLanguage: 'python'});">
         <textarea id="source">
 
+layout: true
 
+<div class="footer">Python Kurs 2019/2020</div>
+---
+
+class: center, middle
 
 # Python Kurs 2019/2020
 
-Bernhard Mallinger | `b.mallinger [at] gmx.at`  
+# 5: Dictionaries
+
+### Bernhard Mallinger
+
+### `b.mallinger [at] gmx.at`
+
 https://totycro.github.io/python-kurs
 
-## Inhalt:
+---
 
-1. <a href="chapter1.html">Einführung, Shell, Strings, Variablen</a> <a href="pdf/chapter1.pdf">(pdf)</a>
-1. <a href="chapter2.html">Programme, Vergleiche, If, Kommentare</a> <a href="pdf/chapter2.pdf">(pdf)</a>
-1. <a href="chapter3.html">Listen, Schleifen</a>
-1. <a href="chapter4.html">Funktionen</a>
-1. <a href="chapter5.html">Dictionaries</a>
+# Dictionaries
+
+* Dictionaries ordnen Werte andere Werte zu
+* Wörterbuch, Telefonbuch:
+
+```
+dictionary = {
+    "language": "Sprache",
+    "value": "Wert",
+}
+print(dictionary["value"])
+```
+Output:
+```
+Wert
+```
+
+---
+
+# Dictionaries
+
+* Key und Value können beliebige Typen haben
+* Keys können aber nur unveränderliche Werte sein
+ * z.B. Zahlen, Strings, Tuple
+ * Listen oder Dictionaires gehen nicht!
+
+```
+course = {
+    "participants": ["Alice", "Bob"],
+    "weekday": "Thursday",
+    "rating": 4,
+}
+natural_logarithm_table = {
+    5: 1.6094379124341003,
+    6: 1.791759469228055,
+    7: 1.9459101490553132,
+    8: 2.0794415416798357,
+}
+prices = {
+    'apple': 3,
+    'pear': 2,
+}
+```
+
+---
+
+# Dictionaries: Zugriff
+
+Zugriff mit `[]` gibt Element oder Error:
+```
+>>> prices["apple"]
+3
+>>> prices["banana"]
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+KeyError: 'banana'
+```
+
+Zugriff mit `get` erlaubt Angabe von default-Wert:
+```
+>>> prices.get("banana", 0)
+0
+```
+
+---
+
+# Dictionaries: Auflisten
+
+Keys:
+```
+for product in prices:
+    print(product)  # apple, pear
+for product in prices.keys():
+    print(product)  # apple, pear
+```
+
+Items:
+```
+for product, price in prices.items():
+    print(product, price)  # apple 3, pear 2
+```
+
+Values:
+```
+for price in prices.values():
+    print(price)  # 3, 2
+```
+
+---
+
+# Dictionaries: Beispiele
+
+Nützliche Anwendungen:
+
+```
+cheap_products = [
+    product
+    for price, product in prices.items()
+    if price < 3
+]
+
+highest_price = max(prices.values())
+
+number_of_products = len(prices)
+
+# "in" arbeitet mit Keys (vgl. Telefonbuch)
+have_apples = "apple" in prices
+```
+
+---
+
+# Teuerstes Produkt: 3 Möglichkeiten
+
+```
+expensive_product = [
+     product
+     for product, price in prices.items()
+     if price == highest_price
+][0]
+```
+
+```
+highest_price = 0
+expensive_product = ""
+for product, price in prices.items():
+     if price > highest_price:
+         highest_price = price
+         expensive_product = product
+```
+
+```
+expensive_product = max(
+    [price, product] for product, price in prices.items()
+)[1]
+```
+---
+
+# Dictionaries: Verändern
+
+Syntax zum Einfügen/Updaten wie bei Listenindices
+```
+>>> prices
+{'apple': 3, 'pear': 2}
+>>> prices["banana"] = 5
+>>> prices
+{'apple': 3, 'pear': 2, 'banana': 5}
+>>> prices["apple"] = 2
+>>> prices
+{'apple': 2, 'pear': 2, 'banana': 5}
+```
+
+Löschen auch:
+```
+>>> del prices['pear']
+>>> prices
+{'apple': 2, 'banana': 5}
+```
+
+Bei neueren Python-Versionen sind die Keys nach der Einfügereihenfolge gereiht.
+
+---
+
+# Dictionaries: `setdefault`
+
+* Nützliche, aber schlecht bennante Operation
+
+`d.setdefault(key, default)` ist äquivalent zu:
+```
+if key not in d:
+    d[key] = default
+return d[key]
+```
+
+```
+course = {"title": "Holzverarbeitung 1"}
+[...]
+rating = course.setdefault("rating", 3)
+# course enthält jetzt "rating" mit dem Wert 3
+print("Bewertung:", rating)
+```
+
+
+---
+
+# Vorkommnisse zählen
+
+.box.moody[.label[Aufgabe]  
+Schreibe eine Funktion, welche die Vorkommnisse von Elementen in einem Iterable zählt:
+```
+>>> count_occurrences([1, 3, 2, 1, 2, 2])
+{1: 2, 3: 1, 2: 3, }
+>>> count_occurrences("access")
+{'a': 1, 'c': 2, 'e': 1, 's': 2}
+```
 
 <br/>
-.box.happy[.label[Hinweis]  
-Die Kurseinheiten 1 bis 3 wurden hier auf die Kapitel 1 und 2 aufgeteilt.
+Hinweise:
+* Die Aufgabe ist normalen Dictionaryoperationen gut lösbar
+* Die weiterführende Datenstruktur `defaultdict` aus `collections` kann helfen.
+* `Counter` aus `collections` löst diese Aufgabe auch. Verwende `Counter` in echtem Code!
 ]
+&nbsp;
+
+---
+
+# Vorkommnisse zählen 2
+
+.box.moody[.label[Aufgabe]  
+Schreibe eine Funktion, die die Verteilung der Anzahl der KursteilnehmerInnen beschreibt.
+
+Verwende z.B. die Gruppen "0 bis 4 TeilnehmerInnen", "5 bis 10 TeilnehmerInnen", "darüber".
+
+```
+>>> courses = [
+    {'title': 'Holz 1', participants: ["Noah", "Max", "Anna", "Sara", "Emma"]},
+    {'title': 'Python', participants: ["Laura", "Leon"]},
+    {'title': 'R', participants: ["Mia"]},
+]
+>>> participant_counts(courses)
+{"0-4": 2, "5-10": 1, "10-": 0}
+```
+
+
+]
+&nbsp;
+
+---
+
+# Dictionary umkehren
+
+.box.moody[.label[Aufgabe]  
+Schreibe eine Funktion, die ein umgekehrtes Dictionary zurückgibt. Wenn der Input ein z.B. Telefonbuch ist (Name -> Nummer), soll der Output ein Mapping von Nummer auf Name sein.
+
+Achtung: Keys können den gleichen Value haben. Deswegen muss der Value-Typ beim Ergebnis eine Liste mit allen entsprechenden Keys des ursprünglichen Dictionaries sein.
+```
+>>> invert_dictionary({
+"Leon": "555-1234",
+"Emilia": "555-1234",
+"Max": "5555-789",
+})
+{"555-1234": ["Emilia", "Leon"], "5555-789": ["Max"]})
+```
+
+]
+&nbsp
+
+---
+
+# Kassensystem
+
+&rArr; In der Einheit lösen oder als Hausübung?
+
+.box.moody[.label[Aufgabe]  
+Wir haben eine Preistabelle (Dictionary) für die Produkte und eine Liste von jä-Kunden. Diese Kunden erhalten 20% Rabatt.
+
+Als Lockangebote gibt es auch ein paar Produkte, die gratis sind.
+
+Wenn ein Kunde zur Kassa kommt, erhalten wir von unserem biometrischen Erkennungssystem den Namen des Kunden und vom automatischen Scanner eine Liste der Produkte.
+
+Berechne die Summe, die der Kunde bezahlen muss.
+
+Hinweis: Verwende einfach Strings um die Kundennamen und Produkte zu modellieren.
+]
+&nbsp;
+
+---
+
+# Datetime
+
+* `datetime` enthält Datentypen für ein Datum (`date`), Datum+Uhrzeit (`datetime`) und Zeitdauer (`timedelta`).
+* Sinnvolle Operationen wie `<` oder `-` werden unterstützt
+
+```
+>>> import datetime
+>>> march_30 = datetime.date(2020, 3, 30)
+>>> this_day = datetime.date.today()
+>>> march_30 > this_day
+True
+>>> march_30 - datetime.date(2020, 2, 5)
+datetime.timedelta(days=54)
+>>> march_30.month  # other properties: day, year
+3
+
+```
+
+---
+
+# Kassensystem 2
+
+.box.moody[.label[Aufgabe]  
+Erweitere das Kassensystem:
+
+Am Dienstag ist Studierendentag. Alle Studierenden bekommen 15% zusätzlichen Rabatt.
+Das System hat eine Liste von Studierenden.
+
+Am Donnerstag ist Seniorentag. Alle über 65 erhalten 65% zusätzlichen Rabatt.
+Im System gibt es ein Dictionary, das die Geburtstage aller Kunden gespeichert hat.
+
+]
+&nbsp;
+
+
 
     </textarea>
     <script type="text/javascript">
