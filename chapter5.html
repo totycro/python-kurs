@@ -116,8 +116,8 @@ https://totycro.github.io/python-kurs
 
 # Dictionaries
 
-* Dictionaries ordnen Werte andere Werte zu
-* Wörterbuch, Telefonbuch:
+* Dictionaries ordnen Werte andere Werte zu (Key-Value)
+* Z.B. Wörterbuch, Telefonbuch:
 
 ```
 dictionary = {
@@ -172,7 +172,7 @@ Traceback (most recent call last):
 KeyError: 'banana'
 ```
 
-Zugriff mit `get` erlaubt Angabe von default-Wert:
+Zugriff mit `get()` erlaubt Angabe von default-Wert:
 ```
 >>> prices.get("banana", 0)
 0
@@ -278,8 +278,7 @@ Bei neueren Python-Versionen sind die Keys nach der Einfügereihenfolge gereiht.
 
 # Dictionaries: `setdefault`
 
-* Nützliche, aber schlecht bennante Operation
-
+Nützliche, aber schlecht benannte Operation  
 `d.setdefault(key, default)` ist äquivalent zu:
 ```
 if key not in d:
@@ -295,8 +294,32 @@ rating = course.setdefault("rating", 3)
 print("Bewertung:", rating)
 ```
 
+---
+
+# Einschub: Imports
+
+2 wesentliche Möglichkeiten:
+
+```
+import collections
+collections.Counter()
+```
+```
+from collections import Counter
+Counter()
+```
+
+Man kann auch alle Namen eines Moduls importieren, das ist aber oft verwirrdend:
+```
+from math import *
+from collections import *
+from datetime import *
+
+# jeder Name hier könnte von jedem Modul kommen
+```
 
 ---
+
 
 # Vorkommnisse zählen
 
@@ -304,7 +327,7 @@ print("Bewertung:", rating)
 Schreibe eine Funktion, welche die Vorkommnisse von Elementen in einem Iterable zählt:
 ```
 >>> count_occurrences([1, 3, 2, 1, 2, 2])
-{1: 2, 3: 1, 2: 3, }
+{1: 2, 3: 1, 2: 3}
 >>> count_occurrences("access")
 {'a': 1, 'c': 2, 'e': 1, 's': 2}
 ```
@@ -397,6 +420,45 @@ datetime.timedelta(days=54)
 >>> march_30.month  # other properties: day, year
 3
 
+```
+
+---
+
+# Datetime
+
+Achtung: Das Modul und der Datentyp heißen `datetime`.
+
+<img src="img/datetime.png" alt="datetime" width="65%"/>
+
+---
+
+# `dateutil`
+
+Empfohlene `datetime`-Erweiterung: `python-dateutil`
+
+Ggf. Installation über Thonny:
+
+<img src="img/thonny-dateutil.png" alt="dateutil Installation" width="70%"/>
+
+---
+
+# `dateutil`
+
+Ermöglicht erweiterte Datumsoperationen
+
+```
+>>> from dateutil.relativedelta import relativedelta
+>>> datetime.date(2020, 1, 31) + relativedelta(months=1)
+datetime.date(2020, 2, 29)
+>>> datetime.date(2020, 1, 31) + relativedelta(months=1, day=1)
+datetime.date(2020, 2, 1)
+```
+Alter berechnen:
+```
+>>> datetime.date.today() - datetime.date(1989, 6, 13)
+datetime.timedelta(days=11149)
+>>> relativedelta(datetime.date.today(), datetime.date(1989, 6, 13))
+relativedelta(years=+30, months=+6, days=+9)
 ```
 
 ---
