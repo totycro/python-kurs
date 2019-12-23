@@ -116,6 +116,13 @@ https://totycro.github.io/python-kurs
 
 ---
 
+class: center, middle
+
+# Automatisches Testen
+
+---
+
+
 # Automatisches Testen
 
 * Während dem Entwickeln test man Code immer wieder  
@@ -276,7 +283,63 @@ invert_dictionary.py ...                                   [100%]
 * Testdaten können je nach Anwendung schwer zu generieren sein  
   &rArr; Datengenerierung von Tests trennen
 * Wartbarkeit auch von Tests ist essentiell
- 
+
+---
+
+class: center, middle
+
+# Versionskontrolle: git
+
+---
+
+# Versionskontrolle
+
+* Häufig:
+  * Kleine Änderung  
+  &rArr; Programm funktioniert nicht mehr
+  * Änderung rückgängig gemacht  
+  &rArr; Programm funktioniert immer noch nicht?!?
+* Änderungen sollen getrackt werden
+* Universelle Versionskontrollsysteme
+  * Leider nur in Softwareindustrie weit verbreitet (Masterarbeit?)
+* Heutzutage Standardsystem: git
+
+---
+
+# git Workflow
+
+* Ein Hauptverzeichnis verwaltet alle Dateien des Projekts (*Repository*)
+* Dateien wie gewohnt bearbeiten
+* Bei Zwischenstufen aktuelle Änderungen einchecken (*commit*: Menge von Änderungen)
+  * Gerne oft committen, z.b. wenn Tests durchgehen, wenn ein (Teil-)Feature funktioniert
+  * Alle Änderungen immer nachvollziehbar und umkehrbar!
+* Hervorragende Unterstützung für gleichzeitiges Arbeiten verschiedener Leute an einem Projekt  
+  &rArr; inheränte Komplexität trotzdem hoch  
+  &rArr; out of scope hier
+
+
+---
+
+# git Repositories
+
+* git benötigt keinen Server, lokales Arbeiten möglich
+* Zum Austausch Server notwendig
+  * Gibt gratis Hoster
+  * de-facto Standard: github.com (Microsoft)
+* Workflow mit Server:
+  * Repository z.B. auf github.com anlegen
+  * Repository *clonen*
+  * Commits zu Server *push*en
+  * Andere können dort *pull*en
+  * Konflikte ggf. mit git lösen (out of scope hier)
+
+---
+
+# Repository anlegen github: public oder private
+
+<img src="img/github-repo.png" alt="github" width="85%"/>
+
+---
 
 
 
