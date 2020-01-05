@@ -31,11 +31,21 @@ Excel-Dateien können Input und Output sein, aber keine "schönen" Berichte (jed
 
 ---
 
-matplotlib hier?
+# Matplotlib
+
+* Teil des Scientific Python Universums
+* "Matplotlib tries to make easy things easy and hard things possible."
+```
+import matplotlib.pyplot as plt
+plt.plot([2.3, 4.2, 1.2, 5.6])
+plt.show()
+```
+
+<img alt="pyplot plot" src="img/plot1.png"/>
 
 ---
 
-Python VS NumPy
+# Python VS NumPy
 
 * NumPy: eigene Datentypen verschiedene Zahlendatentypen (kein `int` oder `float`)  
 ** Schnellere Berechnungen
@@ -47,6 +57,46 @@ Python VS NumPy
 ** Anwenden von Operationen elementenweise
 * NumPy: Keine Dictionaries
 
+
+---
+
+# NumPy array
+
+NumPy Array ~ Python Liste
+
+```
+>>> import numpy as np
+>>> values = [2.3, 4.2, 1.2, 5.6]
+>>> np.array(values)
+array([2.3, 4.2, 1.2, 5.6])
+>>> np_values = np.array(values)
+>>> np_values
+array([2.3, 4.2, 1.2, 5.6])
+>>> type(np_values)
+<class 'numpy.ndarray'>
+>>> np_values * 2
+array([ 4.6,  8.4,  2.4, 11.2])
+>>> np_values ** 2
+array([ 5.29, 17.64,  1.44, 31.36])
+```
+Vgl. in normalem Python:
+```
+[x ** 2 for x in values]
+```
+&rArr; Bei numerischen Berechnnungen ist NumPy eleganter, aber auch eingeschränkt.
+
+---
+
+# NumPy array
+
+```
+>>> np_values.dtype
+dtype('float64')
+>>> np_values.shape
+(4,)
+>>> np_values.ndim
+1
+```
 
 ---
 
@@ -135,7 +185,6 @@ pandas: corr
 
 plotting basic:
 
-"Matplotlib tries to make easy things easy and hard things possible."
 
 https://www.python-kurs.eu/matplotlib.php
 
