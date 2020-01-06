@@ -150,7 +150,8 @@ print(a)
 * Übernehmen Daten via Parameter/Argumente und geben Daten zurück
 * Wichtige Werkzeuge im Strukturieren von Code
 * Code in Funktionen kann an verschiedenen Stellen aufgerufen werden
-* Soll einen Schritt in der Verarbeitung / Programmlogik darstellen
+* Soll einen Schritt in der Verarbeitung / Programmlogik darstellen  
+  &rArr; Geben Programmschritten einen Namen
 
 ---
 
@@ -175,60 +176,6 @@ middle
 9 b
 after
 ```
-
-
----
-
-# Funktionen
-
-Funktionen können Werte mit `return` zurückgeben:
-
-```
-def is_even(number):
-    return number % 2 == 0
-
-a = 4
-if is_even(a):
-    print(a, "is even!")
-```
-
-`return` beendet Funktionsaufrufe, egal wo es steht:
-````
-def safe_divide(a, b):
-    if b == 0:
-        return 0
-
-    return a / b
-```
-
----
-
-# Funktionen
-
-Endet eine Funktion nicht mit einem `return`, denkt sich Python automatisch ein `return None` dazu.
-
-```
-def greeter(name):
-    print("Good morning", name)
-
-result = greeter("Bernhard")
-print(result)
-```
-Output:
-```
-Good morning Bernhard
-None
-```
-
----
-
-# Funktionen
-
- .box.moody[.label[Aufgabe]
- <br/>
- Definiere eine Funktion `trim_value`, die im Code auf der Folie 2 eingesetzt werden könnte.
- ]
- &nbsp;
 
 ---
 
@@ -283,6 +230,61 @@ print(my_list, my_number)
 &rarr; Basistypen wie `str` oder `int` sind hingegen unveränderlich
 
 
+
+
+
+---
+
+# Funktionen
+
+Funktionen können Werte mit `return` zurückgeben:
+
+```
+def is_even(number):
+    return number % 2 == 0
+
+a = 4
+if is_even(a):
+    print(a, "is even!")
+```
+
+`return` beendet Funktionsaufrufe, egal wo es steht:
+````
+def safe_divide(a, b):
+    if b == 0:
+        return 0
+
+    return a / b
+```
+
+---
+
+# Funktionen
+
+Endet eine Funktion nicht mit einem `return`, denkt sich Python automatisch ein `return None` dazu.
+
+```
+def greeter(name):
+    print("Good morning", name)
+
+result = greeter("Boku")
+print(result)
+```
+Output:
+```
+Good morning Boku
+None
+```
+
+---
+
+# Funktionen
+
+ .box.moody[.label[Aufgabe]
+ <br/>
+ Definiere eine Funktion `trim_value`, die im Code auf der Folie 2 eingesetzt werden könnte.
+ ]
+ &nbsp;
 ---
 
 # Scope
@@ -382,6 +384,7 @@ main()
 ```
 
 &rarr; Erleichtert Handhabung von Code (Funktionen sind isoliert)  
+&rarr; Inputs für jede Funktion werden explizit übergeben  
 &rarr; Keine globalen Variablen
 
 
@@ -473,7 +476,7 @@ Definiere auch einen default value für `epsilon`.
 .box.moody[.label[Aufgabe]  
 Implementiere die Funktion `safe_list_get`, die ein Item einer Liste an einem Index zurückgibt.
 
-Falls dieser Index nicht im Bereich der Liste ist, gibt einen definierbaren Defaultwert zurück. Wenn dieser nicht definiert ist, soll im Fehlerfall "not found" zurückgegeben werden.
+Falls dieser Index nicht im Bereich der Liste ist, gibt einen definierbaren Defaultwert zurück. Wenn dieser nicht definiert ist, soll "not found" zurückgegeben werden.
 
 ```
 >>> l = [7, 8, 9]
@@ -534,6 +537,7 @@ Beschränke dich auf Beträge unter 1 Euro.
 `calculate_change(price=61, inserted_money=100)`  
 &rarr; `["20 cent", "10 cent", "5 cent", "2 cent", "2 cent"]`
 
+Hinweis: Jede Münze kann höchstens 2x vorkommen.
 ]
 &nbsp;
 
