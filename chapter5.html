@@ -160,6 +160,30 @@ prices = {
 
 ---
 
+# Einschub: Tuple
+
+* Tuple sind sehr ähnlich wie Listen, können aber nicht verändert werden  
+  &rArr; kein `append()`, kein `remove()`  
+  &rArr; `(0, 1) + (2, )` aber möglich (erzeugt neuen Tuple)
+* Schreibweise: Wie Listen, aber `()` statt `[]`  
+  (Sonderfall Tuple mit 1 Element: `('a', )` statt `(a)`)
+
+```
+>>> d = {[]: 3}
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: unhashable type: 'list'
+>>> # unhashable: kann nicht als dictionary key verwendet werden
+>>> d = {
+    (0, 1): 3,
+    (3, 1): 2,
+    }
+>>> d[ (0, 1) ]
+3
+```
+
+---
+
 # Dictionaries: Zugriff
 
 Zugriff mit `[]` gibt Element oder Error:
@@ -228,7 +252,7 @@ have_apples = "apple" in prices
 # Teuerstes Produkt: 3 Möglichkeiten
 
 ```
-expensive_product = [
+most_expensive_product = [
      product
      for product, price in prices.items()
      if price == highest_price
@@ -237,16 +261,16 @@ expensive_product = [
 
 ```
 highest_price = 0
-expensive_product = ""
+most_expensive_product = ""
 for product, price in prices.items():
      if price > highest_price:
          highest_price = price
-         expensive_product = product
+         most_expensive_product = product
 ```
 
 ```
-expensive_product = max(
-    [price, product] for product, price in prices.items()
+most_expensive_product = max(
+    (price, product) for product, price in prices.items()
 )[1]
 ```
 ---
@@ -276,6 +300,32 @@ Bei neueren Python-Versionen sind die Keys nach der Einfügereihenfolge gereiht.
 
 ---
 
+# Dictionary comprehensions
+
+Wie list comprehensions, aber mit `{}` statt `[]` und `key: value` statt nur Werten
+```
+>>> {
+        product + " (new formula)": price
+        for product, price in prices.items()
+    }
+{
+    'apple (new formula)': 3,
+    'pear (new formula)': 2,
+    'banana (new formula)': 5,
+}
+>>> {
+        product: price * 2
+        for product, price in prices.items()
+        if product != 'banana'
+    }
+{'apple': 6, 'pear': 4}
+
+```
+
+
+
+---
+
 # Dictionaries: `setdefault`
 
 Nützliche, aber schlecht benannte Operation  
@@ -294,7 +344,9 @@ rating = course.setdefault("rating", 3)
 print("Bewertung:", rating)
 ```
 
-TODO: dictionary comprehension + exercise
+---
+
+TODO: basic exercises?
 
 ---
 
