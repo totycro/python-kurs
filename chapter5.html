@@ -300,25 +300,40 @@ Bei neueren Python-Versionen sind die Keys nach der Einfügereihenfolge gereiht.
 
 ---
 
+# My courses
+
+
+.box.moody[.label[Aufgabe]  
+Erstelle eine Liste von Dictionaries, wobei die Dictionaries deine Lehrveranstaltungen aus diesem Semester beschreiben. Als Keys sollen zumindest `name`, `lecturer` und `grade` enthalten sein. Falls du noch keine Note bekommen hast, lass das `grade`-Feld aus.
+
+Schreibe dann Code, der jeweils folgendes berechnet:
+
+1. Alphabetisch sortierte Liste der Namen der Kurse
+1. Liste der Namen der Lehrenden (ohne Duplikate)
+1. Namen der Kurse, die noch keine Note haben
+1. Namen der Kurse, mit der Note 1, 2 oder 3 abgeschlossen hast
+
+]
+&nbsp;
+
+
+---
+
 # Dictionary comprehensions
 
 Wie list comprehensions, aber mit `{}` statt `[]` und `key: value` statt nur Werten
 ```
+>>> {product: price * 2 for product, price in prices.items()}
+{'apple': 6, 'pear': 4, 'banana': 10}
 >>> {
         product + " (new formula)": price
         for product, price in prices.items()
+        if product != 'banana'
     }
 {
     'apple (new formula)': 3,
     'pear (new formula)': 2,
-    'banana (new formula)': 5,
 }
->>> {
-        product: price * 2
-        for product, price in prices.items()
-        if product != 'banana'
-    }
-{'apple': 6, 'pear': 4}
 
 ```
 
@@ -346,10 +361,6 @@ print("Bewertung:", rating)
 
 ---
 
-TODO: basic exercises?
-
----
-
 # Einschub: Imports
 
 2 wesentliche Möglichkeiten:
@@ -371,6 +382,31 @@ from datetime import *
 
 # jeder Name hier könnte von jedem Modul kommen
 ```
+
+---
+
+# Pretty Printing
+
+`pprint`-Funktion aus dem `pprint`-Modul macht verschachtelte Strukturen schöner
+
+```
+>>> courses
+[{'participants': ['Alice', 'Bob'], 'weekday': 'Thursday', 'rating':
+4, 'name': 'Python'}, {'participants': ['Charlie', 'Mallory'],
+'weekday': 'Wednesday', 'rating': 2, 'name': 'R'}]
+>>> from pprint import pprint
+>>> pprint(courses)
+[{'name': 'Python',
+  'participants': ['Alice', 'Bob'],
+  'rating': 4,
+  'weekday': 'Thursday'},
+ {'name': 'R',
+  'participants': ['Charlie', 'Mallory'],
+  'rating': 2,
+  'weekday': 'Wednesday'}]
+```
+
+
 
 ---
 
