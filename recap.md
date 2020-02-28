@@ -1,4 +1,13 @@
-project euler:
+# TODO
+
+* excel sheet parsen und stats
+* grafiken -> ?
+* cron: jeden tag um 9 arbeiten
+* mails versenden
+
+
+
+# project euler:
 https://projecteuler.net/problem=1
 1	Multiples of 3 and 5
 2	Even Fibonacci numbers
@@ -17,3 +26,37 @@ https://towardsdatascience.com/30-helpful-python-snippets-that-you-can-learn-in-
 
 sudoku (advanced):
 http://norvig.com/sudoku.html
+
+
+
+
+### my snippets:
+
+&nbsp;
+```python
+# nested function calls
+def g(a):
+    print(a - 1)
+    return a + 1
+
+
+def f(a):
+    return g(a * 2)
+
+
+def main():
+    return f(3)
+
+# behavior of:
+a = main()
+```
+&nbsp;
+```python
+woods = ["eiche", "fichte", "erle"]
+preferences = {"Leon": 0, "Anna": 2}
+
+def get_preference(person):
+    return woods[ preferences[person] ]
+
+wood = get_preference("Anna")
+```
