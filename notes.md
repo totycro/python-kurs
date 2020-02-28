@@ -1,5 +1,12 @@
 # Boku Python Kurs 
 
+
+## Plan 2020
+ * excel sheet parsen und stats
+ * grafiken -> matplotlib, openpyxl in excel
+ * cron: jeden tag um 9 arbeiten -> schedule https://pypi.org/project/schedule/
+ * mails versenden -> smtp
+
 ## Kurs Inhalt
 * Pandas/mypy
 * jupyter
