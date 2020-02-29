@@ -370,6 +370,9 @@ rating = course.setdefault("rating", 3)
 print("Bewertung:", rating)
 ```
 
+```
+course.setdefault("participants", []).append("Alex")
+```
 ---
 
 # Einschub: Imports
@@ -506,7 +509,8 @@ Hinweis: Verwende einfach Strings um die Kundennamen und Produkte zu modellieren
 # Datetime
 
 * `datetime` enthält Datentypen für ein Datum (`date`), Datum+Uhrzeit (`datetime`) und Zeitdauer (`timedelta`).
-* Sinnvolle Operationen wie `<` oder `-` werden unterstützt
+* Sinnvolle Operationen wie `<`, `+`, `-` werden unterstützt
+* Kümmert sich bei Berechnungen um variable Monatslänge, auch Schalttage
 
 ```
 >>> import datetime
@@ -518,6 +522,8 @@ True
 datetime.timedelta(days=54)
 >>> march_30.month  # other properties: day, year
 3
+>>> march_30 + datetime.timedelta(days=4)
+datetime.date(2020, 4, 3)
 
 ```
 
@@ -546,18 +552,36 @@ Ggf. Installation über Thonny: Tools &rarr; Manage packages
 Ermöglicht erweiterte Datumsoperationen
 
 ```
->>> from dateutil.relativedelta import relativedelta
+>>> from dateutil.relativedelta import relativedelta, MO
 >>> datetime.date(2020, 1, 31) + relativedelta(months=1)
 datetime.date(2020, 2, 29)
 >>> datetime.date(2020, 1, 31) + relativedelta(months=1, day=1)
-datetime.date(2020, 2, 1)
+datetime.date(2020, 2, 1)  # der erste Tag am nächsten Monat
+>>> datetime.date(2020, 1, 31) + relativedelta(weekday=MO)
+datetime.date(2020, 2, 3)  # nächster Montag
 ```
 Alter berechnen:
 ```
 >>> datetime.date.today() - datetime.date(1989, 6, 13)
-datetime.timedelta(days=11149)
+datetime.timedelta(days=11218)
 >>> relativedelta(datetime.date.today(), datetime.date(1989, 6, 13))
-relativedelta(years=+30, months=+6, days=+9)
+relativedelta(years=+30, months=+8, days=+16)
+```
+
+---
+
+# `dateutil`
+
+`dateutil` stellt auch [Parser](https://dateutil.readthedocs.io/en/stable/examples.html#parse-examples) zur Verfügung
+
+```
+>>> from dateutil.parser import parse
+>>> parse("2020-01-05")
+datetime.datetime(2020, 1, 5, 0, 0)
+>>> parse("5.1.2020")  # Achtung!
+datetime.datetime(2020, 5, 1, 0, 0)
+>>> parse("5.1.2020", dayfirst=True)
+datetime.datetime(2020, 1, 5, 0, 0)
 ```
 
 ---
