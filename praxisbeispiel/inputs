@@ -1,0 +1,60 @@
+
+# Datenaufbereitung
+d = pd.read_excel("Produktionsdaten.xlsx", sheet_name="1. Schicht", true_values=["x"])
+d.head()
+d.index
+d.columns
+# d.values
+
+
+sheets = [
+    pd.read_excel(
+        "Produktionsdaten.xlsx",
+        sheet_name=str(sheet_num) + ". Schicht",
+        true_values=["x"],
+    )
+    for sheet_num in range(1, 6)
+]
+
+
+# keep_default_na=False 
+
+sum(1 for i in d['Delaminierung %'] if np.isnan(i))
+
+d['Temperatur [°C]'].min()
+d['Temperatur [°C]'].mean()
+d['Temperatur [°C]'].max()
+(d['Temperatur [°C]'] < 20).sum()
+d['Temperatur [°C]'] < 20
+list(d['Temperatur [°C]'] < 20)
+d[d['Temperatur [°C]'] < 20]  # magic
+d.loc[d.index.where(d['Temperatur [°C]'] < 20).dropna()]
+
+
+
+d[['Lamellenbreite - Fertigmaß [mm]', 'Temperatur [°C]',]]
+d.loc[100]
+d.loc[100:105]
+d.loc[[100, 102, 107]]
+d.loc[[101, 102, 106], ['Lamellenbreite - Fertigmaß [mm]', 'rel. Luftfeuchtigkeit [%]']]
+d.loc[:, ['Lamellenbreite - Fertigmaß [mm]', 'rel. Luftfeuchtigkeit [%]']]  # same as above
+
+# iloc: integer locations
+
+d['Ausfalläste außen'].fillna(False, inplace=True)
+d['Ausfalläste außen'] = d['Ausfalläste außen'].fillna(False)
+
+# nach nan -> false
+sum(d['Ausfalläste außen'])
+d['Ausfalläste außen'].count() - sum(d['Ausfalläste außen'])
+
+plt.hist(d['Temperatur [°C]'])
+plt.show()
+plt.hist(d['Temperatur [°C]'], density=True, cumulative=True)
+plt.hist(d['Temperatur [°C]'], cumulative=True)
+
+
+
+pd.DataFrame({'A': [2,3, 4, 5], 'B':[4,5,6, 6,]}).corr()
+pd.DataFrame({'A': [2,3, 4, 5], 'B':[4,5,6, 1,]}).corr()
+
