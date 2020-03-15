@@ -334,6 +334,96 @@ Leider schlechter Stil:
 * `ndim`: unnötige Abkürzung (`num_dimensions` oder `dimensions`)
 * `tolist`: Style Guide violation (`to_list`)
 
+---
+
+# NumPy array: Gleich wie Python list
+
+```
+>>> np_values
+array([2.3, 4.2, 1.2, 5.6])
+>>> len(np_values)
+4
+>>> np_values[2]
+1.2
+>>> np_values[1:3]
+array([4.2, 1.2])
+>>> np_values[1] = 4.8
+>>> np_values
+array([2.3, 4.8, 1.2, 5.6])
+>>> for index, val in enumerate(np_values):
+    print(index, ":", val)
+0 : 2.3
+1 : 4.8
+2 : 1.2
+3 : 5.6
+>>> np_values.sort()
+>>> np_values
+array([1.2, 2.3, 4.8, 5.6])
+```
+
+---
+
+# NumPy array: Anders als Python list
+
+Kein Hinzufügen/Entfernen zu bestehenden Arrays:
+```
+>>> np_values.append(2.4)
+Traceback (most recent call last):
+  File "<pyshell>", line 1, in <module>
+AttributeError: 'numpy.ndarray' object has no attribute 'append'
+>>> del np_values[2]
+Traceback (most recent call last):
+  File "<pyshell>", line 1, in <module>
+ValueError: cannot delete array elements
+```
+
+```
+# Aber neue Arrays Erzeugen mit np.append / np.delete:
+>>> np_values
+array([2.3, 4.2, 1.2, 5.6])
+>>> np.append(np_values, 1)
+array([2.3, 4.2, 1.2, 5.6, 1. ])
+>>> np.append(np_values, [2, 3])  # Achtung, anderer Typ!
+array([2.3, 4.2, 1.2, 5.6, 2. , 3. ])
+>>> np_values
+array([2.3, 4.2, 1.2, 5.6])
+```
+
+---
+
+# NumPy array: Anders als Python list
+
+Eigene, effizientere Operationen:
+```
+>>> sum(np_values)
+13.3
+>>> np.sum(np_values)
+13.3
+```
+
+
+Operationen wirken sich immer auf Elemente aus:
+```
+>>> np.array([1, 2, 3]) + np.array([3, 4, 5])
+array([4, 6, 8])
+>>> np.array([1, 2, 3]) + 1  # Achtung, anderer Typ!
+array([2, 3, 4])
+```
+
+---
+
+# NumPy array: Mehr als Python list
+
+```
+>>> np_values.mean()
+3.325
+>>> np_values.var()
+2.8768749999999996
+>>> np_values.std()
+1.6961353129983467
+>>> np.array([1,2,3]).dot(np.array([2, 3, 4]))
+```
+
 
 ---
 
@@ -407,6 +497,7 @@ https://medium.com/dunder-data/selecting-subsets-of-data-in-pandas-6fcd0170be9c
 
 dataframe.Height > 1300
 dataframe[dataframe.Height > 1300]
+
 
 df[ [True, True, False, False, False] ]
 
