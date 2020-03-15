@@ -167,7 +167,7 @@ plt.plot([1.7, 1.2, -0.4], "ob")
 plt.plot([10, 20, 30, 40], [2.3, 4.2, 1.2, 5.6], "D:m")
 ```
 
-<img alt="pyplot plot" src="img/plot3.png" width="60%"/>
+<img alt="pyplot plot" src="img/plot3.png" width="54%"/>
 
 ---
 
@@ -241,15 +241,20 @@ https://towardsdatascience.com/matplotlib-tutorial-learn-basics-of-pythons-power
 
 https://www.python-kurs.eu/matplotlib.php
 
----
+#### Seaborn
+https://seaborn.pydata.org/introduction.html
 
+'If matplotlib "tries to make easy things easy and hard things possible", seaborn tries to make a well-defined set of hard things easy too.'
+
+---
 
 # Mit größeren/externen Daten programmieren
 
 ### NumPy
 * Grundlage für Scientific Computing / Data Science / Big Data in Python
+  * Sehr beliebt auch für kleinere Auswertungen (overkill)
 * Bietet effiziente Datenstrukturen für (große) numerische Berechnungen  
-* Relativ einfache API (Application Programming Interface)
+* Verhältnismäßig einfache API (Application Programming Interface)
 * Wichtige Erweiterungen (gerne alle gleich installieren):
  * Pandas: Praktische Datenstrukturen und Operationen auf Basis von NumPy
  * Matplotlib: Erzeugt Grafiken
@@ -260,10 +265,8 @@ https://www.python-kurs.eu/matplotlib.php
 
 ### NumPy
 
-NumPy ist nur für numerische Daten gedacht (Vektoren, Matrizen, Koordinaten, ...)
-
-Excel-Dateien können Input und Output sein, aber keine "schönen" Berichte (jedoch schon Grafiken als eigene Bilder).
-
+* NumPy ist nur für numerische Daten gedacht (Vektoren, Matrizen, Koordinaten, ...)
+* Excel-Dateien können Input und Output sein, aber keine "schönen" Berichte (jedoch schon Grafiken als eigene Bilder).
 
 ### openpyxl
 
@@ -417,6 +420,10 @@ df.plot(x='Tree', y=['Growth', 'Thickness'], kind='bar')
  df.plot(y=['Growth'], x=['Thickness'], kind='scatter')
 
 pandas: corr
+
+---
+
+sns.lmplot(x="tip", y="total_bill", data=tips)
 
 
 
