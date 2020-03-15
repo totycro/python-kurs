@@ -421,7 +421,35 @@ array([2, 3, 4])
 2.8768749999999996
 >>> np_values.std()
 1.6961353129983467
+>>> np.percentile(np_values, 20)
+1.8599999999999999
+>>> np.percentile(np_values, 10)
+1.53
 >>> np.array([1,2,3]).dot(np.array([2, 3, 4]))
+20
+
+```
+
+---
+
+# Beispiel: Curve fitting
+
+
+TODO: teile erklären
+
+```
+y = np.array([1, 4, 8, 18, 25])
+x = np.arange(1, len(y) + 1)
+
+plt.plot(x, y, 'o')
+
+xp = np.linspace(x[0] - 0.5, x[-1] + 0.5, 100)
+
+for fitting_degree, style in [(1, '.'), (2, "--"), (4, '-')]:
+    polynom = np.poly1d(np.polyfit(x=x, y=y, deg=fitting_degree))
+    plt.plot(xp, polynom(xp), style)
+
+plt.show()
 ```
 
 
