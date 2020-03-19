@@ -1,3 +1,15 @@
+# Grundschritte:
+* excel einlesen
+* statistik, mean, etc.
+* punktdiagramm (2 variablen)
+* r ** 2
+
+* linopt
+
+
+
+
+
 
 # Datenaufbereitung
 d = pd.read_excel("Produktionsdaten.xlsx", sheet_name="1. Schicht", true_values=["x"])
