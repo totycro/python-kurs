@@ -124,7 +124,15 @@ https://totycro.github.io/python-kurs
   * Verbreitet in Wissenschaft: `conda` environments
   * Inoffiziell: `virtualenv`, `pyenv`, `pipenv`
 
+---
 
+# Pakete installieren via thonny
+
+* Interface für `pip`
+* Tools &rarr; Manage packages
+* Installation in Userbereich für alle Projekte eures Users
+
+<img src="img/thonny-dateutil.png" alt="dateutil Installation" width="70%"/>
 
 ---
 
@@ -144,7 +152,7 @@ https://numpy.org/devdocs/user/quickstart.html
 
 ---
 
-# Plotting
+# Plotting: matplotlib
 
 * Teil des Scientific Python Universums für Grafiken
 * z.B. über Thonny installieren
@@ -245,6 +253,32 @@ plt.xticks(ticks=positions, labels=('A', 'B', 'C'))
 
 ---
 
+# Säulendiagram: Von COVID-19 betroffene Länder
+
+```python
+from urllib.request import urlopen, Request
+import json
+import matplotlib.pyplot as plt
+
+def fetch_data():
+    return json.loads(urlopen(Request(
+        "https://corona.lmao.ninja/countries",
+        headers={"User-Agent": "Mozilla/5.0"},
+    )).read())
+
+country_cases = fetch_data()
+# country_cases is sorted list of dicts with country case data
+
+top10 = country_cases[:10]
+plt.bar(
+    x=[country_data["country"] for country_data in top10],
+    height=[country_data["cases"] for country_data in top10],
+)
+plt.show()
+```
+
+---
+
 # Plotting: Weiterführende Links
 
 `help(plt.hist)`
@@ -289,6 +323,10 @@ https://seaborn.pydata.org/introduction.html
 * Formeln und Diagramme in Excel
 * Formattierungen, Zellen mergen, etc.
 * Bietet keine numerischen Berechnungsfunktionen
+
+
+### csv
+* Universelles Format für einfache Tabellendaten
 
 ---
 
