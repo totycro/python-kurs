@@ -104,9 +104,7 @@ class: center, middle
 
 # Python Kurs 2019/2020
 
-# 6: Entwicklungstooling
-
-# Versionskontrolle 1, Testing 1
+# 6: Datum, Zeit
 
 ### Bernhard Mallinger
 
@@ -116,278 +114,99 @@ https://totycro.github.io/python-kurs
 
 ---
 
-class: center, middle
+# Datetime
 
-# Versionskontrolle: git
+* `datetime` enthält Datentypen für ein Datum (`date`), Datum+Uhrzeit (`datetime`) und Zeitdauer (`timedelta`).
+* Sinnvolle Operationen wie `<`, `+`, `-` werden unterstützt
+* Kümmert sich bei Berechnungen um variable Monatslänge, auch Schalttage
 
----
+```
+>>> import datetime
+>>> march_30 = datetime.date(2020, 3, 30)
+>>> this_day = datetime.date.today()
+>>> march_30 > this_day
+True
+>>> march_30 - datetime.date(2020, 2, 5)
+datetime.timedelta(days=54)
+>>> march_30.month  # other properties: day, year
+3
+>>> march_30 + datetime.timedelta(days=4)
+datetime.date(2020, 4, 3)
 
-# Versionskontrolle
-
-* Häufig:
-  * Kleine Änderung  
-  &rArr; Programm funktioniert nicht mehr
-  * Änderung rückgängig gemacht  
-  &rArr; Programm funktioniert auch nicht?!?
-* Änderungen sollen getrackt werden
-* Universelle Versionskontrollsysteme
-  * Leider nur in Softwareindustrie weit verbreitet (Masterarbeit?)
-* Heutzutage Standardsystem: git
-
----
-
-# git Workflow
-
-* Ein Hauptverzeichnis verwaltet alle Dateien des Projekts (*Repository*)
-* Dateien wie gewohnt bearbeiten
-* Bei Zwischenstufen aktuelle Änderungen einchecken (*commit*: Menge von Änderungen)
-  * Gerne oft committen, z.b. wenn Tests durchgehen, wenn ein (Teil-)Feature funktioniert
-  * Alle Änderungen immer nachvollziehbar und umkehrbar!
-* Hervorragende Unterstützung für gleichzeitiges Arbeiten verschiedener Leute an einem Projekt (branches)  
-  &rArr; inheränte Komplexität trotzdem hoch  
-  &rArr; out of scope hier
-
+```
 
 ---
 
-# git Repositories
+# Datetime
 
-* git benötigt keinen Server, lokales Arbeiten möglich
-* Zum Austausch Server notwendig
-  * Gibt gratis Hoster
-  * de-facto Standard: github.com (Microsoft)
-* Workflow mit Server:
-  * Repository z.B. auf github.com anlegen
-  * Repository *clonen*
-  * Commits zu Server *push*en
-  * Andere können dort *pull*en
-  * Konflikte ggf. mit git lösen (out of scope hier)
+Achtung: Das Modul und der Datentyp heißen `datetime`.
+
+<img src="img/datetime.png" alt="datetime" width="65%"/>
 
 ---
 
-# Repository anlegen github: public oder private
+# `dateutil`
 
-<img src="img/github-repo.png" alt="github" width="85%"/>
+Empfohlene `datetime`-Erweiterung: `python-dateutil`
 
----
+Ggf. Installation über Thonny: Tools &rarr; Manage packages
 
-# Demo
-
-* Graphische Oberfläche für git:
-  * gitk: Log ansehen
-  * git-gui: Commits erstellen  
-  (Gibt Alternativen, alle mit Vor- und Nachteilen)
-* Kommandezeilentool `git` sehr gebräuchlich
-* Unter Linux normalerweise mitgeliefert, für Win &amp; Mac gibt es Downloads:
-https://git-scm.com/downloads
-
-### Schritte
-* Repo lokal anlegen
-* Dateien erzeugen/bearbeiten
-* Staging: Dateien bei git vormerken
-* Commit
-* Log + Diff
-* Diff über Versionen
-* Revert
+<img src="img/thonny-dateutil.png" alt="dateutil Installation" width="70%"/>
 
 ---
 
-# git Hinweise
+# `dateutil`
 
-* Geschichte kann geändert werden
-  * Das verkompliziert das Pushen auf den Server  
-    &rArr; vermeiden (vorerst)
-* Beispiel für Verwendung:  
-  https://github.com/totycro/algorithmics-prog/commit/8990877c084f42ac8e963eb566180ba6afefc400
+Ermöglicht erweiterte Datumsoperationen
 
+```
+>>> from dateutil.relativedelta import relativedelta, MO
+>>> datetime.date(2020, 1, 31) + relativedelta(months=1)
+datetime.date(2020, 2, 29)
+>>> datetime.date(2020, 1, 31) + relativedelta(months=1, day=1)
+datetime.date(2020, 2, 1)  # der erste Tag am nächsten Monat
+>>> datetime.date(2020, 1, 31) + relativedelta(weekday=MO)
+datetime.date(2020, 2, 3)  # nächster Montag
+```
+Alter berechnen:
+```
+>>> datetime.date.today() - datetime.date(1989, 6, 13)
+datetime.timedelta(days=11218)
+>>> relativedelta(datetime.date.today(), datetime.date(1989, 6, 13))
+relativedelta(years=+30, months=+8, days=+16)
+```
+
+---
+
+# `dateutil`
+
+`dateutil` stellt auch [Parser](https://dateutil.readthedocs.io/en/stable/examples.html#parse-examples) zur Verfügung
+
+```
+>>> from dateutil.parser import parse
+>>> parse("2020-01-05")
+datetime.datetime(2020, 1, 5, 0, 0)
+>>> parse("5.1.2020")  # Achtung!
+datetime.datetime(2020, 5, 1, 0, 0)
+>>> parse("5.1.2020", dayfirst=True)
+datetime.datetime(2020, 1, 5, 0, 0)
+```
+---
+
+# Kassensystem 2
 
 .box.moody[.label[Aufgabe]  
-Verwende gibt bei allen künftigen Aufgaben (z.B. ein Repo für den Kurs gesamt).
+Erweitere das Kassensystem:
 
-Erweiterung: Verwende git bei deinen Uniprojekten, vor allem länger dauernde.
+Am Dienstag ist Studierendentag. Alle Studierenden bekommen 15% zusätzlichen Rabatt.
+Das System hat eine Liste von Studierenden.
+
+Am Donnerstag ist Seniorentag. Alle über 65 erhalten 65% zusätzlichen Rabatt.
+Im System gibt es ein Dictionary, das die Geburtstage aller Kunden gespeichert hat.
 
 ]
 &nbsp;
 
----
-
-
-# git: Weiterführende Anleitungen
-
-https://towardsdatascience.com/getting-started-with-git-and-github-6fcd0f2d4ac6  
-https://www.freecodecamp.org/news/learn-the-basics-of-git-in-under-10-minutes-da548267cc91/  
-https://product.hubspot.com/blog/git-and-github-tutorial-for-beginners  
-
-
----
-
-class: center, middle
-
-# Automatisches Testen
-
----
-
-
-# Automatisches Testen
-
-* Während dem Entwickeln test man Code immer wieder  
-&rArr; Warum nicht automatisch ausführen lassen?
-* Zusätzlich zum Code schreibt man auch Testcases, die den eigentlichen Code ausführen
-* Bei Weiterentwicklungen wird alles nochmal getestet, damit nichts kaputt wird
-* Nachteil: Bei Verhaltensänderungen muss der Test auch geändert werden
-
----
-
-# Test-driven development (TDD)
-
-* Noch besser: Tests schreiben, bevor man den Code schreibt
-* Hilft im Designprozess: Nachdenken über Verhalten
-* Ablenkung und fehlende Konzentration sind weniger problematisch
-  * Man weiß genau, was schon funktioniert und woran man jetzt arbeiten muss
-* Beim Codeschreiben hat man instant feedback
-
----
-
-# `pytest`
-
-* Ein verbreitetes und einfach Testtool
-* Tests sind Funktionen, deren Name mit `test_` beginnt
-* Überprüfungen mit `assert()`
-
-```
-def invert_dictionary(l, ):
-    # dummy implementation to be able to write tests
-    return d
-
-def test_invert_dictionary_handles_empty_dict():
-    assert invert_dictionary({}) == {}
-
-def test_invert_dictionary_inverts_single_elements():
-    assert invert_dictionary({1: "a"}) == {"a": [1]}
-
-def test_invert_dictionary_merges_duplicate_values():
-    assert invert_dictionary({1: "a", 2: "a"}) == {"a": [1, 2]}
-```
-
----
-
-# `pytest`
-
-* Ausführen in Thonny über Tools &rarr; Open system shell
-* Dort eingeben: `pytest dateiname.py` und Enter drücken
-
-
-```
-[totycro@unten5 playground]$ pytest invert_dictionary.py 
-===================== test session starts ======================
-collected 3 items                                               
-
-invert_dictionary.py .FF                                  [100%]
-
-=========================== FAILURES ============================
-________ test_invert_dictionary_inverts_single_elements _________
-
-    def test_invert_dictionary_inverts_single_elements():
->       assert invert_dictionary({1: "a"}) == {"a": [1]}
-E       AssertionError: assert {1: 'a'} == {'a': [1]}
-E         Left contains 1 more item:
-E         {1: 'a'}
-E         Right contains 1 more item:
-E         {'a': [1]}
-E         Use -v to get the full diff
-[...]
-```
-
----
-
-# `pytest`
-
-Test möchte, dass bei Input `{1: 'a'}` das Ergebnis `{'a': [1]}` herauskommt.
-
-```
-def invert_dictionary(d):
-    inverted_d = {}
-    for k, v in d.items():
-        inverted_d[v] = [k]
-    return inverted_d
-```
-
----
-
-# `pytest`
-
-
-```
-====================== test session starts =======================
-collected 3 items                                                
-
-invert_dictionary.py ..F                                   [100%]
-
-============================ FAILURES ============================
-_________ test_invert_dictionary_merges_duplicate_values _________
-
-    def test_invert_dictionary_merges_duplicate_values():
->       assert invert_dictionary({1: "a", 2: "a"}) == {"a": [1, 2]}
-E       AssertionError: assert {'a': [2]} == {'a': [1, 2]}
-E         Differing items:
-E         {'a': [2]} != {'a': [1, 2]}
-E         Use -v to get the full diff
-
-invert_dictionary.py:11: AssertionError
-================== 1 failed, 2 passed in 0.03s ===================
-```
-
----
-
-# `pytest`
-
-Jetzt brauchen wir nur noch das Mergen bei `{1: "a", 2: "a"}`
-
-```
-    inverted_d = {}
-    for key, value in d.items():
-        if value not in d:
-            d[value] = []
-        d[value].append(key)
-    return inverted_d
-```
-```
-    inverted_d = {}
-    for key, value in d.items():
-        inverted_d[value] = d.get(value, []).append(key)
-    return inverted_d
-```
-```
-    inverted_d = {}
-    for key, value in d.items():
-        inverted_d.setdefault(value , []).append(key)
-    return inverted_d
-```
-
----
-
-# `pytest`
-
-```
-[totycro@unten5 playground]$ pytest invert_dictionary.py 
-====================== test session starts =======================
-collected 3 items                                                
-
-invert_dictionary.py ...                                   [100%]
-
-======================= 3 passed in 0.02s ========================
-```
-
-<img src="img/tests-passed.jpeg" width="75%"/>
-
----
-
-# Testing Hinweise
-
-* Jeder Test sollte möglichst kurz sein und möglichst nur einen Aspekt abdecken
-* Testdaten können je nach Anwendung schwer zu generieren sein  
-  &rArr; Datengenerierung von Tests trennen
-* Wartbarkeit auch von Tests ist essentiell
 
 
     </textarea>

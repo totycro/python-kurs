@@ -104,7 +104,9 @@ class: center, middle
 
 # Python Kurs 2019/2020
 
-# 7: Berechnungen, Grafiken, Daten
+# 6: Entwicklungstooling
+
+# Versionskontrolle 1, Testing 1
 
 ### Bernhard Mallinger
 
@@ -114,438 +116,278 @@ https://totycro.github.io/python-kurs
 
 ---
 
-# TODO
+class: center, middle
 
-TODO:  
-https://www.tutorialspoint.com/numpy/index.htm  
-http://cs231n.github.io/python-numpy-tutorial/  
-https://jakevdp.github.io/PythonDataScienceHandbook/index.html  
-http://queirozf.com/entries/pandas-dataframe-plot-examples-with-matplotlib-pyplot  
-https://www.python-kurs.eu/pandas.php  
-https://numpy.org/devdocs/user/quickstart.html  
+# Versionskontrolle: git
 
+---
 
+# Versionskontrolle
 
+* Häufig:
+  * Kleine Änderung  
+  &rArr; Programm funktioniert nicht mehr
+  * Änderung rückgängig gemacht  
+  &rArr; Programm funktioniert auch nicht?!?
+* Änderungen sollen getrackt werden
+* Universelle Versionskontrollsysteme
+  * Leider nur in Softwareindustrie weit verbreitet (Masterarbeit?)
+* Heutzutage Standardsystem: git
+
+---
+
+# git Workflow
+
+* Ein Hauptverzeichnis verwaltet alle Dateien des Projekts (*Repository*)
+* Dateien wie gewohnt bearbeiten
+* Bei Zwischenstufen aktuelle Änderungen einchecken (*commit*: Menge von Änderungen)
+  * Gerne oft committen, z.b. wenn Tests durchgehen, wenn ein (Teil-)Feature funktioniert
+  * Alle Änderungen immer nachvollziehbar und umkehrbar!
+* Hervorragende Unterstützung für gleichzeitiges Arbeiten verschiedener Leute an einem Projekt (branches)  
+  &rArr; inheränte Komplexität trotzdem hoch  
+  &rArr; out of scope hier
 
 
 ---
 
-# Plotting
+# git Repositories
 
-* Teil des Scientific Python Universums für Grafiken
-* z.B. über Thonny installieren
-* "Matplotlib tries to make easy things easy and hard things possible."
-```
-import matplotlib.pyplot as plt
-plt.plot([2.3, 4.2, 1.2, 5.6])
-plt.show()
-```
-
-<img alt="pyplot plot" src="img/plot1.png" width="45%"/>
-
----
-
-# Plotting
-
-* Hier: pyplot function interface von matplotlib
-* Erlaubt `fmt` (format) (Beschreibung [hier unter "Notes"](https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.plot.html))
-
-```
-plt.plot([2.3, 4.2, 1.2, 5.6], "^:")
-plt.plot([1.7, 1.2, -0.4], "ob")
-```
-
-<img alt="pyplot plot" src="img/plot2.png" width="60%"/>
+* git benötigt keinen Server, lokales Arbeiten möglich
+* Zum Austausch Server notwendig
+  * Gibt gratis Hoster
+  * de-facto Standard: github.com (Microsoft)
+* Workflow mit Server:
+  * Repository z.B. auf github.com anlegen
+  * Repository *clonen*
+  * Commits zu Server *push*en
+  * Andere können dort *pull*en
+  * Konflikte ggf. mit git lösen (out of scope hier)
 
 ---
 
-# Plotting
+# Repository anlegen github: public oder private
 
-* X-Werte können auch explizit angegeben werden
-* Achtung: Keyword-Arguments kaputt, es wird "geraten", was `x`, `y` und `fmt` ist
-```
-plt.plot([10, 20, 30, 40], [2.3, 4.2, 1.2, 5.6], "D:m")
-```
-
-<img alt="pyplot plot" src="img/plot3.png" width="54%"/>
+<img src="img/github-repo.png" alt="github" width="85%"/>
 
 ---
 
-# Plotting: Zusätzliche Parameter
+# Demo
 
-Titel definieren:  
-`plt.title('My Title')`
+* Graphische Oberfläche für git:
+  * gitk: Log ansehen
+  * git-gui: Commits erstellen  
+  (Gibt Alternativen, alle mit Vor- und Nachteilen)
+* Kommandezeilentool `git` sehr gebräuchlich
+* Unter Linux normalerweise mitgeliefert, für Win &amp; Mac gibt es Downloads:
+https://git-scm.com/downloads
 
-Text schreiben:  
-`plt.text(4, 3, 'Hier ist ein wichtiger Punkt')`  
+### Schritte
+* Repo lokal anlegen
+* Dateien erzeugen/bearbeiten
+* Staging: Dateien bei git vormerken
+* Commit
+* Log + Diff
+* Diff über Versionen
+* Revert
 
-Annotation:  
-`plt.annotate("Hier", xy=(2.5, 6), xytext=(3.5, 5), arrowprops={'facecolor': 'red'})`
+---
 
-Achsenbeschreibung:  
-`plt.xlabel("X-Achse")`, `plt.ylabel("Y-Achse")`
+# git Hinweise
+
+* Geschichte kann geändert werden
+  * Das verkompliziert das Pushen auf den Server  
+    &rArr; vermeiden (vorerst)
+* Beispiel für Verwendung:  
+  https://github.com/totycro/algorithmics-prog/commit/8990877c084f42ac8e963eb566180ba6afefc400
+
+
+.box.moody[.label[Aufgabe]  
+Verwende gibt bei allen künftigen Aufgaben (z.B. ein Repo für den Kurs gesamt).
+
+Erweiterung: Verwende git bei deinen Uniprojekten, vor allem länger dauernde.
+
+]
+&nbsp;
 
 ---
 
 
-# Plotting: Zusätzliche Parameter
+# git: Weiterführende Anleitungen
 
-Legende:  
-`plt.legend(["Kurve 1", "Kurve 2"])`
-
-Wertebereich definieren:  
-`plt.axis([0, 10, 0, 20])`
-
-Flächen zeichen:  
-`plt.fill_between(x=range(len(values1)), y1=values1, y2=values2, alpha=0.3)`
-
-Grafiken speichern statt anzeigen:  
-`plt.savefig("grafik.png")  # anstatt: plt.show()`
-
----
-
-# Histogramme
-
-```
-plt.hist([1,3,2,1,2,4,3,2,3,4,5,1,2,3,2, 2], bins=5)
-```
-
-Weitere interessante Parameter:
-
-`density=True`: Y-Achse ist wird normalisiert, so dass Summe 1 ist.
-
-`cumulative=True`: Kumulatives Diagramm.
-
----
-
-# Säulendiagramm
-
-```
-values = [4.4, 2.2, 3.7]
-positions = list(range(len(values)))
-plt.bar(x=positions, height=values)
-plt.xticks(ticks=positions, labels=('A', 'B', 'C'))
-```
-
-<img alt="pyplot bar chart" src="img/barchart.png" width="60%"/>
-
----
-
-# Plotting: Weiterführende Links
-
-`help(plt.hist)`
-
-[Offizielle PyPlot Einführung](https://matplotlib.org/3.1.1/tutorials/introductory/pyplot.html#sphx-glr-tutorials-introductory-pyplot-py): Viele weitere Beispiele und Tutorials, aber oft sehr advanced!
-
-https://towardsdatascience.com/matplotlib-tutorial-learn-basics-of-pythons-powerful-plotting-library-b5d1b8f67596
-
-https://www.python-kurs.eu/matplotlib.php
-
-#### Seaborn
-https://seaborn.pydata.org/introduction.html
-
-'If matplotlib "tries to make easy things easy and hard things possible", seaborn tries to make a well-defined set of hard things easy too.'
-
----
-
-# Mit größeren/externen Daten programmieren
-
-### NumPy
-* Grundlage für Scientific Computing / Data Science / Big Data in Python
-  * Sehr beliebt auch für kleinere Auswertungen (overkill)
-* Bietet effiziente Datenstrukturen für (große) numerische Berechnungen  
-* Verhältnismäßig einfache API (Application Programming Interface)
-* Wichtige Erweiterungen (gerne alle gleich installieren):
- * Pandas: Praktische Datenstrukturen und Operationen auf Basis von NumPy
- * Matplotlib: Erzeugt Grafiken
- * SciPy: Weitere nützliche Algorithmen
+https://towardsdatascience.com/getting-started-with-git-and-github-6fcd0f2d4ac6  
+https://www.freecodecamp.org/news/learn-the-basics-of-git-in-under-10-minutes-da548267cc91/  
+https://product.hubspot.com/blog/git-and-github-tutorial-for-beginners  
 
 
 ---
 
-### NumPy
+class: center, middle
 
-* NumPy ist nur für numerische Daten gedacht (Vektoren, Matrizen, Koordinaten, ...)
-* Excel-Dateien können Input und Output sein, aber keine "schönen" Berichte (jedoch schon Grafiken als eigene Bilder).
-
-### openpyxl
-
-* Für menschenlesbare Reports
-* Erlaubt auch das Arbeiten mit Excel-Dateien und bleibt dabei in Excel-Welt
-* Formeln und Diagramme in Excel
-* Formattierungen, Zellen mergen, etc.
-* Bietet keine numerischen Berechnungsfunktionen
+# Automatisches Testen
 
 ---
 
-# Python VS NumPy
 
-* NumPy: eigene Zahlendatentypen (kein `int` oder `float`)
- * Schnellere Berechnungen
- * Begrenzte Wertebereiche ([Übersicht](https://numpy.org/devdocs/reference/arrays.scalars.html))
-* NumPy: eigener Listentyp `ndarray`
- * Kein Hinzufügen oder Löschen von Elementen
- * Dafür effizienteres Speicherlayout, viel schnellere Berechnungen
- * Erlaubt mehrere Dimensionen
- * Anwenden von Operationen elementenweise
-* NumPy: Keine Dictionaries
+# Automatisches Testen
 
+* Während dem Entwickeln test man Code immer wieder  
+&rArr; Warum nicht automatisch ausführen lassen?
+* Zusätzlich zum Code schreibt man auch Testcases, die den eigentlichen Code ausführen
+* Bei Weiterentwicklungen wird alles nochmal getestet, damit nichts kaputt wird
+* Nachteil: Bei Verhaltensänderungen muss der Test auch geändert werden
 
 ---
 
-# NumPy array
+# Test-driven development (TDD)
 
-```
->>> import numpy as np
->>> values = [2.3, 4.2, 1.2, 5.6]
->>> np_values = np.array(values)
->>> np_values
-array([2.3, 4.2, 1.2, 5.6])
->>> type(np_values)
-<c&#8203;lass 'numpy.ndarray'>
->>> np_values * 2
-array([ 4.6,  8.4,  2.4, 11.2])
->>> np_values ** 2
-array([ 5.29, 17.64,  1.44, 31.36])
-```
-Vgl. in normalem Python:
-```
-[x ** 2 for x in values]
-```
-&rArr; Bei numerischen Berechnnungen ist NumPy eleganter, aber auch eingeschränkt.
+* Noch besser: Tests schreiben, bevor man den Code schreibt
+* Hilft im Designprozess: Nachdenken über Verhalten
+* Ablenkung und fehlende Konzentration sind weniger problematisch
+  * Man weiß genau, was schon funktioniert und woran man jetzt arbeiten muss
+* Beim Codeschreiben hat man instant feedback
 
 ---
 
-# NumPy array
+# `pytest`
+
+* Ein verbreitetes und einfach Testtool
+* Tests sind Funktionen, deren Name mit `test_` beginnt
+* Überprüfungen mit `assert()`
 
 ```
->>> np_values.dtype
-dtype('float64')
->>> np_values.shape
-(4,)
->>> np_values.ndim
-1
->>> np_values.tolist()
-[2.3, 4.2, 1.2, 5.6]
-```
+def invert_dictionary(l, ):
+    # dummy implementation to be able to write tests
+    return d
 
-Leider schlechter Stil:
-* `dtype`: unnötige Abkürzung (`datatype`)
-* `ndim`: unnötige Abkürzung (`num_dimensions` oder `dimensions`)
-* `tolist`: Style Guide violation (`to_list`)
+def test_invert_dictionary_handles_empty_dict():
+    assert invert_dictionary({}) == {}
 
----
+def test_invert_dictionary_inverts_single_elements():
+    assert invert_dictionary({1: "a"}) == {"a": [1]}
 
-# NumPy array: Gleich wie Python list
-
-```
->>> np_values
-array([2.3, 4.2, 1.2, 5.6])
->>> len(np_values)
-4
->>> np_values[2]
-1.2
->>> np_values[1:3]
-array([4.2, 1.2])
->>> np_values[1] = 4.8
->>> np_values
-array([2.3, 4.8, 1.2, 5.6])
->>> for index, val in enumerate(np_values):
-    print(index, ":", val)
-0 : 2.3
-1 : 4.8
-2 : 1.2
-3 : 5.6
->>> np_values.sort()
->>> np_values
-array([1.2, 2.3, 4.8, 5.6])
+def test_invert_dictionary_merges_duplicate_values():
+    assert invert_dictionary({1: "a", 2: "a"}) == {"a": [1, 2]}
 ```
 
 ---
 
-# NumPy array: Anders als Python list
+# `pytest`
 
-Kein Hinzufügen/Entfernen zu bestehenden Arrays:
-```
->>> np_values.append(2.4)
-Traceback (most recent call last):
-  File "<pyshell>", line 1, in <module>
-AttributeError: 'numpy.ndarray' object has no attribute 'append'
->>> del np_values[2]
-Traceback (most recent call last):
-  File "<pyshell>", line 1, in <module>
-ValueError: cannot delete array elements
-```
-
-```
-# Aber neue Arrays Erzeugen mit np.append / np.delete:
->>> np_values
-array([2.3, 4.2, 1.2, 5.6])
->>> np.append(np_values, 1)
-array([2.3, 4.2, 1.2, 5.6, 1. ])
->>> np.append(np_values, [2, 3])  # Achtung, anderer Typ!
-array([2.3, 4.2, 1.2, 5.6, 2. , 3. ])
->>> np_values
-array([2.3, 4.2, 1.2, 5.6])
-```
-
----
-
-# NumPy array: Anders als Python list
-
-Eigene, effizientere Operationen:
-```
->>> sum(np_values)
-13.3
->>> np.sum(np_values)
-13.3
-```
+* Ausführen in Thonny über Tools &rarr; Open system shell
+* Dort eingeben: `pytest dateiname.py` und Enter drücken
 
 
-Operationen wirken sich immer auf Elemente aus:
 ```
->>> np.array([1, 2, 3]) + np.array([3, 4, 5])
-array([4, 6, 8])
->>> np.array([1, 2, 3]) + 1  # Achtung, anderer Typ!
-array([2, 3, 4])
+[totycro@unten5 playground]$ pytest invert_dictionary.py 
+===================== test session starts ======================
+collected 3 items                                               
+
+invert_dictionary.py .FF                                  [100%]
+
+=========================== FAILURES ============================
+________ test_invert_dictionary_inverts_single_elements _________
+
+    def test_invert_dictionary_inverts_single_elements():
+>       assert invert_dictionary({1: "a"}) == {"a": [1]}
+E       AssertionError: assert {1: 'a'} == {'a': [1]}
+E         Left contains 1 more item:
+E         {1: 'a'}
+E         Right contains 1 more item:
+E         {'a': [1]}
+E         Use -v to get the full diff
+[...]
 ```
 
 ---
 
-# NumPy array: Mehr als Python list
+# `pytest`
+
+Test möchte, dass bei Input `{1: 'a'}` das Ergebnis `{'a': [1]}` herauskommt.
 
 ```
->>> np_values.mean()
-3.325
->>> np_values.var()
-2.8768749999999996
->>> np_values.std()
-1.6961353129983467
->>> np.percentile(np_values, 20)
-1.8599999999999999
->>> np.percentile(np_values, 10)
-1.53
->>> np.array([1,2,3]).dot(np.array([2, 3, 4]))
-20
-
+def invert_dictionary(d):
+    inverted_d = {}
+    for k, v in d.items():
+        inverted_d[v] = [k]
+    return inverted_d
 ```
 
 ---
 
-# Beispiel: Curve fitting
+# `pytest`
 
-
-TODO: teile erklären
 
 ```
-y = np.array([1, 4, 8, 18, 25])
-x = np.arange(1, len(y) + 1)
+====================== test session starts =======================
+collected 3 items                                                
 
-plt.plot(x, y, 'o')
+invert_dictionary.py ..F                                   [100%]
 
-xp = np.linspace(x[0] - 0.5, x[-1] + 0.5, 100)
+============================ FAILURES ============================
+_________ test_invert_dictionary_merges_duplicate_values _________
 
-for fitting_degree, style in [(1, '.'), (2, "--"), (4, '-')]:
-    polynom = np.poly1d(np.polyfit(x=x, y=y, deg=fitting_degree))
-    plt.plot(xp, polynom(xp), style)
+    def test_invert_dictionary_merges_duplicate_values():
+>       assert invert_dictionary({1: "a", 2: "a"}) == {"a": [1, 2]}
+E       AssertionError: assert {'a': [2]} == {'a': [1, 2]}
+E         Differing items:
+E         {'a': [2]} != {'a': [1, 2]}
+E         Use -v to get the full diff
 
-plt.show()
+invert_dictionary.py:11: AssertionError
+================== 1 failed, 2 passed in 0.03s ===================
 ```
-
 
 ---
 
-https://numpy.org/devdocs/user/quickstart.html
+# `pytest`
 
-sehr gute einführung:
-https://www.python-kurs.eu/numpy_arrays_erzeugen.php
+Jetzt brauchen wir nur noch das Mergen bei `{1: "a", 2: "a"}`
 
-A as ndarray
-
-A[[1,0]]
-A[(1,0)]
-A[1,0]
-A[1]
-
-
-A.tolist()
-
-A.sum(axis=0 OR 1)
-
-# axis gibt's öfter bei diesen funktionen:
-
-np.linspace(start=1, stop=5, num=21) < 3
-
-np.percentile(heights, 25))
-
-np.median(heights)
-
-np.var()
-np.std()
-np.max()
-
-np.append()
-
-https://jakevdp.github.io/PythonDataScienceHandbook/index.html
-
-A.argmax() to mark index in chart
-
-operationen auf ndarray distribuieren, z.b. A < 3
-
-numpy nur eher kurz machen, dann mehr auf pandas
--> numpy als speziell für numerische sachen, eher advanced
-
-np: optimierte "listen" ("ndarrays"), mit fixer länge und fixem datentyp.
--> kein append() für direkte änderungen, np.append gibt neues array zurück
-
-
-working with arrays:
-
-slicing:
-v[0:2, 0:2]
-a[0,:]
-a[:,0]
-https://towardsdatascience.com/hitchhiker-tips-on-effectively-using-python-numpy-arrays-66649b7bd5fb
-
-
-
-
-pandas:
-
-https://ourcodingclub.github.io/2018/04/18/pandas-python-intro.html#datastructures
-series als 1-dim
-df als 2-dim: tabelle (mehrere series)
--> bsp von schottischen hügeln
-df['Height']
-df['Height'][3]
-
-
-# loc, iloc, []:
-https://medium.com/dunder-data/selecting-subsets-of-data-in-pandas-6fcd0170be9c
-
-dataframe.Height > 1300
-dataframe[dataframe.Height > 1300]
-
-
-df[ [True, True, False, False, False] ]
-
-dataframe['Region'] = ['Grampian', 'Cairngorm', 'Cairngorm', 'Cairngorm', 'Cairngorm']
-
-
-plt.scatter
-
-pandas plot: https://ourcodingclub.github.io/2018/04/18/pandas-python-intro.html#datastructures
-df.plot(x='Tree', y=['Growth', 'Thickness'], kind='bar')
- df.plot(y=['Growth'], x=['Thickness'], kind='scatter')
-
-pandas: corr
+```
+    inverted_d = {}
+    for key, value in d.items():
+        if value not in d:
+            d[value] = []
+        d[value].append(key)
+    return inverted_d
+```
+```
+    inverted_d = {}
+    for key, value in d.items():
+        inverted_d[value] = d.get(value, []).append(key)
+    return inverted_d
+```
+```
+    inverted_d = {}
+    for key, value in d.items():
+        inverted_d.setdefault(value , []).append(key)
+    return inverted_d
+```
 
 ---
 
-sns.lmplot(x="tip", y="total_bill", data=tips)
+# `pytest`
 
+```
+[totycro@unten5 playground]$ pytest invert_dictionary.py 
+====================== test session starts =======================
+collected 3 items                                                
 
+invert_dictionary.py ...                                   [100%]
 
+======================= 3 passed in 0.02s ========================
+```
+
+<img src="img/tests-passed.jpeg" width="75%"/>
+
+---
+
+# Testing Hinweise
+
+* Jeder Test sollte möglichst kurz sein und möglichst nur einen Aspekt abdecken
+* Testdaten können je nach Anwendung schwer zu generieren sein  
+  &rArr; Datengenerierung von Tests trennen
+* Wartbarkeit auch von Tests ist essentiell
 
 
     </textarea>

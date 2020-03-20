@@ -104,7 +104,7 @@ class: center, middle
 
 # Python Kurs 2019/2020
 
-# 5: Dictionaries
+# 7: Berechnungen, Grafiken, Daten
 
 ### Bernhard Mallinger
 
@@ -114,395 +114,453 @@ https://totycro.github.io/python-kurs
 
 ---
 
-# Dictionaries
+# Exkurs: Paketmanagement
 
-* Dictionaries ordnen Werte andere Werte zu (Key-Value)
-* Z.B. Wörterbuch, Telefonbuch:
+* "batteries included"
+* Offizieller Paketmanager: `pip`
+* Paketmanager für Wissenschaft: `conda`
+* Isolierte Umgebung für Software
+  * Offiziell: `venv`
+  * Verbreitet in Wissenschaft: `conda` environments
+  * Inoffiziell: `virtualenv`, `pyenv`, `pipenv`
+
+
+
+---
+
+# TODO
+
+TODO:  
+https://www.tutorialspoint.com/numpy/index.htm  
+http://cs231n.github.io/python-numpy-tutorial/  
+https://jakevdp.github.io/PythonDataScienceHandbook/index.html  
+http://queirozf.com/entries/pandas-dataframe-plot-examples-with-matplotlib-pyplot  
+https://www.python-kurs.eu/pandas.php  
+https://numpy.org/devdocs/user/quickstart.html  
+
+
+
+
+
+---
+
+# Plotting
+
+* Teil des Scientific Python Universums für Grafiken
+* z.B. über Thonny installieren
+* "Matplotlib tries to make easy things easy and hard things possible."
+```
+import matplotlib.pyplot as plt
+plt.plot([2.3, 4.2, 1.2, 5.6])
+plt.show()
+```
+
+<img alt="pyplot plot" src="img/plot1.png" width="45%"/>
+
+---
+
+# Plotting
+
+* Hier: pyplot function interface von matplotlib
+* Erlaubt `fmt` (format) (Beschreibung [hier unter "Notes"](https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.plot.html))
 
 ```
-dictionary = {
-    "language": "Sprache",
-    "value": "Wert",
-}
-print(dictionary["value"])
+plt.plot([2.3, 4.2, 1.2, 5.6], "^:")
+plt.plot([1.7, 1.2, -0.4], "ob")
 ```
-Output:
+
+<img alt="pyplot plot" src="img/plot2.png" width="60%"/>
+
+---
+
+# Plotting
+
+* X-Werte können auch explizit angegeben werden
+* Achtung: Keyword-Arguments kaputt, es wird "geraten", was `x`, `y` und `fmt` ist
 ```
-Wert
+plt.plot([10, 20, 30, 40], [2.3, 4.2, 1.2, 5.6], "D:m")
+```
+
+<img alt="pyplot plot" src="img/plot3.png" width="54%"/>
+
+---
+
+# Plotting: Zusätzliche Parameter
+
+Titel definieren:  
+`plt.title('My Title')`
+
+Text schreiben:  
+`plt.text(4, 3, 'Hier ist ein wichtiger Punkt')`  
+
+Annotation:  
+`plt.annotate("Hier", xy=(2.5, 6), xytext=(3.5, 5), arrowprops={'facecolor': 'red'})`
+
+Achsenbeschreibung:  
+`plt.xlabel("X-Achse")`, `plt.ylabel("Y-Achse")`
+
+---
+
+
+# Plotting: Zusätzliche Parameter
+
+Legende:  
+`plt.legend(["Kurve 1", "Kurve 2"])`
+
+Wertebereich definieren:  
+`plt.axis([0, 10, 0, 20])`
+
+Flächen zeichen:  
+`plt.fill_between(x=range(len(values1)), y1=values1, y2=values2, alpha=0.3)`
+
+Grafiken speichern statt anzeigen:  
+`plt.savefig("grafik.png")  # anstatt: plt.show()`
+
+---
+
+# Histogramme
+
+```
+plt.hist([1,3,2,1,2,4,3,2,3,4,5,1,2,3,2, 2], bins=5)
+```
+
+Weitere interessante Parameter:
+
+`density=True`: Y-Achse ist wird normalisiert, so dass Summe 1 ist.
+
+`cumulative=True`: Kumulatives Diagramm.
+
+---
+
+# Säulendiagramm
+
+```
+values = [4.4, 2.2, 3.7]
+positions = list(range(len(values)))
+plt.bar(x=positions, height=values)
+plt.xticks(ticks=positions, labels=('A', 'B', 'C'))
+```
+
+<img alt="pyplot bar chart" src="img/barchart.png" width="60%"/>
+
+---
+
+# Plotting: Weiterführende Links
+
+`help(plt.hist)`
+
+[Offizielle PyPlot Einführung](https://matplotlib.org/3.1.1/tutorials/introductory/pyplot.html#sphx-glr-tutorials-introductory-pyplot-py): Viele weitere Beispiele und Tutorials, aber oft sehr advanced!
+
+https://towardsdatascience.com/matplotlib-tutorial-learn-basics-of-pythons-powerful-plotting-library-b5d1b8f67596
+
+https://www.python-kurs.eu/matplotlib.php
+
+#### Seaborn
+https://seaborn.pydata.org/introduction.html
+
+'If matplotlib "tries to make easy things easy and hard things possible", seaborn tries to make a well-defined set of hard things easy too.'
+
+---
+
+# Mit größeren/externen Daten programmieren
+
+### NumPy
+* Grundlage für Scientific Computing / Data Science / Big Data in Python
+  * Sehr beliebt auch für kleinere Auswertungen (overkill)
+* Bietet effiziente Datenstrukturen für (große) numerische Berechnungen  
+* Verhältnismäßig einfache API (Application Programming Interface)
+* Wichtige Erweiterungen (gerne alle gleich installieren):
+ * Pandas: Praktische Datenstrukturen und Operationen auf Basis von NumPy
+ * Matplotlib: Erzeugt Grafiken
+ * SciPy: Weitere nützliche Algorithmen
+
+
+---
+
+### NumPy
+
+* NumPy ist nur für numerische Daten gedacht (Vektoren, Matrizen, Koordinaten, ...)
+* Excel-Dateien können Input und Output sein, aber keine "schönen" Berichte (jedoch schon Grafiken als eigene Bilder).
+
+### openpyxl
+
+* Für menschenlesbare Reports
+* Erlaubt auch das Arbeiten mit Excel-Dateien und bleibt dabei in Excel-Welt
+* Formeln und Diagramme in Excel
+* Formattierungen, Zellen mergen, etc.
+* Bietet keine numerischen Berechnungsfunktionen
+
+---
+
+# Python VS NumPy
+
+* NumPy: eigene Zahlendatentypen (kein `int` oder `float`)
+ * Schnellere Berechnungen
+ * Begrenzte Wertebereiche ([Übersicht](https://numpy.org/devdocs/reference/arrays.scalars.html))
+* NumPy: eigener Listentyp `ndarray`
+ * Kein Hinzufügen oder Löschen von Elementen
+ * Dafür effizienteres Speicherlayout, viel schnellere Berechnungen
+ * Erlaubt mehrere Dimensionen
+ * Anwenden von Operationen elementenweise
+* NumPy: Keine Dictionaries
+
+
+---
+
+# NumPy array
+
+```
+>>> import numpy as np
+>>> values = [2.3, 4.2, 1.2, 5.6]
+>>> np_values = np.array(values)
+>>> np_values
+array([2.3, 4.2, 1.2, 5.6])
+>>> type(np_values)
+<c&#8203;lass 'numpy.ndarray'>
+>>> np_values * 2
+array([ 4.6,  8.4,  2.4, 11.2])
+>>> np_values ** 2
+array([ 5.29, 17.64,  1.44, 31.36])
+```
+Vgl. in normalem Python:
+```
+[x ** 2 for x in values]
+```
+&rArr; Bei numerischen Berechnnungen ist NumPy eleganter, aber auch eingeschränkt.
+
+---
+
+# NumPy array
+
+```
+>>> np_values.dtype
+dtype('float64')
+>>> np_values.shape
+(4,)
+>>> np_values.ndim
+1
+>>> np_values.tolist()
+[2.3, 4.2, 1.2, 5.6]
+```
+
+Leider schlechter Stil:
+* `dtype`: unnötige Abkürzung (`datatype`)
+* `ndim`: unnötige Abkürzung (`num_dimensions` oder `dimensions`)
+* `tolist`: Style Guide violation (`to_list`)
+
+---
+
+# NumPy array: Gleich wie Python list
+
+```
+>>> np_values
+array([2.3, 4.2, 1.2, 5.6])
+>>> len(np_values)
+4
+>>> np_values[2]
+1.2
+>>> np_values[1:3]
+array([4.2, 1.2])
+>>> np_values[1] = 4.8
+>>> np_values
+array([2.3, 4.8, 1.2, 5.6])
+>>> for index, val in enumerate(np_values):
+    print(index, ":", val)
+0 : 2.3
+1 : 4.8
+2 : 1.2
+3 : 5.6
+>>> np_values.sort()
+>>> np_values
+array([1.2, 2.3, 4.8, 5.6])
 ```
 
 ---
 
-# Dictionaries
+# NumPy array: Anders als Python list
 
-Key und Value können beliebige Typen haben
+Kein Hinzufügen/Entfernen zu bestehenden Arrays:
 ```
-natural_logarithm_table = {
-    5: 1.6094379124341003,
-    6: 1.791759469228055,
-    7: 1.9459101490553132,
-    8: 2.0794415416798357,
-}
-prices = {
-    'apple': 3,
-    'pear': 2,
-}
-course = {
-    "participants": ["Alice", "Bob"],
-    "weekday": "Thursday",
-    "rating": 4,
-}
-```
-
----
-
-# Dictionaries
-
-Keys können aber nur unveränderliche Werte sein:
- * Wenn der Key verändert werden würde, wäre das Dictionary verwirrt
- * z.B. Zahlen, Strings, Tuple gehen
- * Listen oder Dictionaires gehen nicht
-
-```
->>> l = [1, 2]
->>> d = {l: 3}
+>>> np_values.append(2.4)
 Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-TypeError: unhashable type: 'list'
-```
-
-
----
-
-# Einschub: Tuple
-
-* Tuple sind sehr ähnlich wie Listen, können aber nicht verändert werden  
-  &rArr; kein `append()`, kein `remove()`, kein `tup[1] = 'a'`  
-  &rArr; `(0, 1) + (2, )` aber möglich (erzeugt neuen Tuple)
-* Schreibweise: Wie Listen, aber `()` statt `[]`  
-  (Sonderfall Tuple mit 1 Element: `('a', )` statt `(a)`)
-
-```
->>> d = {
-    (0, 1): 3,
-    (3, 1): 2,
-    }
->>> d[ (0, 1) ]
-3
-```
-
----
-
-# Dictionaries: Zugriff
-
-Zugriff mit `[]` gibt Element oder Error:
-```
->>> prices["apple"]
-3
->>> prices["banana"]
+  File "<pyshell>", line 1, in <module>
+AttributeError: 'numpy.ndarray' object has no attribute 'append'
+>>> del np_values[2]
 Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-KeyError: 'banana'
+  File "<pyshell>", line 1, in <module>
+ValueError: cannot delete array elements
 ```
 
-Zugriff mit `get()` erlaubt Angabe von default-Wert:
 ```
->>> prices.get("banana", 0)
-0
-```
-
----
-
-# Dictionaries: Auflisten
-
-Keys:
-```
-for product in prices:
-    print(product)  # apple, pear
-for product in prices.keys():
-    print(product)  # apple, pear
-```
-
-Items:
-```
-for product, price in prices.items():
-    print(product, price)  # apple 3, pear 2
-```
-
-Values:
-```
-for price in prices.values():
-    print(price)  # 3, 2
+# Aber neue Arrays Erzeugen mit np.append / np.delete:
+>>> np_values
+array([2.3, 4.2, 1.2, 5.6])
+>>> np.append(np_values, 1)
+array([2.3, 4.2, 1.2, 5.6, 1. ])
+>>> np.append(np_values, [2, 3])  # Achtung, anderer Typ!
+array([2.3, 4.2, 1.2, 5.6, 2. , 3. ])
+>>> np_values
+array([2.3, 4.2, 1.2, 5.6])
 ```
 
 ---
 
-# Dictionaries: Beispiele
+# NumPy array: Anders als Python list
 
-Nützliche Anwendungen:
-
+Eigene, effizientere Operationen:
 ```
-cheap_products = [
-    product
-    for product, price in prices.items()
-    if price < 3
-]
-
-highest_price = max(prices.values())
-
-number_of_products = len(prices)
-
-# "in" arbeitet mit Keys (vgl. Telefonbuch)
-have_apples = "apple" in prices
-```
-
----
-
-# Teuerstes Produkt: 3 Möglichkeiten
-
-```
-most_expensive_product = [
-     product
-     for product, price in prices.items()
-     if price == highest_price
-][0]
-```
-
-```
-highest_price = 0
-most_expensive_product = ""
-for product, price in prices.items():
-     if price > highest_price:
-         highest_price = price
-         most_expensive_product = product
-```
-
-```
-most_expensive_product = max(
-    (price, product) for product, price in prices.items()
-)[1]
-```
----
-
-# Dictionaries: Verändern
-
-Syntax zum Einfügen/Updaten wie bei Listenindices
-```
->>> prices
-{'apple': 3, 'pear': 2}
->>> prices["banana"] = 5
->>> prices
-{'apple': 3, 'pear': 2, 'banana': 5}
->>> prices["apple"] = 2
->>> prices
-{'apple': 2, 'pear': 2, 'banana': 5}
-```
-
-Löschen auch:
-```
->>> del prices['pear']
->>> prices
-{'apple': 2, 'banana': 5}
-```
-
-Bei neueren Python-Versionen sind die Keys nach der Einfügereihenfolge gereiht.
-
----
-
-# My courses
-
-
-.box.moody[.label[Aufgabe]  
-Erstelle eine Liste von Dictionaries, wobei die Dictionaries deine Lehrveranstaltungen aus diesem Semester beschreiben. Als Keys sollen zumindest `name`, `lecturer` und `grade` enthalten sein. Falls du noch keine Note bekommen hast, lass das `grade`-Feld aus.
-
-Schreibe dann Code, der jeweils folgendes berechnet:
-
-1. Alphabetisch sortierte Liste der Namen der Kurse
-1. Liste der Namen der Lehrenden (ohne Duplikate)
-1. Namen der Kurse, die noch keine Note haben
-1. Namen der Kurse mit der Note 1, 2 oder 3
-1. Füge einen neuen Kurs hinzu
-1. Trag eine Note für einen bestehenden Kurs ein
-
-]
-&nbsp;
-
-
----
-
-# Dictionary comprehensions
-
-Wie list comprehensions, aber mit `{}` statt `[]` und `key: value` statt nur Werten
-```
->>> {product: price * 2 for product, price in prices.items()}
-{'apple': 6, 'pear': 4, 'banana': 10}
->>> {
-        product + " (new formula)": price
-        for product, price in prices.items()
-        if product != 'banana'
-    }
-{
-    'apple (new formula)': 3,
-    'pear (new formula)': 2,
-}
-
+>>> sum(np_values)
+13.3
+>>> np.sum(np_values)
+13.3
 ```
 
 
-
----
-
-# Dictionaries: `setdefault`
-
-Nützliche, aber schlecht benannte Operation  
-`d.setdefault(key, default)` ist äquivalent zu:
+Operationen wirken sich immer auf Elemente aus:
 ```
-if key not in d:
-    d[key] = default
-return d[key]
-```
-
-```
-course = {"title": "Holzverarbeitung 1"}
-[...]
-rating = course.setdefault("rating", 3)
-# course enthält jetzt "rating" mit dem Wert 3
-print("Bewertung:", rating)
-```
-
-```
-course.setdefault("participants", []).append("Alex")
-```
----
-
-# Einschub: Imports
-
-2 wesentliche Möglichkeiten:
-
-```
-import collections
-collections.Counter()
-```
-```
-from collections import Counter
-Counter()
-```
-
-Man kann auch alle Namen eines Moduls importieren, das ist aber oft verwirrdend:
-```
-from math import *
-from collections import *
-from datetime import *
-
-# jeder Name hier könnte von jedem Modul kommen
+>>> np.array([1, 2, 3]) + np.array([3, 4, 5])
+array([4, 6, 8])
+>>> np.array([1, 2, 3]) + 1  # Achtung, anderer Typ!
+array([2, 3, 4])
 ```
 
 ---
 
-# Pretty Printing
-
-`pprint`-Funktion aus dem `pprint`-Modul macht verschachtelte Strukturen schöner
+# NumPy array: Mehr als Python list
 
 ```
->>> wastewater_measurement
-{'ph': {'2014-01-01': 5.5, '2014-04-01': 5.629, '2014-06-01': 5.31,
-'2014-09-01': 5.88}, 'toxic': False, 'site': ['Street 12',
-'A-1000 Vienna'], 'due_for_inspection': True}
->>> from pprint import pprint
->>> pprint(wastewater_measurement)
-{'due_for_inspection': True,
- 'ph': {'2014-01-01': 5.5,
-        '2014-04-01': 5.629,
-        '2014-06-01': 5.31,
-        '2014-09-01': 5.88},
- 'site': ['Street 12', 'A-1000 Vienna'],
- 'toxic': False}
+>>> np_values.mean()
+3.325
+>>> np_values.var()
+2.8768749999999996
+>>> np_values.std()
+1.6961353129983467
+>>> np.percentile(np_values, 20)
+1.8599999999999999
+>>> np.percentile(np_values, 10)
+1.53
+>>> np.array([1,2,3]).dot(np.array([2, 3, 4]))
+20
+
 ```
 
+---
+
+# Beispiel: Curve fitting
+
+
+TODO: teile erklären
+
+```
+y = np.array([1, 4, 8, 18, 25])
+x = np.arange(1, len(y) + 1)
+
+plt.plot(x, y, 'o')
+
+xp = np.linspace(x[0] - 0.5, x[-1] + 0.5, 100)
+
+for fitting_degree, style in [(1, '.'), (2, "--"), (4, '-')]:
+    polynom = np.poly1d(np.polyfit(x=x, y=y, deg=fitting_degree))
+    plt.plot(xp, polynom(xp), style)
+
+plt.show()
+```
 
 
 ---
 
+https://numpy.org/devdocs/user/quickstart.html
 
-# Vorkommnisse zählen
+sehr gute einführung:
+https://www.python-kurs.eu/numpy_arrays_erzeugen.php
 
-.box.moody[.label[Aufgabe]  
-Schreibe eine Funktion, welche die Vorkommnisse von Elementen in einem Iterable zählt:
-```
->>> count_occurrences([1, 3, 2, 1, 2, 2])
-{1: 2, 3: 1, 2: 3}
->>> count_occurrences("access")
-{'a': 1, 'c': 2, 'e': 1, 's': 2}
-```
-<br/>
+A as ndarray
 
-* Die Aufgabe ist mit normalen Dictionaryoperationen gut lösbar
-* Die weiterführende Datenstruktur `defaultdict` aus `collections` kann helfen.
-* `Counter` aus `collections` löst diese Aufgabe auch. Verwende `Counter` in produktivem Code!
-]
-&nbsp;
+A[[1,0]]
+A[(1,0)]
+A[1,0]
+A[1]
+
+
+A.tolist()
+
+A.sum(axis=0 OR 1)
+
+# axis gibt's öfter bei diesen funktionen:
+
+np.linspace(start=1, stop=5, num=21) < 3
+
+np.percentile(heights, 25))
+
+np.median(heights)
+
+np.var()
+np.std()
+np.max()
+
+np.append()
+
+https://jakevdp.github.io/PythonDataScienceHandbook/index.html
+
+A.argmax() to mark index in chart
+
+operationen auf ndarray distribuieren, z.b. A < 3
+
+numpy nur eher kurz machen, dann mehr auf pandas
+-> numpy als speziell für numerische sachen, eher advanced
+
+np: optimierte "listen" ("ndarrays"), mit fixer länge und fixem datentyp.
+-> kein append() für direkte änderungen, np.append gibt neues array zurück
+
+
+working with arrays:
+
+slicing:
+v[0:2, 0:2]
+a[0,:]
+a[:,0]
+https://towardsdatascience.com/hitchhiker-tips-on-effectively-using-python-numpy-arrays-66649b7bd5fb
+
+
+
+
+pandas:
+
+https://ourcodingclub.github.io/2018/04/18/pandas-python-intro.html#datastructures
+series als 1-dim
+df als 2-dim: tabelle (mehrere series)
+-> bsp von schottischen hügeln
+df['Height']
+df['Height'][3]
+
+
+# loc, iloc, []:
+https://medium.com/dunder-data/selecting-subsets-of-data-in-pandas-6fcd0170be9c
+
+dataframe.Height > 1300
+dataframe[dataframe.Height > 1300]
+
+
+df[ [True, True, False, False, False] ]
+
+dataframe['Region'] = ['Grampian', 'Cairngorm', 'Cairngorm', 'Cairngorm', 'Cairngorm']
+
+
+plt.scatter
+
+pandas plot: https://ourcodingclub.github.io/2018/04/18/pandas-python-intro.html#datastructures
+df.plot(x='Tree', y=['Growth', 'Thickness'], kind='bar')
+ df.plot(y=['Growth'], x=['Thickness'], kind='scatter')
+
+pandas: corr
 
 ---
 
-# Vorkommnisse zählen 2
-
-.box.moody[.label[Aufgabe]  
-Schreibe eine Funktion, die die Verteilung der Anzahl der KursteilnehmerInnen beschreibt.
-
-Verwende z.B. die Gruppen "0 bis 4 TeilnehmerInnen", "5 bis 10 TeilnehmerInnen", "darüber".
-
-```
->>> courses = [
-    {'title': 'Holz 1', participants: ["Noah", "Max", "Anna", "Sara", "Emma"]},
-    {'title': 'Python', participants: ["Laura", "Leon"]},
-    {'title': 'R', participants: ["Mia"]},
-]
->>> participant_counts(courses)
-{"0-4": 2, "5-10": 1, "10-": 0}
-```
+sns.lmplot(x="tip", y="total_bill", data=tips)
 
 
-]
-&nbsp;
 
----
 
-# Dictionary umkehren
-
-.box.moody[.label[Aufgabe]  
-Schreibe eine Funktion, die ein umgekehrtes Dictionary zurückgibt. Wenn der Input ein z.B. Telefonbuch ist (Name -> Nummer), soll der Output ein Mapping von Nummer auf Name sein.
-
-Achtung: Keys können den gleichen Value haben. Deswegen muss der Value-Typ beim Ergebnis eine Liste mit allen entsprechenden Keys des ursprünglichen Dictionaries sein.
-```
->>> invert_dictionary({
-"Leon": "555-1234",
-"Emilia": "555-1234",
-"Max": "555-789",
-})
-{"555-1234": ["Emilia", "Leon"], "555-789": ["Max"]})
-```
-
-]
-&nbsp
-
----
-
-# Kassensystem (Bonus)
-
-&rArr; In der Einheit lösen oder als Hausübung?
-
-.box.moody[.label[Aufgabe]  
-Wir haben eine Preistabelle (Dictionary) für die Produkte und eine Liste von jä-Kunden. Diese Kunden erhalten 20% Rabatt.
-
-Als Lockangebote gibt es auch ein paar Produkte, die gratis sind.
-
-Wenn ein Kunde zur Kassa kommt, erhalten wir von unserem biometrischen Erkennungssystem den Namen des Kunden und vom automatischen Scanner eine Liste der Produkte.
-
-Berechne die Summe, die der Kunde bezahlen muss.
-
-Hinweis: Verwende einfach Strings um die Kundennamen und Produkte zu modellieren.
-]
-&nbsp;
 
     </textarea>
     <script type="text/javascript">

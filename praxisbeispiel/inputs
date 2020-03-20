@@ -9,6 +9,21 @@
 
 
 
+# r ** 2
+a, b = [1,2,3,4,5,6,], [3,3,3,4,4,4]
+np.corrcoef([1,2,3,4,5,6,], [3,3,3,4,4,4])[0][1] ** 2
+slope, intercept, rvalue, pvalue, stderr = scipy.stats.linregress(a, b)
+pearson_r, pearson_p = scipy.stats.pearsonr(a, b)
+plt.scatter()
+vllt sowas in die richtung zeigen als vollstäñdiges beispiel: from mlxtend.plotting import plot_linear_regression
+
+# achtung: gibt auch R2, was das ist: sklearn.metrics.r2_score
+# r2 https://en.wikipedia.org/wiki/Pearson_correlation_coefficient<Paste>
+# R2 https://en.wikipedia.org/wiki/Coefficient_of_determination
+# https://stackoverflow.com/questions/36153569/sklearn-r2-score-and-python-stats-lineregress-function-give-very-different-value
+
+
+# bisschen overkill: https://towardsdatascience.com/linear-regression-using-python-b136c91bf0a2
 
 
 # Datenaufbereitung
