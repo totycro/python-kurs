@@ -3,6 +3,7 @@
 * statistik, mean, etc.
 * punktdiagramm (2 variablen)
 * r ** 2
+* pandas.dataframe.corr: df['a'].corr(df['b']) ** 2
 
 * linopt
 

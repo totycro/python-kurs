@@ -255,7 +255,7 @@ plt.xticks(ticks=positions, labels=('A', 'B', 'C'))
 
 # Säulendiagram: Von COVID-19 betroffene Länder
 
-```python
+```
 from urllib.request import urlopen, Request
 import json
 import matplotlib.pyplot as plt
@@ -487,7 +487,7 @@ array([2, 3, 4])
 # Beispiel: Curve fitting
 
 
-TODO: teile erklären
+<!-- TODO: teile erklären -->
 
 ```
 y = np.array([1, 4, 8, 18, 25])
@@ -504,9 +504,156 @@ for fitting_degree, style in [(1, '.'), (2, "--"), (4, '-')]:
 plt.show()
 ```
 
+---
+
+# Pandas
+
+* Paket für tabellarische Daten (vgl. Excel)
+* Bequemes Handling von Spalten und Indices
+* Basiert auf `numpy`
+* Ähnlichkeiten zu data frame in R
+
+```
+# Konvention:
+import pandas as pd
+```
+
 
 ---
 
+# Series
+
+* Grunddatentyp von Pandas
+* Kombiniert ein normales `numpy`-Array mit einem Index
+
+```
+>>> thickness = pd.Series([4.3, 1.2, 2.2, 9.1])
+>>> thickness
+0    4.3
+1    1.2
+2    2.2
+3    9.1
+dtype: float64
+>>> thickness.values
+array([4.3, 1.2, 2.2, 9.1])
+>>> type(thickness.values)
+<c&#8203;lass 'numpy.ndarray'>
+>>> thickness.index
+RangeIndex(start=0, stop=4, step=1)
+>>> thickness.mean()  # wie numpy array
+4.2
+>>> thickness[2]  # wie numpy array
+2.2
+```
+
+
+---
+
+# Series
+
+* Versteht aber sinnvolle Indexwerte
+* Berücksichtigt diese bei Berechnungen
+
+```
+>>> machines = ["Maschine A", "Maschine K", "Maschine L"]
+>>> thickness = pd.Series([4.3, 1.2, 2.2]) index=machines)
+>>> thickness
+Maschine A    4.3
+Maschine K    1.2
+Maschine L    2.2
+>>> thickness.index
+Index(['Maschine A', 'Maschine K', 'Maschine L'], dtype='object')
+>>> speed = pd.Series([100, 50, 80], index=machines)
+>>> speed
+Maschine A    100
+Maschine K     50
+Maschine L     80
+>>> speed * thickness  # Multiplikation gleicher Zeilen!
+Maschine A    430.0
+Maschine K     60.0
+Maschine L    176.0
+```
+
+---
+
+# Series
+
+Versteht auch Zugriffe über Index:
+
+```
+>>> thickness["Maschine K"]
+1.2
+>>> thickness[1]
+1.2
+>>> thickness["Maschine X"] = 5.0
+>>> thickness
+Maschine A      4.3
+Maschine K      1.2
+Maschine L      2.2
+Maschine X      5.0
+```
+
+Viele Werte Indexzugriffsmöglichkeiten (Filterungen, mehrere Zeilen aussuchen)...
+
+---
+
+# Series
+
+Ähnlichkeiten zu Dictionaries:
+
+```
+>>> series = pd.Series({'a': 5, 'b': 2, 'c': 4})
+>>> series['a']
+5
+>>> series['d'] = 9
+>>> series
+a    5
+b    2
+c    4
+d    9
+dtype: int64
+```
+
+---
+
+# DataFrame
+
+Mehrere Spalten (`Series`) zusammen ergeben eine Tabelle `DataFrame`
+
+```
+>>> machines_frame = pd.concat(
+    {'speed': speed, 'thickness': thickness},
+    axis='columns',
+)
+>>> machines_frame
+            speed  thickness
+Maschine A    100        4.3
+Maschine K     50        1.2
+Maschine L     80        2.2
+>>> type(machines_frame)
+<c&#8203;lass 'pandas.core.frame.DataFrame'>
+>>> machines_frame['speed']
+Maschine A    100
+Maschine K     50
+Maschine L     80
+Name: speed, dtype: int64
+>>> machines_frame['speed']['Maschine K']
+50
+```
+
+---
+
+# DataFrame
+
+```
+>>> machines_frame['speed'].corr(machines_frame['thickness'])
+0.9501651394030409
+>>> machines_frame['speed'].corr(machines_frame['thickness']) ** 2
+0.9028137921368002
+```
+
+
+---
 https://numpy.org/devdocs/user/quickstart.html
 
 sehr gute einführung:
@@ -592,9 +739,16 @@ df.plot(x='Tree', y=['Growth', 'Thickness'], kind='bar')
 
 pandas: corr
 
+
+nan wenn werte fehlen
+umgang damit: series.isnull() / notnull()
+python None -> pandas NaN  # https://www.python-kurs.eu/pandas.php
+series.dropna() / fillna()
+
 ---
 
 sns.lmplot(x="tip", y="total_bill", data=tips)
+-->
 
 
 
