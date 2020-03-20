@@ -484,6 +484,54 @@ array([2, 3, 4])
 
 ---
 
+# NumPy: `arange`, `linspace`
+
+Einfache Hilfskontrukte:
+
+* `arange`: Wie `range`, gibt aber `numpy` Array zurück
+* `linspace`: Auch ähnlich, man kann sich aber aussuchen, wieviele Werte man in dem Interval haben möchte
+
+
+```
+>>> np.arange(5, 10)
+array([5, 6, 7, 8, 9])
+>>> np.linspace(5, 10, num=20)
+array([ 5.        ,  5.26315789,  5.52631579,  5.78947368,  6.05263158,
+        6.31578947,  6.57894737,  6.84210526,  7.10526316,  7.36842105,
+        7.63157895,  7.89473684,  8.15789474,  8.42105263,  8.68421053,
+        8.94736842,  9.21052632,  9.47368421,  9.73684211, 10.        ])
+```
+
+---
+
+# Beispiel: Correlation testing
+
+Berechnung von r<sup>2</sup> mittels `linregress` aus `scipy.stats`
+
+```
+import numpy as np
+import matplotlib.pyplot as plt
+import scipy.stats
+
+# Hier einfache Liste, könnte auch np-Array sein
+ausbeute =   [99.9, 70.4, 79.8, 75.2, 95.5, 79.1, 73.6, 98.3]
+temperatur = [28.2, 28.3, 28.3, 27.1, 31.1, 27.1, 27.1, 30.1]
+
+plt.scatter(ausbeute, temperatur)
+
+x = np.linspace(68, 103)
+slope, intercept, r_value, p_value, std_err = \
+    scipy.stats.linregress(ausbeute, temperatur)
+plt.plot(x, intercept + slope * x)
+print("r-value", r_value)
+print("r-value squared", r_value ** 2)
+
+plt.show()
+```
+
+
+---
+
 # Beispiel: Curve fitting
 
 
@@ -517,6 +565,12 @@ plt.show()
 # Konvention:
 import pandas as pd
 ```
+
+Hilfreiche Links:
+
+
+https://www.python-kurs.eu/pandas.php  
+https://ourcodingclub.github.io/tutorials/pandas-python-intro/  
 
 
 ---
