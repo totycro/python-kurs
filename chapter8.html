@@ -213,7 +213,7 @@ Grafiken speichern statt anzeigen:
 # Histogramme
 
 ```
-plt.hist([1,3,2,1,2,4,3,2,3,4,5,1,2,3,2, 2], bins=5)
+plt.hist([1,3,2,1,2,4,3,2,3,4,5,1,2,3,2,2], bins=5)
 ```
 
 Weitere interessante Parameter:
@@ -221,6 +221,45 @@ Weitere interessante Parameter:
 `density=True`: Y-Achse ist wird normalisiert, so dass Summe 1 ist.
 
 `cumulative=True`: Kumulatives Diagramm.
+
+---
+
+# Streudiagramm
+
+```
+# Daten von Produktionsreihen
+ausbeute = [99.9, 70.4, 79.8, 75.2, 95.5, 79.1, 73.6, 98.3]
+temperatur = [28.2, 28.3, 28.3, 27.1, 31.1, 27.1, 27.1, 30.1]
+
+plt.scatter(x=ausbeute, y=temperatur)
+```
+<img alt="scatter plot" src="img/plot-scatter.png" width="54%"/>
+
+---
+
+# Streudiagramm
+
+Mit Farben, Größen und Achsenbeschriftung:
+
+```
+ausbeute = [99.9, 70.4, 79.8, 75.2, 95.5, 79.1, 73.6, 98.3]
+temperatur = [28.2, 28.3, 28.3, 27.1, 31.1, 27.1, 27.1, 30.1]
+
+def color(value):
+    if value >= 80:
+        return "g"
+    else:
+        return "b"
+
+plt.scatter(
+    x=ausbeute,
+    y=temperatur,
+    c=[color(val) for val in ausbeute],
+    s=[(val - 60) ** 2 for val in ausbeute],
+)
+plt.xlabel("Ausbeute")
+plt.ylabel("Temperatur")
+```
 
 ---
 
