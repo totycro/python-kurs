@@ -86,3 +86,6 @@ plt.hist(d['Temperatur [°C]'], cumulative=True)
 pd.DataFrame({'A': [2,3, 4, 5], 'B':[4,5,6, 6,]}).corr()
 pd.DataFrame({'A': [2,3, 4, 5], 'B':[4,5,6, 1,]}).corr()
 
+
+d[[d['Temperatur [°C]'], d['Ausbeute nach Fehlerkappung [%]']].corr()
+plt.scatter(d['Temperatur [°C]'], d['Ausbeute nach Fehlerkappung [%]'])
