@@ -218,9 +218,9 @@ plt.hist([1,3,2,1,2,4,3,2,3,4,5,1,2,3,2,2], bins=5)
 
 Weitere interessante Parameter:
 
-`density=True`: Y-Achse ist wird normalisiert, so dass Summe 1 ist.
-
-`cumulative=True`: Kumulatives Diagramm.
+* `density=True`: Y-Achse ist wird normalisiert, so dass Summe 1 ist
+* `cumulative=True`: Kumulatives Diagramm
+* `rwidth=0.85`: Breite der Balken (Wert zwischen 0 und 1)
 
 ---
 
@@ -266,10 +266,12 @@ plt.ylabel("Temperatur")
 # Säulendiagramm
 
 ```
-values = [4.4, 2.2, 3.7]
-positions = list(range(len(values)))
-plt.bar(x=positions, height=values)
-plt.xticks(ticks=positions, labels=('A', 'B', 'C'))
+tree_growth = {
+    "Buche": 4.4,
+    "Eiche": 2.2,
+    "Birke": 3.7,
+}
+plt.bar(x=tree_growth.keys(), height=tree_growth.values())
 ```
 
 <img alt="pyplot bar chart" src="img/barchart.png" width="60%"/>
@@ -298,6 +300,18 @@ plt.bar(
     height=[country_data["cases"] for country_data in top10],
 )
 plt.show()
+```
+
+---
+
+# Weitere Diagrammtypen
+
+```
+plt.boxplot([1,3,2,1,2,4,3,2,3,4,5,1,2,3,2,2])
+```
+
+```
+plt.pie([5, 3, 7], labels=["Birke", "Buche", "Eiche"])
 ```
 
 ---
