@@ -287,7 +287,7 @@ import matplotlib.pyplot as plt
 
 def fetch_data():
     return json.loads(urlopen(Request(
-        "https://corona.lmao.ninja/countries",
+        "https://corona.lmao.ninja/countries?sort=cases",
         headers={"User-Agent": "Mozilla/5.0"},
     )).read())
 
