@@ -226,6 +226,19 @@ Leider schlechter Stil:
 
 ---
 
+# NumPy array: Einheitliche Datentypen
+
+```
+>>> [1, 4.3, 'abc']
+[1, 4.3, 'abc']
+>>> np.array([1, 4.3])
+array([1. , 4.3])  # Konvertierung zu float
+>>> np.array([1, 4.3, 'abc'])
+array(['1', '4.3', 'abc'], dtype='<U32')  # Konvertierung zu String
+```
+
+---
+
 # NumPy array: Gleich wie Python list
 
 ```
@@ -354,13 +367,14 @@ import scipy.stats
 # Hier einfache Liste, könnte auch np-Array sein
 ausbeute =   [99.9, 70.4, 79.8, 75.2, 95.5, 79.1, 73.6, 98.3]
 temperatur = [28.2, 28.3, 28.3, 27.1, 31.1, 27.1, 27.1, 30.1]
-
 plt.scatter(ausbeute, temperatur)
 
 x = np.linspace(68, 103)
 slope, intercept, r_value, p_value, std_err = \
     scipy.stats.linregress(ausbeute, temperatur)
-plt.plot(x, intercept + slope * x)
+# Achtung: Berechnung mit vielen Werten auf einmal:
+regression = intercept + slope * x
+plt.plot(x, regression)
 print("r-value", r_value)
 print("r-value squared", r_value ** 2)
 
@@ -374,6 +388,7 @@ plt.show()
 
 linalg lstsq VS solve
 
+matrix einführen,
 
 ---
 
@@ -387,13 +402,29 @@ x = np.arange(1, len(y) + 1)
 
 plt.plot(x, y, 'o')
 
-xp = np.linspace(x[0] - 0.5, x[-1] + 0.5, 100)
+space = np.linspace(x[0] - 0.5, x[-1] + 0.5, 100)
 
 for fitting_degree, style in [(1, '.'), (2, "--"), (4, '-')]:
-    polynom = np.poly1d(np.polyfit(x=x, y=y, deg=fitting_degree))
-    plt.plot(xp, polynom(xp), style)
+    coefficients = np.polyfit(x=x, y=y, deg=fitting_degree)
+    polynom = np.poly1d(coefficients)
+    plt.plot(space, polynom(space), style)
+
+    print("\nPolynom Grad " + str(fitting_degree) + ":")
+    print(polynom)
 
 plt.show()
+```
+
+---
+
+# Beispiel: Curve fitting
+
+Je nach Parameter kann es mehrere Rückgabewerte geben:
+
+```
+>>> coefficients = np.polyfit(x=x, y=y, deg=1)
+>>> coefficients, residuals, rank, singular_values, rcond = \
+        np.polyfit(x=x, y=y, deg=1, full=True)
 ```
 
 ---
