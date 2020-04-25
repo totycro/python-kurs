@@ -234,7 +234,7 @@ Leider schlechter Stil:
 >>> np.array([1, 4.3])
 array([1. , 4.3])  # Konvertierung zu float
 >>> np.array([1, 4.3, 'abc'])
-array(['1', '4.3', 'abc'], dtype='<U32')  # Konvertierung zu String
+array(['1', '4.3', 'abc'], dtype='&lt;U32')  # Konvertierung zu String
 ```
 
 ---
@@ -384,11 +384,80 @@ plt.show()
 
 ---
 
-# Beispiel: Lineare Algebra
+# Beispiel: Gleichungssysteme
 
-linalg lstsq VS solve
+```
+>>> py_matrix = [[1, 2, 3], [4, 5, 6]]
+>>> numpy_matrix = np.array(py_matrix)
+>>> numpy_matrix
+array([[1, 2, 3],
+       [4, 5, 6]])
+>>> numpy_matrix.shape
+(2, 3)
+>>> numpy_matrix.ndim
+2
+>>> len(numpy_matrix)  # nur erste dimension
+2
+```
 
-matrix einführen,
+Fancy indexing nur mit `numpy` array:
+```
+>>> numpy_matrix[(1, 2)]
+6
+>>> numpy_matrix[1, 2]
+6
+>>> numpy_matrix[1, (0, 1)]
+array([4, 5])
+```
+
+---
+
+# Beispiel: Gleichungssystem (exakte Lösung)
+
+Lösbares Gleichungssystem:
+```
+1 * x +  3 * y = -7
+5 * x + -4 * y = 22
+```
+
+Gleichungsystem übersetzen und lösen mit [solve](https://numpy.org/doc/stable/reference/generated/numpy.linalg.solve.html):
+
+```
+from numpy.linalg import solve
+coefficients = [[1, 3], [5, -4]]
+result = [-7, 22]
+print(solve(coefficients, result))
+```
+
+Ausgabe: `[ 2. -3.]`
+
+&rArr; `x = 2`, `y = -3`
+
+---
+
+# Beispiel: Gleichungssystem (näherungsweise)
+
+Überbestimmtes Gleichungssystem:
+```
+1 * x +  3 * y = -7
+5 * x + -4 * y = 22
+2 * x +  2 * y =  1
+```
+
+Berechnen mit [lstsq](https://numpy.org/doc/stable/reference/generated/numpy.linalg.lstsq.html):
+```
+from numpy.linalg import lstsq
+
+coefficients = [[1, 3], [5, -4], [2, 2]]
+result = [-7, 22, 1]
+x, residuals, rank, s = lstsq(coefficients, result, rcond=None)
+```
+
+Ergebnis:  
+`x`: `[ 2.35948645 -2.63195435]`  
+`residuals`: `[4.63480742]`
+
+
 
 ---
 
@@ -431,18 +500,28 @@ Je nach Parameter kann es mehrere Rückgabewerte geben:
 
 # NumPy: Weiterführende Links
 
+Einfache Einführung:  
 https://www.python-kurs.eu/numpy.php
 
 Offizielle Dokumentation:  
 https://numpy.org/doc/1.18/user/quickstart.html
 
-Komplettes Buch über Python Data Science:  
-https://jakevdp.github.io/PythonDataScienceHandbook/index.html
+2 komplette Bücher über Python Data Science mit vielen weiterführenden Themen:  
+https://jakevdp.github.io/PythonDataScienceHandbook/index.html  
+https://scipy-lectures.org/
 
 ---
 
 # NumPy: Übungen
 
+.box.moody[.label[Aufgabe]  
+Rechne die Beispiele auf den letzen Folien mit geänderten Zahlen nach.
+Schau in der Dokumentation nach, wie die man die Funktionen aufrufen kann!
+]&nbsp;
+
+.box.moody[.label[Aufgabe]  
+Such in der Dokumentation oder den eBooks auf der letzen Folie weitere Funktionen, die für dich interessant sein können und versuche sie anzuwenden
+]&nbsp;
 Übungen aus verschiedenen Bereichen:  
 https://www.w3resource.com/python-exercises/numpy/index.php
 
@@ -618,7 +697,7 @@ Wichtige Parameter:
 
 TODO:
 
-fancy indexing
+fancy indexing mit data[ data.y > 25 ] (zuerst erklären, dass boolean vector geht und wie man boolean vector macht)
 
 
 
