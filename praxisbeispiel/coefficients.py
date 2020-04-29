@@ -67,14 +67,31 @@ def calculate_coefficient_1_version_3(layers):
 
 
 def calculate_coefficients_2_to_6(layers):
-    layer = layers[0]
-    layer['Lamellenbreite [mm]']
-    layer['Temperatur [°C]']
-    layer['rel. Luftfeuchtigkeit [%]']
-    layer['Leimfaktor']
-    layer['Hobelmaß Lamellenhobel Breitseite [mm]']
-    layer['Hobelmaß Keilzinkung Breitseite [mm]']
-    layer['Delaminierung %']
+    # KE2*LA_m1 + KE3*TE_m1 + KE4*RL_m1 + KE5*LF_m1 + KE6*(HLB_m1+HKB_m1) = de_m1
+    coefficients = [
+        [
+            layer['Lamellenbreite [mm]'].mean(),
+            layer['Temperatur [°C]'].mean(),
+            layer['rel. Luftfeuchtigkeit [%]'].mean(),
+            layer['Leimfaktor'].mean(),
+            layer['Hobelmaß Lamellenhobel Breitseite [mm]'].mean()
+            + layer['Hobelmaß Keilzinkung Breitseite [mm]'].mean(),
+        ]
+        for layer in layers
+    ]
+    results = [
+        layer['Delaminierung %'].mean()
+        for layer in layers
+    ]
+    x, residuals, a, b = lstsq(coefficients, results, rcond=None)
+
+    from pprint import pprint
+    print("equation for 2-6:")
+    pprint(coefficients)
+    pprint(results)
+    print("Coefficients 2-6 are", x, "with residuals", residuals)
+    
+    return x
 
 
 def load_layers():
@@ -82,25 +99,37 @@ def load_layers():
         pd.read_excel("Produktionsdaten.xlsx", sheet_name=str(sheet_num) + ". Schicht")
         for sheet_num in range(1, 6)
     ]
-    
+
     column_renamings = {'Lamellenbreite - Fertigmaß [mm]': 'Lamellenbreite [mm]'}
+    # NOTE: rename works by copy be default, could also have used in_place=True
     transformed_layers = [
         layer.rename(columns=column_renamings) for layer in layers
     ]
     return transformed_layers
+
+
+def parse_series_to_bool(series):
+    # result as series:
+    result = series == 'x'
+
+    # result as list (can be assigned to dataframe as series)
+    result = [val == x for val in series]
+
+    # result as series:
+    def check_bool(val):
+        return val == 'x'
+
+    result = series.map(check_bool)
     
 
 def main():
     layers = load_layers()
-    
 
-    coefficient_1 = calculate_coefficient_1_version_1(layers=layers)
-    coefficient_1 = calculate_coefficient_1_version_2(layers=layers)
+    #coefficient_1 = calculate_coefficient_1_version_1(layers=layers)
+    #coefficient_1 = calculate_coefficient_1_version_2(layers=layers)
     coefficient_1 = calculate_coefficient_1_version_3(layers=layers)
 
-    calculate_coefficients_2_to_6(layers=layers)
+    coefficients_2_to_6 = calculate_coefficients_2_to_6(layers=layers)
     
-    return layers
-
 
 main()
