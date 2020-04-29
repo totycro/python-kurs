@@ -1,0 +1,149 @@
+
+Ausbeute Auskappung = aa
+Delaminierung = de
+Festigkeit = fe
+Hit & Miss = hm
+offene Leimfugen = ol
+Ausfalläste = au
+seitl. Lamellenversatz = sl
+Ausbeute Hobel = ah
+
+Temperatur = TE
+rel. Luftfeuchte = RL
+Lamellenbreite = LA
+Leimfaktor = LF
+Hobelmaß Lamellenhobel Breitseite = HLB
+Scanparameter 1 = S1
+Scanparameter 2 = S2
+Scanparameter 3 = S3
+Hobelmaß Keilzinke Breitseite = HKB
+Hobelmaß Keilzinke Schmalseite = HKS
+Hobelmaß Binderhobel Breite = HBB
+Hobelmaß Binderhobel Höhe = HBH
+
+Mittelwert Schicht 1 = _m1
+Mittelwert Schicht 2 = _m2
+Mittelwert Schicht 3 = _m3
+Mittelwert Schicht 4 = _m4
+Mittelwert Schicht 5 = _m5
+
+
+Summe Schicht 1 = _s1
+Summe Schicht 2 = _s2
+Summe Schicht 3 = _s3
+Summe Schicht 4 = _s4
+Summe Schicht 5 = _s5
+
+KE = Koeffizient
+
+
+
+
+Ermittlung quantitativen Abhängigkeit der "Ausbeute Auskappung (Fehlerkappung)"
+
+KE1 * (S1_m1 + S2_m1 + S3_m3) = aa_m1
+KE1 * (S1_m2 + S2_m2 + S3_m3) = aa_m2
+KE1 * (S1_m3 + S2_m3 + S3_m3) = aa_m3
+KE1 * (S1_m4 + S2_m4 + S3_m4) = aa_m4
+KE1 * (S1_m5 + S2_m5 + S3_m5) = aa_m5
+
+Ergebnis: aa = f(sum(S1, S2, S3))
+
+
+
+Ermittlung quantitative Abhängigkeit der "Delaminierung"
+
+KE2*LA_m1 + KE3*TE_m1 + KE4*RL_m1 + KE5*LF_m1 + KE6*(HLB_m1+HKB_m1) = de_m1
+KE2*LA_m2 + KE3*TE_m2 + KE4*RL_m2 + KE5*LF_m2 + KE6*(HLB_m2+HKB_m2) = de_m2
+KE2*LA_m3 + KE3*TE_m3 + KE4*RL_m3 + KE5*LF_m3 + KE6*(HLB_m3+HKB_m3) = de_m3
+KE2*LA_m4 + KE3*TE_m4 + KE4*RL_m4 + KE5*LF_m4 + KE6*(HLB_m4+HKB_m4) = de_m4
+KE2*LA_m5 + KE3*TE_m5 + KE4*RL_m5 + KE5*LF_m5 + KE6*(HLB_m5+HKB_m5) = de_m5
+
+Lamellenbreite
+Temperatur
+rel. Luftfeuchte
+Leimfaktor
+Hobelmaß Lamellenhobel Breitseite
+Hobelmaß Keilzinke Breitseite
+Delaminierung 
+
+
+Ergebnis: de = f(LA, TE, RL, LF, sum(HLB, HKB))
+
+
+
+
+
+
+Ermittlung quantitative Abhängigkeit der "Festigkeit"
+
+KE7*S1_m1 + KE8*S2_m1 + KE9*S3_m1 = fe_m1
+KE7*S1_m2 + KE8*S2_m2 + KE9*S3_m2 = fe_m2
+KE7*S1_m3 + KE8*S2_m3 + KE9*S3_m3 = fe_m3
+KE7*S1_m4 + KE8*S2_m4 + KE9*S3_m4 = fe_m4
+KE7*S1_m5 + KE8*S2_m5 + KE9*S3_m5 = fe_m5
+
+Ergebnis: fe = f(S1, S2, S3)
+
+
+
+
+
+Ermittlung quantitative Abhängigkeit von "Hit & Miss"
+
+KE10*LA_m1 + KE11*(HLB_m1+HBH_m1+HKB_m1) = hm_s1
+KE10*LA_m2 + KE11*(HLB_m2+HBH_m2+HKB_m2) = hm_s2
+KE10*LA_m3 + KE11*(HLB_m3+HBH_m3+HKB_m3) = hm_s3
+KE10*LA_m4 + KE11*(HLB_m4+HBH_m4+HKB_m4) = hm_s4
+KE10*LA_m5 + KE11*(HLB_m5+HBH_m5+HKB_m5) = hm_s5
+
+Ergebnis: hm = f(LA, sum(HLB, HBH, HKB))
+
+
+
+
+
+
+Ermittlung quantitative Abhängigkeit von "Offene Leimfugen"
+
+KE12*(HLB_m1+HKB_m1) = ol_s1
+KE12*(HLB_m2+HKB_m2) = ol_s2
+KE12*(HLB_m3+HKB_m3) = ol_s3
+KE12*(HLB_m4+HKB_m4) = ol_s4
+KE12*(HLB_m5+HKB_m5) = ol_s5
+
+Ergebnis: ol = f(sum(HLB, HKB))
+
+
+
+
+
+
+Ermittlung quantitative Abhängigkeit von "Ausfalläste"
+
+KE13*S3_m1 = au_s1
+KE13*S3_m2 = au_s2
+KE13*S3_m3 = au_s3
+KE13*S3_m4 = au_s4
+KE13*S3_m5 = au_s5
+
+Ergebnis: au = f(S3)
+
+
+
+
+
+
+
+Ermittlung quantitative Abhängigkeit von "Seitl. Lamellenversatz"
+
+KE14*(HBB_m1+HKS_m1) = sl_s1
+KE14*(HBB_m2+HKS_m2) = sl_s2
+KE14*(HBB_m3+HKS_m3) = sl_s3
+KE14*(HBB_m4+HKS_m4) = sl_s4
+KE14*(HBB_m5+HKS_m5) = sl_s5
+
+Ergebnis: sl = f(sum(HBB+HKS))
+
+
+
