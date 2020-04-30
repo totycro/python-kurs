@@ -2,10 +2,14 @@
 
 
 ## Plan 2020
- * excel sheet parsen und stats
- * grafiken -> matplotlib, openpyxl in excel
+ * [DONE] excel sheet parsen und stats
+ * [DONE (außer openpyxl] grafiken -> matplotlib, openpyxl in excel
+ * datetime
+ * testing / git
+ * jupyter notebooks + public toilets
  * cron: jeden tag um 9 arbeiten -> schedule https://pypi.org/project/schedule/
  * mails versenden -> smtp
+ * file / path handling
 
 ## Kurs Inhalt
 * Pandas/mypy
