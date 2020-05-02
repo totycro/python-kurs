@@ -701,6 +701,16 @@ Name: speed, dtype: int64
 0.9501651394030409
 >>> machines_frame['speed'].corr(machines_frame['thickness']) ** 2
 0.9028137921368002
+>>> machines_frame.describe()
+            speed  thickness
+count    3.000000   3.000000
+mean    76.666667   2.566667
+std     25.166115   1.582193
+min     50.000000   1.200000
+25%     65.000000   1.700000
+50%     80.000000   2.200000
+75%     90.000000   3.250000
+max    100.000000   4.300000
 ```
 
 ---
@@ -733,7 +743,7 @@ L     80  70000
 
 ---
 
-# Pandas: Filtern
+# Pandas: Daten auswählen
 
 `.loc[value]` liefert einen Eintrag
 
@@ -756,17 +766,43 @@ K     50   5000
 
 ---
 
-# Pandas: Indizierungen
+# Pandas: Indizierung
 ```
->>> df.loc['A']['price']
-10000.0
 >>> df.loc['A', 'price']
 10000
 >>> df['price']['A']
 10000
 >>> df.at["A", "price"]
 10000
+>>> df.loc['A']['price']
+10000.0  # Achtung: Konvertierung zu Series
+         #          -> Einheitlicher Datentyp (float)
 ```
+
+`iloc` ähnlich zu `loc`, verwendet aber Zahl, nicht Name (integer location)
+
+Ausführliche Einführung zu Indexing:  
+https://medium.com/dunder-data/selecting-subsets-of-data-in-pandas-6fcd0170be9c
+
+---
+
+# Pandas: Daten filtern
+
+```
+>>> df
+   speed  thickness
+A    100        4.3
+K     50        1.2
+L     80        2.2
+>>> df.speed > 60  # 
+A     True
+K    False
+L     True
+Name: speed, dtype: bool
+```
+
+# TODO: index here
+
 
 ---
 
@@ -795,26 +831,29 @@ Temperatur [°C]
 
 ---
 
-# Pandas: Daten filtern
+# Beispiel: `groupby`
 
+Flexiblere Aggregation mit `agg`
 ```
->>> df
-   speed  thickness
-A    100        4.3
-K     50        1.2
-L     80        2.2
->>> df.speed > 60
-A     True
-K    False
-L     True
-Name: speed, dtype: bool
+>>> sheet1.groupby("Temperatur [°C]").agg({
+    "Ausbeute nach Fehlerkappung [%]": "mean",
+    "rel. Luftfeuchtigkeit [%]": "max",
+})
+                       Ausbeute [%]  rel. Luftfeuchtigkeit [%]
+Temperatur [°C]                                               
+19.1                      84.649298                         74
+19.2                      84.147770                         74
+19.3                      86.941728                         72
+19.4                      83.435700                         68
+19.5                      82.776405                         67
+19.6                      86.639405                         67
+19.7                      84.452549                         64
+19.8                      83.610708                         63
+19.9                      83.722360                         63
+20.0                      84.518087                         63
+20.1                      87.451870                         61
+20.2                      83.819576                         60
 ```
-
-# TODO: index here
-
-Ausführliche Einführung zu Indexing:  
-https://medium.com/dunder-data/selecting-subsets-of-data-in-pandas-6fcd0170be9c
-
 ---
 
 # Excel-Daten einlesen
