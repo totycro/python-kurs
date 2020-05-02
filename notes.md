@@ -1,4 +1,4 @@
-# Boku Python Kurs 
+# Boku Python Kurs
 
 
 ## Plan 2020
@@ -6,7 +6,9 @@
  * [DONE (außer openpyxl] grafiken -> matplotlib, openpyxl in excel
  * datetime
  * testing / git
- * jupyter notebooks + public toilets
+ * jupyter notebooks
+   * erstes notebook: https://github.com/inwe-boku/lecture-scientific-computing/blob/master/lecture03-python-introduction/lecture03.ipynb
+   * public toilets: https://github.com/inwe-boku/lecture-scientific-computing/blob/master/lecture04-python-scientific-ecosystem/lecture04.ipynb
  * cron: jeden tag um 9 arbeiten -> schedule https://pypi.org/project/schedule/
  * mails versenden -> smtp
  * file / path handling
