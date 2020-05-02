@@ -794,15 +794,20 @@ https://medium.com/dunder-data/selecting-subsets-of-data-in-pandas-6fcd0170be9c
 A    100        4.3
 K     50        1.2
 L     80        2.2
->>> df.speed > 60  # 
+>>> df.speed > 60  # Operation elementweise angewandt
 A     True
 K    False
 L     True
 Name: speed, dtype: bool
+>>> df[ [True, True, False] ]
+   speed  thickness
+A    100        4.3
+K     50        1.2
+>>> df[ df.speed > 60 ]
+   speed  thickness
+A    100        4.3
+L     80        2.2
 ```
-
-# TODO: index here
-
 
 ---
 
@@ -862,120 +867,73 @@ pd.read_excel("file.xlsx")
 ```
 
 Wichtige Parameter:
-* `sheet_name`:
-* `converters`:
-* `true_values`:
-* `false_values`:
+* `sheet_name`: Name vom gewünschten Sheet
+* `converters`: Dictionary um Inputwerte zu bearbeiten
+* `index_col`: Eine Spalte als Index auswählen
 
+```
+def is_equal_to_x(value):
+    return value == 'x'
 
-
-
----
-
-TODO:
-
-fancy indexing mit data[ data.y > 25 ] (zuerst erklären, dass boolean vector geht und wie man boolean vector macht)
-
-
-pandas plot: https://ourcodingclub.github.io/2018/04/18/pandas-python-intro.html#datastructures
-
-operationen auf ndarray distribuieren, z.b. A < 3
-
----
-https://numpy.org/devdocs/user/quickstart.html
-
-sehr gute einführung:
-https://www.python-kurs.eu/numpy_arrays_erzeugen.php
-
-A as ndarray
-
-A[[1,0]]
-A[(1,0)]
-A[1,0]
-A[1]
-
-
-A.tolist()
-
-A.sum(axis=0 OR 1)
-
-# axis gibt's öfter bei diesen funktionen:
-
-np.linspace(start=1, stop=5, num=21) < 3
-
-np.percentile(heights, 25))
-
-np.median(heights)
-
-np.append()
-
-https://jakevdp.github.io/PythonDataScienceHandbook/index.html
-
-A.argmax() to mark index in chart
-
-operationen auf ndarray distribuieren, z.b. A < 3
-
-numpy nur eher kurz machen, dann mehr auf pandas
--> numpy als speziell für numerische sachen, eher advanced
-
-np: optimierte "listen" ("ndarrays"), mit fixer länge und fixem datentyp.
--> kein append() für direkte änderungen, np.append gibt neues array zurück
-
-
-working with arrays:
-
-slicing:
-v[0:2, 0:2]
-a[0,:]
-a[:,0]
-https://towardsdatascience.com/hitchhiker-tips-on-effectively-using-python-numpy-arrays-66649b7bd5fb
-
-
-
-
-pandas:
-
-https://ourcodingclub.github.io/2018/04/18/pandas-python-intro.html#datastructures
-series als 1-dim
-df als 2-dim: tabelle (mehrere series)
--> bsp von schottischen hügeln
-df['Height']
-df['Height'][3]
-
-
-# loc, iloc, []:
-https://medium.com/dunder-data/selecting-subsets-of-data-in-pandas-6fcd0170be9c
-
-dataframe.Height > 1300
-dataframe[dataframe.Height > 1300]
-
-
-df[ [True, True, False, False, False] ]
-
-dataframe['Region'] = ['Grampian', 'Cairngorm', 'Cairngorm', 'Cairngorm', 'Cairngorm']
-
-
-plt.scatter
-
-pandas plot: https://ourcodingclub.github.io/2018/04/18/pandas-python-intro.html#datastructures
-df.plot(x='Tree', y=['Growth', 'Thickness'], kind='bar')
- df.plot(y=['Growth'], x=['Thickness'], kind='scatter')
-
-pandas: corr
-
-
-nan wenn werte fehlen
-umgang damit: series.isnull() / notnull()
-python None -> pandas NaN  # https://www.python-kurs.eu/pandas.php
-series.dropna() / fillna()
+df = pd.read_excel(
+    "Produktionsdaten.xlsx",
+    index_col=0,
+    converters={
+        'offene Leimfugen': is_equal_to_x,
+        'Hit & Miss': is_equal_to_x,
+    },
+)
+```
 
 ---
 
-sns.lmplot(x="tip", y="total_bill", data=tips)
--->
+# Pandas: Achtung bei NaN
 
+NaN bedeutet "not a number" und steht für eine fehlgeschlagene numerische Berechnung.
 
+```
+>>> df['Delaminierung %']
+Binder Nr.
+1       NaN
+2       NaN
+       ... 
+460     NaN
+461    81.0
+Name: Delaminierung %, Length: 461, dtype: float64
+>>> df['Delaminierung %'].sum()  # Pandas sum ignoriert "NaN"
+848.0
+>>> sum(df['Delaminierung %'])  # Achtung: Normale Funktionen nicht
+nan
+```
 
+---
+
+# Pandas: Achtung bei NaN
+
+```
+>>> df['Delaminierung %'].dropna()
+Binder Nr.
+11     84.0
+37     92.0
+       ... 
+413    79.0
+461    81.0
+Name: Delaminierung %, dtype: float64
+>>> sum(df['Delaminierung %'].dropna())
+848.0
+
+# Ganze Tabelle entsprechend gefiltert:
+>>> df[df['Delaminierung %'].notna()]
+            Lamellenbreite [mm]  ...  seitl. Lamellenversatz
+Binder Nr.                       ...                        
+11                          140  ...                     NaN
+37                          140  ...                     NaN
+       ... 
+413                         140  ...                     NaN
+461                         140  ...                     NaN
+
+[10 rows x 19 columns]
+```
 
 
     </textarea>
