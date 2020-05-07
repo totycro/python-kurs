@@ -400,19 +400,21 @@ array([[1, 2, 3],
 2
 ```
 
-Fancy indexing nur mit `numpy` array:
 ```
->>> numpy_matrix[(1, 2)]
-6
+# Fancy indexing nur mit `numpy` array:
 >>> numpy_matrix[1, 2]
 6
->>> numpy_matrix[1, (0, 1)]
+>>> numpy_matrix[1, (0, 1)] # 2 elemente der 2. dimension ausgewählt
 array([4, 5])
+>>> numpy_matrix[0:2, 1:3] # slices auch möglich
+array([[2, 3],
+       [5, 6]])
 ```
 ---
 
 # Matrizen in Python
 
+Viele weitere Möglichkeiten in `numpy`:
 ```
 >>> numpy_matrix
 array([[1, 2, 3],
@@ -442,6 +444,8 @@ Lösbares Gleichungssystem:
 1 * x +  3 * y = -7
 5 * x + -4 * y = 22
 ```
+
+--
 
 Gleichungsystem übersetzen und lösen mit [solve](https://numpy.org/doc/stable/reference/generated/numpy.linalg.solve.html):
 
@@ -477,7 +481,7 @@ x, residuals, rank, s = lstsq(coefficients, result, rcond=None)
 ```
 
 Ergebnis:  
-`x`: `[ 2.35948645 -2.63195435]`  
+`x, y`: `[ 2.35948645 -2.63195435]`  
 `residuals`: `[4.63480742]`
 
 
@@ -606,7 +610,7 @@ RangeIndex(start=0, stop=4, step=1)
 
 ```
 >>> machines = ["Maschine A", "Maschine K", "Maschine L"]
->>> thickness = pd.Series([4.3, 1.2, 2.2]) index=machines)
+>>> thickness = pd.Series([4.3, 1.2, 2.2], index=machines)
 >>> thickness
 Maschine A    4.3
 Maschine K    1.2
@@ -808,6 +812,16 @@ K     50        1.2
 A    100        4.3
 L     80        2.2
 ```
+
+---
+
+# Pandas: Daten filtern
+
+.box.moody[.label[Aufgabe]  
+Filtere ein Excel-File, das du persönlich verwendest, nach interessanten Gesichtspunkten.
+]&nbsp;
+
+
 
 ---
 
