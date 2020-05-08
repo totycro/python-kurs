@@ -12,6 +12,7 @@
  * cron: jeden tag um 9 arbeiten -> schedule https://pypi.org/project/schedule/
  * mails versenden -> smtp
  * file / path handling
+ * project euler? (see recap)
 
 ## Kurs Inhalt
 * Pandas/mypy

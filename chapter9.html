@@ -952,6 +952,98 @@ Binder Nr.                       ...
 [10 rows x 19 columns]
 ```
 
+---
+
+df.sort_values(by='B') 
+sheet1.loc[1] mit praxisbeispiel
+
+value_counts() auf series VS Counter
+
+sh.query("`rel. Luftfeuchtigkeit [%]` > 72")  # escaping
+sh[ sh["rel. Luftfeuchtigkeit [%]"] > 72 ]
+
+# same for query?
+df[df['Scanparameter Röntgen'] < df['Scanparameter Farbkamera']]
+
+
+
+def ausbeute_quality(ausbeute):
+    if ausbeute < 80:
+        return 'niedrig'
+    elif ausbeute < 90:
+        return 'mittel'
+    else:
+        return 'hoch'
+
+df['Ausbeute qualitativ'] = df['Ausbeute nach Fehlerkappung [%]'].apply(ausbeute_quality)
+
+
+rows =  df['Ausbeute qualitativ'] == "hoch" 
+
+# boolsche operationen
+(df["rel. Luftfeuchtigkeit [%]"] > 72) & (df["offene Leimfugen"])  # TODO: qualität benützen
+df.query("`rel. Luftfeuchtigkeit [%]` > 72 and `offene Leimfugen`")[ ['rel. Luftfeuchtigkeit [%]', 'offene Leimfugen'] ]
+
+# AUCH OR zeigen
+
+
+# Luftfeuchtigkeit von allen mit seitl. lamellenversatz
+auf einmal:
+df.loc[(df['seitl. Lamellenversatz'] == 'x'), 'rel. Luftfeuchtigkeit [%]']
+würd auch mit query / raussuchen gehen und dann rausholen
+
+
+
+sel = df.loc[(df['seitl. Lamellenversatz'] == 'x'), 'rel. Luftfeuchtigkeit [%]']
+sel
+sel[47] = 494
+sel  # änderung hier
+df.loc[(df['seitl. Lamellenversatz'] == 'x'), 'rel. Luftfeuchtigkeit [%]']
+# änderung nicht im originaldaten!
+
+sel = df[(df['seitl. Lamellenversatz'] == 'x')]['rel. Luftfeuchtigkeit [%]']
+# so auch änderung nicht in originaldaten
+
+
+
+Slice auf spalten und zeilen:
+df.loc[4:7]
+df.loc[:, 'Scanparameter Röntgen':'Scanparameter Farbkamera']
+# achtung: inclusive!
+
+
+
+
+
+https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copyhttps://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+
+
+Alle werte mit bedingung updaten
+df.loc[df['Hit & Miss'] == 'x', 'rel. Luftfeuchtigkeit [%]'] = 200
+
+# broadcastet auch auf verschiedene
+df.loc[df['Hit & Miss'] == 'x', 'Scanparameter Röntgen':'Scanparameter Farbkamera']   = 8
+
+# does update:  
+```
+df.loc[4, 'Hit & Miss'] = 8
+df['Hit & Miss'][4] = 10
+df.loc[4]['Hit & Miss'] = 9
+```
+
+# query immer updates
+
+
+
+
+
+
+.pipe
+
+
+.where
+
+
 
     </textarea>
     <script type="text/javascript">
