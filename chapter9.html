@@ -750,7 +750,7 @@ L     80  70000
 
 ---
 
-# Pandas: Daten auswählen
+# Pandas: Datensätze auswählen
 
 `.loc[value]` liefert einen Eintrag
 
@@ -773,7 +773,7 @@ K     50   5000
 
 ---
 
-# Pandas: Indizierung
+# Pandas: Daten auswählen
 ```
 >>> df.loc['A', 'price']
 10000
@@ -951,6 +951,62 @@ Binder Nr.                       ...
 
 [10 rows x 19 columns]
 ```
+
+---
+
+# Pandas: Index
+
+Anstatt `index_col` bei `read_excel`, später `set_index` verwenden:
+
+```
+>>> df
+   year  month  measurement
+0  2019      4          6.1
+1  2019      6          7.8
+2  2020      1          9.2
+>>> by_year = df.set_index("year")
+# Achtung: ursprüngliches df nicht geändert
+>>> by_year
+      month  measurement
+year                    
+2019      4          6.1
+2019      6          7.8
+2020      1          9.2
+>>> by_year.loc[2019]
+      month  measurement
+year                    
+2019      4          6.1
+2019      6          7.8
+```
+
+---
+
+# Pandas: MultiIndex
+
+```
+>>> by_date = df.set_index(['year', 'month'])
+>>> by_date
+            measurement
+year month             
+2019 4              6.1
+     6              7.8
+2020 1              9.2
+>>> by_date.loc[2019]
+       measurement
+month             
+4              6.1
+6              7.8
+>>> by_date.loc[2019, 4]
+measurement    6.1
+Name: (2019, 4), dtype: float64
+
+# Weniger praktisch und langsamer:
+>>> df[ (df.year == 2019) & (df.month == 4) ]
+   year  month  measurement
+0  2019      4          6.1
+```
+
+
 
 ---
 
