@@ -875,6 +875,41 @@ Bitte um Zusendung für praxisnahe Beispieldaten!
 
 ---
 
+# Pandas: Funktionen auf Daten anwenden
+
+`apply` auf Series (einzelne Werte verarbeiten):
+```
+def ausbeute_quality(ausbeute):
+    if ausbeute < 80:
+        return 'niedrig'
+    elif ausbeute < 90:
+        return 'mittel'
+    else:
+        return 'hoch'
+
+df['Ausbeute qualitativ'] = \
+    df['Ausbeute nach Fehlerkappung [%]'].apply(ausbeute_quality)
+```
+
+`apply` auf DataFrame (ganze Datensätze verarbeiten):
+```
+def mean_scan(row):
+    columns = ["Scanparameter Röntgen", "Scanparameter Laser", "Scanparameter Farbkamera"]
+    return row.loc[ columns ].mean()
+
+df['Scanparameter mean'] = df.apply(mean_scan, axis='columns')
+
+```
+
+---
+
+# Pandas: Komplexere Filterausdrücke
+
+
+
+
+---
+
 # Beispiel: `groupby`
 
 ```
@@ -1102,6 +1137,17 @@ df.loc[df['Hit & Miss'] == 'x', 'rel. Luftfeuchtigkeit [%]'] = 200
 # broadcastet auch auf verschiedene
 df.loc[df['Hit & Miss'] == 'x', 'Scanparameter Röntgen':'Scanparameter Farbkamera']   = 8
 
+
+
+.pipe
+
+
+.where
+
+
+
+
+ADDED:
 # does update:  
 ```
 df.loc[4, 'Hit & Miss'] = 8
@@ -1109,17 +1155,10 @@ df['Hit & Miss'][4] = 10
 df.loc[4]['Hit & Miss'] = 9
 ```
 
-# query immer updates
 
 
 
 
-
-
-.pipe
-
-
-.where
 
 
 
