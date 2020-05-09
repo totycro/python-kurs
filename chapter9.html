@@ -875,6 +875,24 @@ Bitte um Zusendung für praxisnahe Beispieldaten!
 
 ---
 
+# Bereiche auswählen
+
+Hinweis: Slicing bei Pandas `loc` ist inklusiv
+
+Zeilen auswählen:
+```
+df.loc[4:7]  # Einträge mit Nummer 4 bis inkl 7
+df[4:7]  # 4. bis (exkl.) 7. Eintrag
+```
+
+Spalten auswählen:
+```
+df.loc[:, 'Scanparameter Röntgen':'Scanparameter Farbkamera']
+```
+
+
+---
+
 # Pandas: Funktionen auf Daten anwenden
 
 `apply` auf Series (einzelne Werte verarbeiten):
@@ -905,8 +923,64 @@ df['Scanparameter mean'] = df.apply(mean_scan, axis='columns')
 
 # Pandas: Komplexere Filterausdrücke
 
+Filterung:
+```
+df[ df['Ausbeute qualitativ'] == "hoch" ]
+```
 
+Query:
+```
+df.query("`Ausbeute qualitativ` == 'hoch'")
+```
+* Backticks für Spaltennamen
+* Jeweils andere Hochkomma für Strings, oder escaping:
+    ```
+    df.query("`Ausbeute qualitativ` == \"hoch\"")```
 
+---
+
+# Hohe Ausbeute und hohe Luftfeuchtigkeit
+
+Filterung: "und" via Operator `&`
+```
+# Klammerung wichtig!
+df[
+  (df['Ausbeute qualitativ'] == "hoch") &
+  (df["rel. Luftfeuchtigkeit [%]"] > 72)
+]
+```
+
+Query: "und" via Python `and`
+```
+df.query(
+  "`Ausbeute qualitativ` == 'hoch' and `rel. Luftfeuchtigkeit [%]` > 72"
+)
+```
+
+"Oder" geht analog mit `|` bzw `or`, auch 
+
+---
+
+# Luftfeuchtigkeit von hoher Ausbeute
+
+Kombination Filterung und `loc`:
+```
+df.loc[df["Ausbeute qualitativ"] == 'hoch', 'rel. Luftfeuchtigkeit [%]']
+```
+
+Query und Spaltenauswahl:
+```
+df.query("`Ausbeute qualitativ` == 'hoch'")['rel. Luftfeuchtigkeit [%]']
+```
+
+Hinweis: Updates nur über `loc` garantiert (sofern keine weiteren Filterungen):
+```
+# Schreiboperation automatisch auf alle Zellen angewendet:
+df.loc[
+    df["Ausbeute qualitativ"] == 'hoch',
+    'Scanparameter Röntgen':'Scanparameter Farbkamera'
+] = 100
+```
 
 ---
 
@@ -1079,20 +1153,6 @@ sh[ sh["rel. Luftfeuchtigkeit [%]"] > 72 ]
 df[df['Scanparameter Röntgen'] < df['Scanparameter Farbkamera']]
 
 
-
-def ausbeute_quality(ausbeute):
-    if ausbeute < 80:
-        return 'niedrig'
-    elif ausbeute < 90:
-        return 'mittel'
-    else:
-        return 'hoch'
-
-df['Ausbeute qualitativ'] = df['Ausbeute nach Fehlerkappung [%]'].apply(ausbeute_quality)
-
-
-rows =  df['Ausbeute qualitativ'] == "hoch" 
-
 # boolsche operationen
 (df["rel. Luftfeuchtigkeit [%]"] > 72) & (df["offene Leimfugen"])  # TODO: qualität benützen
 df.query("`rel. Luftfeuchtigkeit [%]` > 72 and `offene Leimfugen`")[ ['rel. Luftfeuchtigkeit [%]', 'offene Leimfugen'] ]
@@ -1153,6 +1213,21 @@ ADDED:
 df.loc[4, 'Hit & Miss'] = 8
 df['Hit & Miss'][4] = 10
 df.loc[4]['Hit & Miss'] = 9
+
+def ausbeute_quality(ausbeute):
+    if ausbeute < 80:
+        return 'niedrig'
+    elif ausbeute < 90:
+        return 'mittel'
+    else:
+        return 'hoch'
+
+df['Ausbeute qualitativ'] = df['Ausbeute nach Fehlerkappung [%]'].apply(ausbeute_quality)
+
+
+rows =  df['Ausbeute qualitativ'] == "hoch" 
+
+
 ```
 
 
