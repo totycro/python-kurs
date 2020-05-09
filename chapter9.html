@@ -756,6 +756,8 @@ L     80  70000
 
 `.loc[list]` liefert mehrere Einträge
 
+Achtung: `[]`, nicht `()`!
+
 ```
 >>> df[ ['speed', 'price'] ].loc['A']
 speed      100
@@ -793,6 +795,25 @@ https://medium.com/dunder-data/selecting-subsets-of-data-in-pandas-6fcd0170be9c
 
 ---
 
+# Pandas: Daten updaten
+
+`.loc` gibt normalerweise "Ansichten" (views) zurück, über welche Updates auf ursprüngliche Daten möglich sind.
+
+```
+>>> df.loc[4, 'Hit & Miss'] = False
+>>> df.loc[4, 'Hit & Miss']
+False
+```
+
+Werden die Daten weiterverwendet, kopiert pandas intern manchmal, wodurch Updates keine Auswirkung mehr haben:
+```
+>>> df.loc[4]['Hit & Miss'] = False
+>>> df.loc[4]['Hit & Miss']
+True
+```
+
+---
+
 # Pandas: Daten filtern
 
 ```
@@ -818,13 +839,39 @@ L     80        2.2
 
 ---
 
+# Excel-Daten einlesen
+```
+pd.read_excel("file.xlsx")
+```
+
+Wichtige Parameter:
+* `sheet_name`: Name vom gewünschten Sheet
+* `converters`: Dictionary um Inputwerte zu bearbeiten
+* `index_col`: Eine Spalte als Index auswählen
+
+```
+def is_equal_to_x(value):
+    return value == 'x'
+
+df = pd.read_excel(
+    "Produktionsdaten.xlsx",
+    index_col=0,
+    converters={
+        'offene Leimfugen': is_equal_to_x,
+        'Hit & Miss': is_equal_to_x,
+    },
+)
+```
+
+---
+
 # Pandas: Daten filtern
 
 .box.moody[.label[Aufgabe]  
-Filtere ein Excel-File, das du persönlich verwendest, nach interessanten Gesichtspunkten.
+Filtere ein Excel-File, das du im Studium, beruflich oder privat verwendest, nach interessanten Gesichtspunkten.
+
+Bitte um Zusendung für praxisnahe Beispieldaten!
 ]&nbsp;
-
-
 
 ---
 
@@ -875,31 +922,6 @@ Temperatur [°C]
 20.0                      84.518087                         63
 20.1                      87.451870                         61
 20.2                      83.819576                         60
-```
----
-
-# Excel-Daten einlesen
-```
-pd.read_excel("file.xlsx")
-```
-
-Wichtige Parameter:
-* `sheet_name`: Name vom gewünschten Sheet
-* `converters`: Dictionary um Inputwerte zu bearbeiten
-* `index_col`: Eine Spalte als Index auswählen
-
-```
-def is_equal_to_x(value):
-    return value == 'x'
-
-df = pd.read_excel(
-    "Produktionsdaten.xlsx",
-    index_col=0,
-    converters={
-        'offene Leimfugen': is_equal_to_x,
-        'Hit & Miss': is_equal_to_x,
-    },
-)
 ```
 
 ---
