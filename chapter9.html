@@ -901,6 +901,17 @@ pd.read_excel("C:\\Users\\file.xlsx")
 
 Empfohlen: `Path` aus `pathlib` verwenden
 
+---
+
+# Excel-Daten schreiben
+
+```
+df.to_excel("a.xlsx")
+```
+
+Braucht das Python-Paket `openpyxl`, ggf. über Thonny installieren.
+
+
 
 
 ---
@@ -1040,6 +1051,8 @@ df.query("`Scanparameter Röntgen` < `Scanparameter Laser`")
 
 # Beispiel: `groupby`
 
+Durchschnittliche Ausbeute je nach Temperatur"gruppe"
+
 ```
 >>> sheet1 = pd.read_excel("Produktionsdaten.xlsx")
 >>> sheet1[
@@ -1065,7 +1078,7 @@ Temperatur [°C]
 
 # Beispiel: `groupby`
 
-Flexiblere Aggregation mit `agg`
+Flexiblere Aggregation mit `agg`: Mehrere Spalten mit verschiednene Operationen
 ```
 >>> sheet1.groupby("Temperatur [°C]").agg({
     "Ausbeute nach Fehlerkappung [%]": "mean",
@@ -1087,6 +1100,37 @@ Temperatur [°C]
 20.2                      83.819576                         60
 ```
 
+---
+
+# Beispiel: `groupby`
+
+Flexiblere Aggregation mit `agg`: Verschiedene Operationen auf gleiche Spalten
+```
+>>> sheet1[
+    ["Temperatur [°C]", "Ausbeute nach Fehlerkappung [%]"]
+].groupby("Temperatur [°C]").agg([np.min, np.mean, np.max])
+                Ausbeute nach Fehlerkappung [%]                      
+                                           amin       mean       amax
+Temperatur [°C]                                                      
+19.1                                  71.013215  84.649298  98.495539
+19.2                                  71.269318  84.147770  98.299047
+19.3                                  70.299240  86.941728  99.887834
+19.4                                  70.134642  83.435700  99.476956
+19.5                                  70.069126  82.776405  99.263042
+19.6                                  70.310167  86.639405  99.399352
+19.7                                  70.411478  84.452549  99.939151
+19.8                                  71.062171  83.610708  99.020136
+19.9                                  70.220220  83.722360  99.655665
+20.0                                  70.071085  84.518087  99.515087
+20.1                                  70.697598  87.451870  99.089169
+20.2                                  70.384660  83.819576  99.491524
+```
+
+---
+
+# Beispiel: `groupby`
+
+Hinweis: Jede dieser Auswertungen kann sofort geplottet werden, einfach `.plot()` am Ende!
 ---
 
 # Pandas: Achtung bei NaN
@@ -1135,6 +1179,28 @@ Binder Nr.                       ...
 461                         140  ...                     NaN
 
 [10 rows x 19 columns]
+```
+
+---
+
+# Pandas: Achtung bei NaN
+
+Alternativ Default-Wert für NaN vergeben
+```
+>>> df['Delaminierung %'].fillna(0)
+Binder Nr.
+1       0.0
+2       0.0
+3       0.0
+4       0.0
+5       0.0
+       ... 
+457     0.0
+458     0.0
+459     0.0
+460     0.0
+461    81.0
+Name: Delaminierung %, Length: 461, dtype: float64
 ```
 
 ---
