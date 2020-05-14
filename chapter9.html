@@ -752,9 +752,9 @@ L     80  70000
 
 # Pandas: Datensätze auswählen
 
-`.loc[value]` liefert einen Eintrag
+`.loc[value]` liefert eine Zeile
 
-`.loc[list]` liefert mehrere Einträge
+`.loc[list]` liefert mehrere Zeilen
 
 Achtung: `[]`, nicht `()`!
 
@@ -792,6 +792,21 @@ K     50   5000
 
 Ausführliche Einführung zu Indexing:  
 https://medium.com/dunder-data/selecting-subsets-of-data-in-pandas-6fcd0170be9c
+
+---
+
+# Pandas: Daten auswählen
+
+| Ausdruck                   |  Ergebnis       |
+|----------------------------|-----------------|
+| `df[spalte]`               |  1 Spalte       |
+| `df[ [spalte1, spalte2] ]` | Mehrere Spalten |
+| `df[spalte][index]`        |  1 Zelle       |
+| `df.loc[index]`            | 1 Zeile         |
+| `df.loc[index, spalte]`            | 1 Zelle         |
+| `df.loc[ [index1, index2] ]`| Mehrere Zeilen         |
+
+Ergebnisse dieser Ausdrücke können auch weiter gefiltert werden
 
 ---
 
@@ -862,6 +877,31 @@ df = pd.read_excel(
     },
 )
 ```
+
+---
+
+# Dateien in Code referenzieren
+
+**Relativ**
+```
+# \\ unter Windows auch möglich statt /
+pd.read_excel("../file.xlsx")
+pd.read_excel("subdirectory/file.xlsx")
+pd.read_excel("file.xlsx")
+```
+
+**Absolut**
+
+```
+# Linux / Apple
+pd.read_excel("/home/user/python-kurs/file.xlsx")
+# Windows
+pd.read_excel("C:\\Users\\file.xlsx")
+```
+
+Empfohlen: `Path` aus `pathlib` verwenden
+
+
 
 ---
 
@@ -1177,6 +1217,18 @@ Binder Nr.                       ...
 
 [461 rows x 95 columns]
 ```
+
+---
+
+# Pandas
+
+.box.moody[.label[Aufgabe]  
+Wende jede dieser Operationen auf dein eigenes Excel-File an.
+
+]&nbsp;
+
+
+
 
     </textarea>
     <script type="text/javascript">

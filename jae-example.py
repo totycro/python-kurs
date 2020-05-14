@@ -1,5 +1,4 @@
 
-
 jä_customer = ["Alice", "Bob"]
 jä_products = ["bread", "beer"]
 
