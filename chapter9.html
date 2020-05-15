@@ -1259,6 +1259,95 @@ Name: (2019, 4), dtype: float64
 
 ---
 
+# Beispiel: Kombinierte Felder trennen
+
+```
+>>> df
+                  Messung  Wert
+0  Werkstück A, Messung 1   4.3
+1  Werkstück A, Messung 2   3.2
+2  Werkstück B, Messung 1   1.0
+```
+Kombinierte Spalte "Messung" auftrennen für einfachere Abfragen.
+
+Möglichkeiten:
+* `for`-loop über `df["Messung"]`
+* `df["Messung"].apply()`
+* `df["Messung"].str`: Funktionen für Text-Spalten ([Dokumentation](https://pandas.pydata.org/pandas-docs/stable/user_guide/text.html))
+
+---
+
+# Beispiel: Kombinierte Felder trennen
+
+Lösung: `df["Messung"].str.split` mit `expand=True`
+
+`pd.to_numeric` um Text-Spalte zu Integer konvertieren
+
+```
+>>> splitted = df["Messung"].str.split(", Messung ", expand=True)
+>>> splitted
+             0  1
+0  Werkstück A  1
+1  Werkstück A  2
+2  Werkstück B  1
+>>> df["Werkstück"] = splitted[0]  # 0 als Spaltenname
+>>> df["Messung"] = pd.to_numeric(splitted[1])
+>>> df
+   Messung  Wert    Werkstück
+0        1   4.3  Werkstück A
+1        2   3.2  Werkstück A
+2        1   1.0  Werkstück B
+```
+
+---
+
+# Beispiel: Kombinierte Felder trennen
+
+Getrennte Felder als MultiIndex
+
+```
+>>> df = df.set_index(["Werkstück", "Messung"])
+>>> df.loc['Werkstück A']
+         Wert
+Messung      
+1         4.3
+2         3.2
+>>> df.loc['Werkstück A', 1]
+Wert    4.3
+Name: (Werkstück A, 1), dtype: float64
+```
+
+---
+
+# Beispiel: Kombinierte Felder trennen
+
+Lösung: `df["Messung"].str.extract` mit regulärem Ausdruck:
+
+* Reguläre Ausdrücke beschreiben Textmuster
+* `[a-z]`, `[A-Z]` oder `[0-9]` beschreiben Wertebereiche
+* `([a-z])` beschreibt "capture group"
+
+```
+>>> df["Messung"].str.extract(r"Werkstück ([A-Z]), Messung ([0-9])")
+   0  1
+0  A  1
+1  A  2
+2  B  1
+# Auch mit "named capture groups":
+>>> df["Messung"].str.extract(
+    r"Werkstück (?P<Werkstück>[A-Z]+), Messung (?P<Messung>[0-9]+)"
+)
+  Werkstück Messung
+0         A       1
+1         A       2
+2         B       1
+```
+
+
+
+
+---
+
 # Pandas: Daten zusammenführen
 
 ```
