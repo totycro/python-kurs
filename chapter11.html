@@ -95,30 +95,167 @@
     <body onload="var slideshow = remark.create({highlightLanguage: 'python'});">
         <textarea id="source">
 
+layout: true
 
+<div class="footer">Python Kurs 2019/2020</div>
+---
+
+class: center, middle
 
 # Python Kurs 2019/2020
 
-Bernhard Mallinger | `b.mallinger [at] gmx.at`  
+# 10: Lineare Programmierung in Python
+
+### Bernhard Mallinger
+
+### `b.mallinger [at] gmx.at`
+
 https://totycro.github.io/python-kurs
 
-## Inhalt:
+---
 
-1. <a href="chapter1.html">Einführung, Shell, Strings, Variablen</a> <a href="pdf/chapter1.pdf">(pdf)</a>
-1. <a href="chapter2.html">Programme, Vergleiche, If, Kommentare</a> <a href="pdf/chapter2.pdf">(pdf)</a>
-1. <a href="chapter3.html">Listen, Schleifen</a> <a href="pdf/chapter3.pdf">(pdf)</a>
-1. <a href="chapter4.html">Funktionen</a> <a href="pdf/chapter4.pdf">(pdf)</a>
-1. <a href="chapter5.html">Dictionaries</a> <a href="pdf/chapter5.pdf">(pdf)</a>
-1. <a href="chapter6.html">Datum, Zeit</a>
-1. <a href="chapter7.html">Enwicklungstooling</a>
-1. <a href="chapter8.html">Grafiken</a> <a href="pdf/chapter8.pdf">(pdf)</a>
-1. <a href="chapter9.html">Berechnungen, Daten, Statistik</a>
-1. <a href="chapter11.html">Lineare Programmierung in Python</a>
-1. <a href="chapter10.html">Jupyter Notebooks</a>
+# Pulp
+
+* `pulp` bietet ein einfaches Interface für LP
+* Beschränkt auf lineare Constraints, dadurch einfach
+* Volle Ausdruckskraft von Python zum Definieren der Bedingungen (z.B. Daten mittels Pandas dafür auslesen)
+* `pulp` mittels Thonny installieren
+* Unterstützt verschiedene Solver
+
+---
+
+# Pulp
 
 
-<a href="exkurs_excel.html">Vorschau: Daten aus Excel einlesen</a>
+#### Problemdefinition
+```
+from pulp import *
+# Problem definieren
+prob = LpProblem("problem_name", LpMaximize)  # oder: LpMinimize
+```
 
+#### Variablen definieren
+```
+x = LpVariable("x", lowBound=0, upBound=1, cat=LpContinuous)
+y = LpVariable("y", lowBound=-10, upBound=10, cat=LpInteger)
+```
+* `bounds` per default negativ bzw. positiv unendlich
+* `cat` per default continuous, auch `LpBinary` und `LpInteger` möglich
+
+---
+
+# Pulp
+
+#### Nebenbedingungen definieren
+```
+# "zu Problem hinzufügen"
+prob += x - 3 * y >= 6
+prob += x + 2 * y <= 1
+```
+
+#### Zielfunktion definieren
+ ```
+# "zu Problem hinzufügen"
+prob += 2 * x + y
+```
+
+Unterschied zwischen Zielfunktion und Nebenbedingung: Vergleich
+
+---
+
+#  Pulp
+
+#### Lösung berechnen
+```
+status = prob.solve()
+print(LpStatus[status])
+
+for v in prob.variables():
+    print(v.name, "=", v.varValue)
+
+# ähnlich:
+print(x.varValue)
+```
+
+---
+
+# Pulp: Variablencollections
+
+```
+bindertypen = list(range(1, 4))
+umgebungsbedingungen = list(range(1, 4))
+
+hobelmass = LpVariable.dict("hobelmass", indexs=bindertypen)
+# {1: hobelmass_1, 2: hobelmass_2, 3: hobelmass_3}
+
+hobelmass = LpVariable.dict(
+    "hobelmass",
+     indexs=(bindertypen, umgebungsbedingungen),
+ )
+# {(1, 1): hobelmass_1_1, (1, 2): hobelmass_1_2, (1, 3): hobelmass_1_3, (2, 1): hobelmass_2_1, ...}
+
+hobelmass = LpVariable.dicts(
+    "hobelmass",
+     indexs=(bindertypen, umgebungsbedingungen),
+ )
+# {1: {1: hobelmass_1_1, 2: hobelmass_1_2, 3: hobelmass_1_3}, 2: {1: hobelmass_2_1, ...
+```
+
+---
+
+# Pulp: Beispiele
+
+```
+# Problemdefinition als normaler Python-Code
+for bt in bindertypen:
+    for ub in umgebungsbedingungen:
+        prob += hobelmass[bt][ub] > 2
+```
+
+```
+choice_costs = {'a': 10, 'b': 7, 'c': 3}
+
+# Beispiel: Auswahl auf genau 1 setzen mittels lpSum
+choice_vars = LpVariable.dict("choices", choice_costs, cat=LpBinary)
+prob += lpSum(choice_vars) == 1
+```
+
+```
+# Beispiel: Zielfunktion
+prob += lpSum(
+    [
+        choice_cost * choice_vars[choice]
+        for choice, choice_cost in choice_costs.items()
+    ]
+)
+```
+
+---
+
+# Pulp: Debugging
+
+```
+>>> print(prob)
+problem_name:
+MAXIMIZE
+2*x + 1*y + 0
+SUBJECT TO
+_C1: x - 3 y >= 6
+
+_C2: x + 2 y <= 1
+[...]
+```
+
+Tipp: Namen für Nebenbedingungen vergeben
+```
+prob += x + y >= 3, "Special condition"
+```
+```
+>>> print(prob)
+[...]
+Special_condition: x + y >= 3
+[...]
+```
 
     </textarea>
     <script type="text/javascript">
