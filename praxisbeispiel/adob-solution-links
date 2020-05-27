@@ -1,0 +1,39 @@
+guter code wichtig
+-> scripts werden sonst so kompliziert, dass sie man sie nicht weiter anpassen kann und sie wertlos werden!
+-> vgl. nicht gewartete werkzeuge
+
+
+Read excel file only once
+https://github.com/adob360/production-optimization/commit/f6c51a703b5acc9fcdf07b63ff99d323edff8e3e?diff=unified
+
+Use pandas column selection 
+-> split view
+https://github.com/adob360/production-optimization/commit/45a42c00b4580abebe952067025f334677d074c5
+
+Use Series.unique to get unique values
+-> split view
+https://github.com/adob360/production-optimization/commit/dc7c508d026d518a67daeff8e661b9983da4a0c5
+
+Remove unnecessary list comprehension
+https://github.com/adob360/production-optimization/commit/39893750a25420cb13532a72b314de5f0074c4be
+
+Remove unreachable case
+(view file of parent)
+https://github.com/adob360/production-optimization/commit/8d4aa4933366d51ef1cc8ba107739238f51ec3e7
+
+Use indexed accessed in array
+(split view)
+https://github.com/adob360/production-optimization/commit/c9f67041152fe25f1134c9e6cd241991310ddd32?diff=split
+
+Import boolean values as actual booleans 
+https://github.com/adob360/production-optimization/commit/01c67d27f594c6ac0e41b33d9b98be3830170bd4 
+-> Remove now unnecessary conversion to int
+https://github.com/adob360/production-optimization/commit/1b6e7f30c7fdb9c592971baf89fe2b8d36e4ee1a
+
+Remove unnecessary check list
+(view file of parent)
+https://github.com/adob360/production-optimization/commit/9a2e0a38e485abc25d5b708a8e7f7f34f50f280f?diff=split
+
+Use np.unique instead of manual duplicate check
+(split view)
+https://github.com/adob360/production-optimization/commit/43d1a4c3171bcf813c6a0a7c77d43ad63eb8a412
