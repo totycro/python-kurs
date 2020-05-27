@@ -1169,7 +1169,7 @@ Name: Delaminierung %, dtype: float64
 848.0
 
 # Ganze Tabelle entsprechend gefiltert:
->>> df[df['Delaminierung %'].notna()]
+>>> df[df['Delaminierung %'].notna()]  # wie dropna(axis='index')
             Lamellenbreite [mm]  ...  seitl. Lamellenversatz
 Binder Nr.                       ...                        
 11                          140  ...                     NaN
