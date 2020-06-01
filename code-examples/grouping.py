@@ -8,17 +8,17 @@ grouped_means = df.groupby(list(df.columns[:5])).mean()
 grouped_means.to_excel("groups.xlsx")
 
 # Kurzübersicht:
-grouped_means.describe() 
+grouped_means.describe()
 
 # Alternativ:
-grouped_means.mean() 
-grouped_means.std() 
-grouped_means.quantile(q=0.05)  
+grouped_means.mean()
+grouped_means.std()
+grouped_means.quantile(q=0.05)
 grouped_means.quantile(q=[0.01, 0.05, 0.1, 0.5])
 
 # geplottet
 grouped_means['Biegefestigkeit [N/mm²]'].hist(cumulative=True, density=True, bins=30)
-plt.show() 
+plt.show()
 
 
 # Spaltenspezifische Aggregation:
