@@ -111,7 +111,7 @@ def calculate_coefficients_10_to_11(sheets):
     
 
 sheets = load_sheets()
-# calculate_coefficient_1(sheets)
-# calculate_coefficients_2_to_6(sheets)
-# calculate_coefficients_7_to_9(sheets)
+calculate_coefficient_1(sheets)
+calculate_coefficients_2_to_6(sheets)
+calculate_coefficients_7_to_9(sheets)
 calculate_coefficients_10_to_11(sheets)
