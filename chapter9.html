@@ -885,9 +885,9 @@ df = pd.read_excel(
 **Relativ**
 ```
 # \\ unter Windows auch möglich statt /
-pd.read_excel("../file.xlsx")
-pd.read_excel("subdirectory/file.xlsx")
 pd.read_excel("file.xlsx")
+pd.read_excel("subdirectory/file.xlsx")
+pd.read_excel("../file.xlsx")
 ```
 
 **Absolut**
@@ -964,7 +964,7 @@ df['Ausbeute qualitativ'] = \
 ```
 def mean_scan(row):
     columns = ["Scanparameter Röntgen", "Scanparameter Laser", "Scanparameter Farbkamera"]
-    return row.loc[ columns ].mean()
+    return row[ columns ].mean()
 
 df['Scanparameter mean'] = df.apply(mean_scan, axis='columns')
 

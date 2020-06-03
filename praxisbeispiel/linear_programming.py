@@ -1,8 +1,8 @@
 from pulp import *
 
 
-# Könnte auch direkt Funktionen von vorheriger Lösung aufrufen
-# Dann könnte man bei neuen Daten vollautomatisch alles neu berechnen
+# Man könnte auch direkt Funktionen von vorheriger Lösung aufrufen.
+# Dann könnte man bei neuen Daten vollautomatisch alles neu berechnen.
 KE1 = 3.05860622
 KE2 = 1.76585626
 KE3 = 13.69481487
@@ -73,8 +73,6 @@ def make_var(name):
     return LpVariable.dicts(name, (umgebungsbedingungen, bindertypen), lowBound=0)
 
 
-# LP-Variablen sind hier global. Bei komplexeren Programmen sollten sie immer mitgegeben werden, z.b. als Dict:
-# lp_variables = { key: make_var(key) for key in ["S1", "S2", "S3", "LF", "HLB"] }
 S1 = make_var("S1")
 S2 = make_var("S2")
 S3 = make_var("S3")
@@ -84,9 +82,12 @@ HKB = make_var("HKB")
 HBH = make_var("HBH")
 HBB = make_var("HBB")
 HKS = make_var("HKS")
+# LP-Variablen sind hier global. Bei komplexeren Programmen sollten sie immer
+# in einem eigenen Bereich definiert nud dann mitgegeben werden, z.b. als Dict:
+# lp_variables = { key: make_var(key) for key in ["S1", "S2", "S3", "LF", "HLB"] }
 
 
-#  aa(ub, bt) = forall(1 in KOE) KE(koe)  * (S1(ub, bt) + S2(ub, bt) + S3(ub, bt))
+#  aa(ub, bt) = forall(1 in KOE) KE(koe) * (S1(ub, bt) + S2(ub, bt) + S3(ub, bt))
 def aa(ub, bt):
     return KE1 * (S1[ub][bt] + S2[ub][bt] + S3[ub][bt])
 

@@ -18,7 +18,7 @@ grouped_means.quantile(q=[0.01, 0.05, 0.1, 0.5])
 
 # geplottet
 grouped_means['Biegefestigkeit [N/mm²]'].hist(cumulative=True, density=True, bins=30)
-plt.show()
+# plt.show()
 
 
 # Spaltenspezifische Aggregation:
