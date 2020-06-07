@@ -238,6 +238,15 @@ class: center, middle
 
 ---
 
+# Automatisches Testen
+
+* Ohne Tests:
+  * Code "stirbt", man traut sich nicht, ihn weiter anzupassen
+* Mit Tests:
+  * Änderungen auch nach Wochen/Monaten ohne Angst möglich
+
+---
+
 # Test-driven development (TDD)
 
 * Noch besser: Tests schreiben, bevor man den Code schreibt
@@ -245,6 +254,7 @@ class: center, middle
 * Ablenkung und fehlende Konzentration sind weniger problematisch
   * Man weiß genau, was schon funktioniert und woran man jetzt arbeiten muss
 * Beim Codeschreiben hat man instant feedback
+* Theoretisches Modell: Red &rarr; Green &rarr; Refactor
 
 ---
 
@@ -255,7 +265,7 @@ class: center, middle
 * Überprüfungen mit `assert()`
 
 ```
-def invert_dictionary(l, ):
+def invert_dictionary(l):
     # dummy implementation to be able to write tests
     return d
 
