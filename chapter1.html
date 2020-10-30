@@ -117,17 +117,25 @@ https://totycro.github.io/python-kurs
 # Kurs
 
 * Keine Vorkenntnisse notwendig
+* Modus: Vortrag + Übungsbeispiele
 * Programmieren ist auch Handwerk
   * Selbst programmieren notwendig
-  * Keine Angst vor Fehlern, alles ausprobieren!
-* Modus: Vortrag + Übungsbeispiele
-* Kurs soll Grundlagen vermitteln und befähigen, sich in speziellere Gebiete einzuarbeiten
-  
+  * Am besten tüfteln, ausprobieren
+  * Keine Angst vor Fehlern!
+
 --
---- 
+----
+
+* Kurs beginnt mit Programmiergrundlagen
+* Praxisnahe Anwendungen dann darauf aufbauend  
+  &rArr; nicht Befehle abtippen  
+  &rArr; verstehen, was passiert  
+  &rArr; auf eigene Bereiche anwenden
+
+--
+----
 
 * Vorschläge zu konkreten Anwendungen von Python erwünscht!
-* Was möchtet ihr lernen?
 
 
 ---
@@ -140,6 +148,7 @@ https://totycro.github.io/python-kurs
 * Wächst seit 1991 beständig durch gutes Design
 * Plattformunabhängig
 * Viele Anwendungsbereiche
+  * Web, Automatisierung, Scientific Computing, ML/AI, ...
 * Sprache VS Interpreter
 
 --
@@ -224,10 +233,37 @@ class: center, middle
 
 ---
 
+
+# Imports
+
+2 wesentliche Möglichkeiten:
+
+```
+import math
+math.log(3)
+```
+```
+from math import log
+log(3)
+```
+
+Man kann auch alle Namen eines Moduls importieren, das ist aber oft verwirrdend:
+```
+from math import *
+from collections import *
+from datetime import *
+
+log(3)
+# jeder Name hier könnte von jedem Modul kommen
+```
+
+
+---
+
 # Thonny Debugger
 
 ```
-from math import *
+from math import cos, radians
 cos(radians(180))
 ```
 
