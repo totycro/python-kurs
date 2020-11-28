@@ -95,22 +95,803 @@
     <body onload="var slideshow = remark.create({highlightLanguage: 'python'});">
         <textarea id="source">
 
+layout: true
 
+<div class="footer">Python Kurs 2020/2021</div>
+---
+
+class: center, middle
 
 # Python Kurs 2020/2021
 
-Bernhard Mallinger | `b.mallinger [at] gmx.at`  
+# 3: Listen, Schleifen
+
+### Bernhard Mallinger
+
+### `b.mallinger [at] gmx.at`
+
 https://totycro.github.io/python-kurs
 
-## Inhalt:
+---
 
-1. <a href="chapter1.html">Einführung, Shell, Strings, Variablen</a> <!-- <a href="pdf/chapter1.pdf">(pdf)</a> -->
-1. <a href="chapter2.html">Programme, Vergleiche, If, Kommentare</a> <!-- <a href="pdf/chapter2.pdf">(pdf)</a> -->
-1. <a href="chapter3.html">Listen, Schleifen</a> <!-- <a href="pdf/chapter2.pdf">(pdf)</a> -->
+# Liste
 
-***
+* Einzelne Werte kann man händisch berechnen
+* Für größere oder dynamische Datenmengen: Programme
+  * Liste von Daten / Messungen
+  * Liste von Koordinaten (Orte, Linien, Polygon)
+  * Liste von Farbwerten (Bild)
+  * Liste von Bildern (Video)
+  * Liste von Werten in Spalte in Excel-Tabelle
+  * Liste von Spalten (Liste von Liste von Werten)  
+    &rArr; Tabelle
+  * ...
+* Millionen von Werten in Sekunden verarbeiten
+* Neue Daten &rarr; Programm einfach neu starten 
+* Listen in Python unbegrenzt  
+  vs. https://orf.at/stories/3184019/
 
-<a href="2019-2020">Unterlagen 2019-2020</a>
+---
+
+# Liste
+
+* Essentielle und allgegenwärtige *Datenstruktur*
+* Enthält 0 oder mehr Elemente  
+  &rarr; nacheinander im Speicher
+
+
+```
+>>> woods = ["fichte", "erle", "tanne"]
+>>> len(woods)
+3
+>>> woods[0]
+'fichte'
+>>> selection = 2
+>>> woods[selection]
+'tanne'
+>>> woods[4]
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+IndexError: list index out of range
+```
+
+---
+
+# Liste
+
+Index muss nicht fix sein, kann Programmausdruck sein
+
+```
+>>> shipment_sizes
+[44, 20, 90, 50, 44, 200]
+>>> len(shipment_sizes)
+6
+>>> shipment_sizes[len(shipment_sizes) - 1]
+200
+```
+
+Negative Indizes &rarr; von hinten beginnen
+```
+>>> shipment_sizes[-1]
+200
+>>> shipment_sizes[-2]
+44
+```
+
+
+
+---
+
+# Liste
+
+.box.moody[.label[Aufgabe]
+<br/>
+Für eine gegebene Liste `l`, schreibe Code, der das "mittlere" Element zurückgibt.
+
+Beispiele:
+
+`[1, 2, 3] &rarr; 2`  
+`[1] &rarr; 1`  
+`[1, 2, 3, 4] &rarr; 2 oder 3`
+
+
+Achtung bei leeren Listen (`[]`)!
+
+]
+&nbsp;
+
+---
+
+# Liste
+
+<img src="img/indexerror.png" alt="IndexError" width="90%"/>
+
+---
+
+# Liste
+
+<img src="img/indexerror2.png" alt="IndexError" width="60%"/>
+
+
+---
+
+# Liste
+
+Essentiell um alles von nicht-fixer Anzahl auszudrücken  
+&rarr; Dynamische Konstrukte später notwendig um damit zu arbeiten
+
+
+```
+>>> shipment_sizes = [44, 20, 90, 50]
+>>> sum(shipment_sizes)
+204
+>>> new_shipments = [44, 200]
+>>> shipment_sizes = shipment_sizes + new_shipments
+>>> shipment_sizes
+[44, 20, 90, 50, 44, 200]
+>>> sum(shipment_sizes)
+448
+>>> max(shipment_sizes)
+200
+>>> min(shipment_sizes)
+20
+```
+
+---
+
+# Liste
+
+* Datentypen können gemischt werden
+* Verarbeitung von gemischten Listen womöglich schwierig
+
+```
+>>> l = [1, 5.53, "foo"]
+>>> sum(l)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: unsupported operand type(s) for +: 'float' and 'str'
+```
+
+
+---
+
+# Liste: Slices
+
+`l[begin:end]` gibt die Subliste zwischen den Indizes `begin` und `end` zurück
+
+```
+>>> shipment_sizes
+[44, 20, 90, 50, 44, 200]
+>>> shipment_sizes[2:4]
+[90, 50]
+>>> shipment_sizes[:3]
+[44, 20, 90]
+>>> shipment_sizes[3:]
+[50, 44, 200]
+>>> shipment_sizes[:]
+[44, 20, 90, 50, 44, 200]
+```
+
+---
+
+# Liste: Elemente ändern
+
+Auch Schreibzugriff mit `l[1]`
+
+```
+>>> l = [1, 2, 3]
+>>> l[1]
+2
+>>> l[1] = 5
+>>> l[1]
+5
+>>> l
+[1, 5, 3]
+```
+
+---
+
+# Listen und Strings
+
+So weit es Sinn macht haben Strings und Listen gleiche Interfaces:
+
+```
+>>> "holz"[2]
+'l'
+>>> len("holz")
+4
+>>> "holz"[2:]
+'lz'
+>>> "ho" + "lz"
+'holz'
+```
+
+Schreibzugriff geht bei Strings (aus technischen Gründen) nicht.
+
+
+---
+
+# Liste: Operationen
+
+`append` zum Anfügen einzelner Elemente
+
+```
+>>> shipment_sizes
+[44, 20, 90, 50, 44, 200]
+>>> shipment_sizes.append(30)
+>>> shipment_sizes.append(74)
+>>> shipment_sizes
+[44, 20, 90, 50, 44, 200, 30, 74]
+```
+
+`extend` zum Erweitern um mehrerer Elemente
+
+```
+>>> shipment_sizes = [44, 20, 90, 50, 44, 200]
+>>> shipment_sizes.extend([30, 74])
+>>> shipment_sizes
+[44, 20, 90, 50, 44, 200, 30, 74]
+```
+Vgl. `[1, 2] + [3]`
+
+---
+
+# Schleifen
+
+```
+shipment_sizes = [44, 20, 90]
+for size in shipment_sizes:
+    print(size)
+```
+
+Output:
+```
+44
+20
+90
+```
+
+Vgl.
+```
+size = shipment_sizes[0]
+print(size)
+size = shipment_sizes[1]
+print(size)
+size = shipment_sizes[2]
+print(size)
+```
+
+---
+
+# Schleifen
+
+.box.moody[.label[Aufgabe]
+<br/>
+Berechne die Summe der Zahlen einer Liste (ohne `sum` zu verwenden).
+
+Für diese und zukünftige Aufgaben: Das Ergebnis soll mit `print()` ausgegeben werden.
+]
+&nbsp;
+
+---
+
+# Schleifen
+
+.box.moody[.label[Aufgabe]
+<br/>
+Berechne, wie viele Zahlen in einer Liste größer oder gleich 3 und kleiner als 7 sind.
+
+`[1, 3, 9, 7, 4]` &rarr; `2`  
+`[1]` &rarr; `0`
+
+Erweiterung:  
+Berechne die Summe dieser Zahlen.
+
+`[1, 3, 9, 7, 4]` &rarr; `7`  
+`[1]` &rarr; `0`
+]
+&nbsp;
+
+---
+
+# Schleifen
+
+Die `for`-Schleife funktioniert auf "iterables", auch `str`:
+
+```
+for character in "Hello Boku!":
+    print(character)
+```
+
+Output:
+```
+H
+e
+l
+l
+o
+ 
+B
+[...]
+```
+
+---
+
+# Schleifen
+
+.box.moody[.label[Aufgabe]
+<br/>
+Schreibe ein Programm, das mithilfe von `for` zählt, wie oft der Buchstabe "a" in einem String vorkommt.
+
+Erweiterung:  
+Das Programm soll auch ausgeben, ob der Buchstabe "b" öfter als der Buchstabe "a" vorkommt.
+
+]
+&nbsp;
+
+
+---
+
+# Liste: Operationen
+
+`in` überprüft, ob ein Element in einer Liste vorkommt:
+
+```
+>>> 2 in [1, 2, 3]
+True
+>>> "x" in ["a", "b", "c"]
+False
+```
+
+`not in` für das Gegenteil:
+
+```
+>>> 2 not in [1, 2, 3]
+False
+```
+
+Ineffiziente und nicht empfohlene Variante:
+```
+>>> not (2 in [1, 2, 3])
+False
+```
+
+---
+
+# Liste: Operationen
+
+`l.sort()` sortiert die Liste.  
+`sorted(l)` gibt eine sortierte Liste zurück.
+```
+>>> shipment_sizes
+[44, 20, 90, 50, 44, 200]
+>>> sorted(shipment_sizes)
+[20, 44, 44, 50, 90, 200]
+>>> shipment_sizes
+[44, 20, 90, 50, 44, 200]
+>>> shipment_sizes.sort()
+>>> shipment_sizes
+[20, 44, 44, 50, 90, 200]
+```
+
+---
+
+
+
+
+# Liste: Operationen
+
+.box.moody[.label[Aufgabe]
+<br/>
+Schreibe Code, der für eine Liste von Werten den Median berechnet.
+
+`[3, 4, 2] ` &rarr; `3`  
+`[6.7, 5.2, 4.3, 2.2, 8.7]` &rarr; `'5.2'`
+
+Ist die Anzahl der Elemente gerade, kann als Vereinfachung ein beliebiges dieser Elemente verwendet werden:
+
+`[0, 1, 2, 3]` &rarr; `1` oder `2`
+
+In der vollständigen Version soll der Durchschnitt der beiden Kandidaten ausgegeben werden:
+
+`[0, 1, 2, 3]` &rarr; `1.5`
+
+]
+&nbsp;
+
+
+
+
+---
+
+# Liste: Operationen
+
+`count` zählt Vorkommen:
+```
+>>> shipment_sizes = [44, 20, 90, 50, 44, 200]  
+>>> shipment_sizes.count(44)
+2
+>>> shipment_sizes.count(20)
+1
+>>> shipment_sizes.count(123)
+0
+```
+
+`index` findet Position von Element (Vgl `"".find()`)
+```
+>>> shipment_sizes.index(50)
+2
+>>> shipment_sizes.index(123)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ValueError: 123 is not in list
+```
+
+---
+
+# Liste: Operationen
+
+Entfernen von Items auf Basis von Index (`del`):
+
+```
+>>> l = [33, 25, 48]
+>>> del l[0]
+>>> l
+[25, 48]
+```
+
+Entfernen von Items auf Basis von  Wert (`remove`):
+
+```
+>>> l = [33, 25, 48]
+>>> l.remove(33)
+>>> l
+[25, 48]
+```
+
+Achtung: Nie aus einer Liste löschen, während man über sie iteriert!
+
+---
+
+# Änderungen von Listen
+
+
+Erweiterungen | &nbsp;
+- | -
+`l.append(3)` | Elemente an eine Liste anhängen
+`l.extend([2, 3])` | Eine Liste um eine Liste erweitern
+`l1 + l2` | 2 Listen zusammenfügen
+
+<br/>Austauschen| &nbsp;
+- | -
+`l[2] = "a"` | Einzelne Elemente überschreiben
+
+<br/>Entfernen| &nbsp;
+- | -
+`del l[2]` | Elemente an Position löschen
+`l.remove(3)` | Element entfernen
+
+---
+
+# Liste: Operationen
+
+.box.moody[.label[Aufgabe]
+<br/>
+Gegeben eine Liste von Zahlen `l1`: Erzeuge eine Liste `l2`, die alle Zahlen aus `l1` enthält, die größer als 5 sind.  
+`l1 = [4, 7, 2, 5, 9]`  
+&rarr; `l2 == [7, 9]`
+]
+&nbsp;
+
+.box.moody[.label[Aufgabe]
+<br/>
+Gegeben 2 Listen `l` und `forbidden`: Erzeuge eine Liste `safe` mit allen Einträgen aus `l`, die nicht in `forbidden` vorkommen.  
+`l = ["a", "j", "i", "d", "e"]`  
+`forbidden = ["i", "j"]`  
+&rarr; `safe == ["a", "d", "e"]`  
+Könnte man das auch mit Strings statt Listen implementieren?
+]
+&nbsp;
+
+---
+
+# `range` (1/2)
+
+`range(n)` gibt ein Iterable über alle Zahlen kleiner `n` zurück.
+```
+for i in range(3):
+    print(i)
+```
+Output:
+```
+0
+1
+2
+```
+
+---
+
+# `range` (2/2)
+
+Man kann auch untere und obere Grenzen angeben sowie die Schrittweite.
+```
+# aus help(range):
+range(stop) -> range object
+range(start, stop[, step]) -> range object
+ ```
+
+`range()` gibt keine Liste zurück, kann aber iteriert werden:
+```
+>>> range(10)
+range(0, 10)
+```
+
+---
+
+# Das berüchtigte FizzBuzz
+
+Einstieg in algorithmisches Denken:
+
+.box.moody[.label[Aufgabe]
+<br/>
+Schreibe ein Programm, das alle Zahlen von 1 bis 100 ausgibt.
+Anstelle von jedem Vielfachen von 3, schreibe "Fizz".  
+Anstelle von jedem Vielfachen von 5, schreibe "Buzz".  
+Bei Zahlen, die sowohl Vielfache von 3 und 5 sind, schreibe "FizzBuzz".
+
+Gewünschte Ausgabe (gerne auch in Zeilen):  
+`1 2 Fizz 4 Buzz Fizz 7 8 Fizz Buzz 11 Fizz 13 14 FizzBuzz 16 17 ...`
+
+Hinweis: [Verwende % (modulo) um auf Vielfache zu prüfen.](https://www.freecodecamp.org/news/the-python-modulo-operator-what-does-the-symbol-mean-in-python-solved/)
+
+Optimierung: Verwende % nur 2 Mal.
+
+]
+&nbsp;
+
+---
+
+# Liste: Operationen
+
+`enumerate(l)` fügt zu den Listenelementen deren Index hinzu.
+
+```
+l = [40, 24, 31]
+for index, item in enumerate(l):
+    print(index, item)
+```
+
+Output:
+```
+0 40
+1 24
+2 31
+```
+
+Vgl.
+```
+for index in range(len(l)):
+    print(index, l[index])
+```
+
+
+---
+
+# Beispiel: Anstiege in Liste
+
+Alle "Anstiege" in einer Liste finden:
+```
+l = [5, 4, 7, 7, 3, 9, 4]
+
+for index, item in enumerate(l):
+    next_index = index + 1
+    if next_index < len(l):
+        next_item = l[next_index]
+        if next_item > item:
+            print("increase:", item, "to", next_item)
+```
+
+Output
+```
+increase: 4 to 7
+increase: 3 to 9
+```
+
+&rarr; Vorsicht bei Indexberechnungen
+
+---
+
+# Beispiel: Anstiege in Liste (Variante)
+
+Andere Formulierung mit dem `start`-Parameter von `range`:
+
+```
+l = [5, 4, 7, 7, 3, 9, 4]
+
+for i in range(1, len(l)):
+    previous_item = l[i - 1]
+    current_item = l[i]
+    if previous_item < current_item:
+        print("increase:", previous_item, "to", current_item)
+```
+Output
+```
+increase: 4 to 7
+increase: 3 to 9
+```
+
+Was passiert bei `l = []` oder `l = [1]` oder `l = [1, 2]`?
+
+---
+
+# Beispiel: Ansteige in Liste ohne Indexberechnung
+
+Lösung mittels itertools recipe:  
+https://docs.python.org/3/library/itertools.html
+```
+from itertools import *
+def pairwise(iterable):
+    "s -> (s0,s1), (s1,s2), (s2, s3), ..."
+    a, b = tee(iterable)
+    next(b, None)
+    return zip(a, b)
+
+
+l = [5, 4, 7, 7, 3, 9, 4]
+
+for previous_item, current_item in pairwise(l):
+    if previous_item < current_item:
+        print("increase:", previous_item, "to", current_item)
+```
+
+---
+
+# Programmiertipps
+
+* Gib Ausdrücken, die öfter vorkommen, einen Namen:
+  `next_item` ist lesbarer und ungefährlicher als `l[i + 1]`
+* Achte auf Randfälle, z.B. bei Beginn und Ende von Datenstrukturen und bei leeren Listen und Strings
+* Verwende möglichst sprechende Namen statt z.B. einzelne Buchstaben
+  * `l` ist ein schlechter Name, `liste` auch.
+  * In echtem Code am besten echte Namen verwenden, z.B. `students`, `shipments` (statt `student_list`).
+* Funktionen aus Libraries sind meistens besser als eigene Implementierungen  
+  &rarr; möglichst guter Überblick bzw. Recherche zahlt sich aus
+
+---
+
+# Übernächste Nachbarn
+
+.box.moody[.label[Aufgabe]
+<br/>
+Für eine gegebene Liste `l`, finde alle Elemente, die gleich ihrem übernächsten sind.
+
+`l = ["apple", "banana", "apple", "pear", "banana", "pear"]`  
+&rarr; "apple" ist bei Index `0` und `2`, "pear" bei `3` und `5`  
+&rarr; "banana" gilt nicht, weil der Abstand zu groß ist
+]
+&nbsp;
+
+---
+
+# List comprehension
+
+<img src="img/comprehension.jpg" alt="list comprehension" width="55%"/>
+
+---
+
+# List comprehension
+
+Wunderbar einfache Schreibweise für Datentransformationen
+
+Statt:
+```
+numbers = [3, 5, 8]
+squares = []
+
+for n in numbers:
+    squares.append(n ** 2)
+```
+
+Einfach:
+
+```
+numbers = [3, 5, 8]
+squares = [(n ** 2) for n in numbers]
+```
+
+---
+
+<img src="img/comprehension2.png" alt="list comprehension" width="65%"/>
+
+---
+
+# List comprehension
+
+Ähnlichkeit zu Mengenschreibweise:
+
+<img src="img/set-notation.png" alt="set notation" width="60%"/>
+
+```
+[x ** 2 for x in range(10, 20)]
+```
+
+---
+
+# List comprehension
+
+Auch Auswahl möglich:
+
+```
+numbers = [3, 5, 8]
+squares_large = [
+    n ** 2
+    for n in numbers
+    if n > 4
+]
+```
+
+Vergleiche:
+```
+numbers = [3, 5, 8]
+squares_large = []
+
+for n in number:
+    if n > 4:
+        squares.append(n ** 2)
+```
+
+---
+
+# List comprehension
+
+Auf gute Lesbarkeit achten:
+```
+squares_large = [(n ** 2) for n in numbers if n > 4]
+```
+VS
+
+```
+squares_large = [
+    n ** 2
+    for n in numbers
+    if n > 4
+]
+```
+
+&rarr; Zeilenumbrüche sind innerhalb von Klammern erlaubt, sonst mit `\` am Ende der Zeile.
+---
+
+# List comprehension
+
+.box.moody[.label[Aufgabe]
+<br/>
+Gegeben eine Liste von Zahlen `l1`: Schreibe eine Comprehension, die alle Zahlen aus `l1` enthält, die größer als 5 sind.  
+`l1 = [4, 7, 2, 5, 9]`  
+&rarr; `[7, 9]`
+]
+&nbsp;
+
+.box.moody[.label[Aufgabe]
+<br/>
+Gegeben 2 Listen `l` und `forbidden`: Schreibe eine comprehension mit allen Einträgen aus `l`, die nicht in `forbidden` vorkommen.  
+`l = ["a", "j", "i", "d", "e"]`  
+`forbidden = ["i", "j"]`  
+&rarr; `["a", "d", "e"]`  
+Könnte man das auch mit Strings statt Listen implementieren?
+]
+&nbsp;
+
+---
+
+# List comprehension
+
+.box.moody[.label[Aufgabe]  
+Berechne mit einer Comprehension, wie viele Zahlen in einer Liste größer oder gleich 3 und kleiner als 7 sind.
+
+`[1, 3, 9, 7, 4]` &rarr; `2`  
+`[1]` &rarr; `0`
+]
+&nbsp;
 
 
 
