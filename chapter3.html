@@ -309,6 +309,7 @@ So weit es Sinn macht haben Strings und Listen gleiche Interfaces:
 
 Schreibzugriff geht bei Strings (aus technischen Gründen) nicht.
 
+&rArr; viele Datenstrukturen mit ähnlichem Interface!
 
 ---
 
@@ -432,6 +433,8 @@ B
 [...]
 ```
 
+&rArr; viele Datenstrukturen mit ähnlichem Interface!
+
 ---
 
 # Schleifen
@@ -477,8 +480,8 @@ False
 
 # Liste: Operationen
 
-`l.sort()` sortiert die Liste.  
-`sorted(l)` gibt eine sortierte Liste zurück.
+`sorted(l)` gibt eine sortierte Liste zurück.  
+`l.sort()` sortiert die Liste und gibt nichts zurück.
 ```
 >>> shipment_sizes
 [44, 20, 90, 50, 44, 200]
@@ -503,7 +506,7 @@ False
 Schreibe Code, der für eine Liste von Werten den Median berechnet.
 
 `[3, 4, 2] ` &rarr; `3`  
-`[6.7, 5.2, 4.3, 2.2, 8.7]` &rarr; `'5.2'`
+`[6.7, 5.2, 4.3, 2.2, 8.7]` &rarr; `5.2`
 
 Ist die Anzahl der Elemente gerade, kann als Vereinfachung ein beliebiges dieser Elemente verwendet werden:
 
@@ -592,16 +595,12 @@ Erweiterungen | &nbsp;
 
 # Liste: Operationen
 
-.box.moody[.label[Aufgabe]
-<br/>
-Gegeben eine Liste von Zahlen `l1`: Erzeuge eine Liste `l2`, die alle Zahlen aus `l1` enthält, die größer als 5 sind.  
-`l1 = [4, 7, 2, 5, 9]`  
-&rarr; `l2 == [7, 9]`
+.box.moody[.label[Aufgabe]  
+Gegeben eine Liste von Zahlen `measurements`: Erzeuge eine Liste `outliers`, die alle Zahlen aus `measurements` enthält, die größer als 5 sind.  
+`measurements = [4, 7, 2, 5, 9]`  
+&rarr; `outliers == [7, 9]`
 ]
-&nbsp;
-
-.box.moody[.label[Aufgabe]
-<br/>
+.box.moody[.label[Aufgabe]  
 Gegeben 2 Listen `l` und `forbidden`: Erzeuge eine Liste `safe` mit allen Einträgen aus `l`, die nicht in `forbidden` vorkommen.  
 `l = ["a", "j", "i", "d", "e"]`  
 `forbidden = ["i", "j"]`  
@@ -657,7 +656,7 @@ Anstelle von jedem Vielfachen von 5, schreibe "Buzz".
 Bei Zahlen, die sowohl Vielfache von 3 und 5 sind, schreibe "FizzBuzz".
 
 Gewünschte Ausgabe (gerne auch in Zeilen):  
-`1 2 Fizz 4 Buzz Fizz 7 8 Fizz Buzz 11 Fizz 13 14 FizzBuzz 16 17 ...`
+`1 2 Fizz 4 Buzz Fizz 7 8 FizzBuzz 11 Fizz 13 14 FizzBuzz 16 17 ...`
 
 Hinweis: [Verwende % (modulo) um auf Vielfache zu prüfen.](https://www.freecodecamp.org/news/the-python-modulo-operator-what-does-the-symbol-mean-in-python-solved/)
 
@@ -741,7 +740,7 @@ Was passiert bei `l = []` oder `l = [1]` oder `l = [1, 2]`?
 
 ---
 
-# Beispiel: Ansteige in Liste ohne Indexberechnung
+# Beispiel: Anstiege in Liste ohne Index
 
 Lösung mittels itertools recipe:  
 https://docs.python.org/3/library/itertools.html
@@ -882,12 +881,10 @@ squares_large = [
 
 .box.moody[.label[Aufgabe]
 <br/>
-Gegeben eine Liste von Zahlen `l1`: Schreibe eine Comprehension, die alle Zahlen aus `l1` enthält, die größer als 5 sind.  
-`l1 = [4, 7, 2, 5, 9]`  
+Gegeben eine Liste von Zahlen `measurements`: Schreibe eine Comprehension, die alle Zahlen aus `measurements` enthält, die größer als 5 sind.  
+`measurements = [4, 7, 2, 5, 9]`  
 &rarr; `[7, 9]`
 ]
-&nbsp;
-
 .box.moody[.label[Aufgabe]
 <br/>
 Gegeben 2 Listen `l` und `forbidden`: Schreibe eine comprehension mit allen Einträgen aus `l`, die nicht in `forbidden` vorkommen.  
