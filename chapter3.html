@@ -186,13 +186,13 @@ Negative Indizes &rarr; von hinten beginnen
 
 .box.moody[.label[Aufgabe]
 <br/>
-Für eine gegebene Liste `l`, schreibe Code, der das "mittlere" Element zurückgibt.
+Für eine gegebene Liste `l`, schreibe Code, der das "mittlere" Element berechnet.
 
 Beispiele:
 
-`[1, 2, 3] &rarr; 2`  
+`[4, 12, 7] &rarr; 12`  
 `[1] &rarr; 1`  
-`[1, 2, 3, 4] &rarr; 2 oder 3`
+`[8, 5, 7, 4] &rarr; 5 oder 7`
 
 
 Achtung bei leeren Listen (`[]`)!
@@ -264,6 +264,7 @@ TypeError: unsupported operand type(s) for +: 'float' and 'str'
 [44, 20, 90, 50, 44, 200]
 >>> shipment_sizes[2:4]
 [90, 50]
+>>> # Erste Elemente einer langen Liste:
 >>> shipment_sizes[:3]
 [44, 20, 90]
 >>> shipment_sizes[3:]
@@ -908,6 +909,63 @@ Berechne mit einer Comprehension, wie viele Zahlen in einer Liste größer oder 
 `[1]` &rarr; `0`
 ]
 &nbsp;
+
+---
+
+# In-place Modifizierung vs Ergebnis als neue Liste
+
+* Mehrere "Namen" auf für gleiche Liste
+* "in-place"-Änderung verändert alle
+```
+>>> a = [5, 3, 8]
+>>> b = a
+>>> b
+[5, 3, 8]
+>>> a.append(7)
+>>> a
+[5, 3, 8, 7]
+>>> b  # b verändert, aber via Operation auf a
+[5, 3, 8, 7]
+```
+
+---
+
+# In-place Modifizierung vs Ergebnis als neue Liste
+
+* Mehrere "Namen" auf für gleiche Liste
+* Änderung durch Erzeugung einer Ergebnisliste und Namen neu vergeben  
+  &rArr; keine Änderung von anderen "Namen"
+
+```
+>>> a = [5, 3, 8]
+>>> b = a
+>>> a + [7]
+[5, 3, 8, 7]
+>>> a
+[5, 3, 8]
+>>> a = a + [7]
+>>> a
+[5, 3, 8, 7]
+>>> b  # unverändert!
+[5, 3, 8]
+```
+---
+
+# In-place Modifizierung vs Ergebnis als neue Liste
+
+In-place Operationen:
+
+* `l.append()`
+* `l.extend()`
+* `l[2] = "a"`
+* `del l[2]`
+* `l.remove()`
+
+Ergebnis als neue Liste:
+
+* `l[1] + l[2]`
+* `[a for a in l if a > 5]`
+
 
 
 
