@@ -336,10 +336,236 @@ HOURS_MIN = 8
 if hours > HOURS_MAX:
     print("Achtung: Zu viele Stunden")
 
-if hours < 8:
+if hours &lt; 8:
     print("Achtung: Zu wenige Stunden")
     pay = pay - 20
 
+```
+
+---
+
+name: middle
+
+# Mittleres Element
+
+```
+l = [4, 12, 7]
+middle = l[ int(len(l) / 2) ]
+middle = l[ len(l) // 2 ]
+print(middle)
+```
+
+---
+
+name: sum
+
+# Summe
+
+```
+l = [5, 3, 7]
+sum_ = 0
+for number in l:
+    sum_ = sum_ + number
+print(sum_)
+```
+
+---
+
+name: loop_selection
+
+# Auswahl mittels Schleife
+
+```
+l = [1, 3, 9, 7, 4]
+
+count_selected = 0
+sum_selected = 0
+
+for number in l:
+    if 3 &lt;= number &lt; 7:
+        count_selected  = count_selected + 1
+        sum_selected = sum_selected + number
+```
+
+---
+
+name: lohnverrechnung_jahr
+
+# Lohnverrechnung im Jahr
+
+```
+hours_per_week = [38, 39, 43, 40.5, 30]
+
+salaries_per_week = []
+
+for hours in hours_per_week:
+
+    if hours > 40:
+        salary = ...
+    else:
+        salary = ...
+    ...
+
+    salaries_per_week.append(salary)
+
+
+yearly_salary = sum(salaries_per_week)
+average_salary = yearly_salary / len(salaries_per_week)
+```
+
+---
+
+name: letter_count
+
+# Buchstaben zählen
+
+```
+sentence = "Programmieren macht Spaß"
+count_a = 0
+count_b = 0
+
+for letter in sentence:
+    # Achtung: so zählen wir nur Kleinbuchstaben
+    if letter == 'a':
+        count_a = count_a + 1
+
+    if letter == 'b':
+        count_b = count_b + 1
+
+print("Anzahl a:", count_a)
+print("Anzahl b:", count_b)
+if count_b > count_a:
+    print("b kommt öfter vor")
+```
+
+---
+
+name: median
+
+# Median
+
+```
+l = [6.7, 5.2, 2.2, 8.7]
+
+# "unterer" Median
+if l:
+    median = sorted(l)[ len(l) // 2 - 1 ]
+    print(median)
+
+# Median "mit Durchschnitt"
+if l:
+    l_sorted = sorted(l)
+    index_lower = len(l) // 2 - 1
+    if len(l) % 2 == 1:
+        median = l_sorted[ index_lower  ]
+    else:
+        medians = l_sorted[ index_lower : index_lower + 2  ]
+        median = sum(medians) / len(medians)
+    print(median)
+
+```
+
+---
+
+name: outliers
+
+# Outliers
+
+```
+measurements = [4, 7, 2, 5, 9]
+outliers = []
+for measurement in measurements:
+    if measurement > 5:
+        outliers.append(measurement)
+
+```
+
+---
+
+name: safe
+
+# Safe
+
+```
+l = ["a", "j", "i", "d", "e"]
+forbidden = ["i", "j"]
+safe = []
+for character in l:
+    if character not in forbidden:
+        safe.append(character)
+print(safe)
+```
+Als Strings:
+```
+l = "ajide"
+forbidden = "ij"
+safe = ""
+for character in l:
+    if character not in forbidden:
+        safe = safe + character
+print(safe)
+```
+
+---
+
+name: fizz
+
+# FizzBuzz
+
+```
+for number in range(1, 101):
+    divisible_3 = number % 3 == 0
+    divisible_5 = number % 5 == 0
+
+    result = ""
+
+    if divisible_3:
+        result = result + "Fizz"
+
+    if divisible_5:
+        result = result + "Buzz"
+
+    if result:
+        print(result)
+    else:
+        print(number)
+
+```
+
+(Nächste Slide für Variante)
+
+---
+
+# FizzBuzz
+
+```
+for number in range(1, 101):
+    divisible_3 = number % 3 == 0
+    divisible_5 = number % 5 == 0
+
+    if divisible_3 and divisible_5:
+        print("FizzBuzz")
+    elif divisible_3:
+        print("Fizz")
+    elif divisible_5:
+        print("Buzz")
+    else:
+        print(number)
+```
+
+---
+
+name: neighbor
+
+# Übernächste Nachbarn
+
+```
+l = ["apple", "banana", "apple", "pear", "banana", "pear"]
+
+for index in range(len(l) - 2):
+    next_index = index + 2
+    if l[index] == l[next_index]:
+        print(index, next_index, l[index])
 ```
 
 
