@@ -1,7 +1,15 @@
+Weitere inhalte:
+* kurz: csv ( code-examples/csv_example.py )
+* openpyxl durchgehen
+  https://towardsdatascience.com/automate-excel-reporting-with-python-233dd61fb0f2
+  example: report files for every month, then add formula in every file
+  https://towardsdatascience.com/automate-these-3-boring-excel-tasks-with-python-666b4ded101b
+* schedule ( code-examples/my_schedule.py ) + mail ( code-examples/mail.py )
+
 
 gute pandas infos (in ./pandas-intros):
 https://towardsdatascience.com/data-preprocessing-with-python-pandas-part-3-normalisation-5b5392d27673
 
-* https://gist.github.com/jorisvandenbossche/7b30ed43366a85af8626
+* geopandas lightning talk https://gist.github.com/jorisvandenbossche/7b30ed43366a85af8626
 * GIS ganze lecture: https://automating-gis-processes.github.io/CSC18/#
 
