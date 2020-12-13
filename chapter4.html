@@ -310,7 +310,7 @@ None
  &nbsp;
 ---
 
-# Scope
+# Scope (Sichtbarkeitsbereich)
 
 Wenn eine Variable definiert wird, ist sie nur im aktuellen Scope sichtbar:
 
@@ -333,7 +333,7 @@ NameError: name 'a' is not defined
 
 ---
 
-# Scope
+# Scope (Sichtbarkeitsbereich)
 
 Dadurch sind Funktionen isoliert voneinander:
 ```
@@ -455,6 +455,34 @@ Output:
 
 ---
 
+# Beispiel Exceldateien einlesen: 2 Varianten
+
+```
+data = pandas.read_excel(
+    "file.xlsx",
+    "Sheet 2",
+    0,
+    None,
+    0,
+    None,
+    False,
+    None,
+    None,
+    None,
+    ['Ja'],
+    ['Nein'],
+)
+data = pandas.read_excel(
+    "file.xlsx",
+    sheet_name="2. Schicht",
+    index_col=0,
+    true_values=['Ja']
+    false_values=['nein']
+)
+```
+
+---
+
 # Funktionen als Variablen
 
 Eine Funktion kann auch wie eine Variable übergeben werden:
@@ -497,7 +525,7 @@ Definiere auch einen default value für `epsilon`.
 
 # Überprüfter Listenindexzugriff
 .box.moody[.label[Aufgabe]  
-Implementiere die Funktion `safe_list_get`, die ein Item einer Liste an einem Index zurückgibt.
+Implementiere die Funktion `safe_list_get(l, index, default_value)`, die ein Item einer Liste an einem Index zurückgibt.
 
 Falls dieser Index nicht im Bereich der Liste ist, gibt einen definierbaren Defaultwert zurück. Wenn dieser nicht definiert ist, soll "not found" zurückgegeben werden.
 
@@ -554,7 +582,7 @@ Beschränke dich auf Beträge unter 1 Euro.
 
 
 `calculate_change(price=15, inserted_money=20)`  
-&rarr; `["5 cent"]`  
+&rarr; `['5 cent']`  
 `calculate_change(price=16, inserted_money=50)`  
 &rarr; `['20 cent', '10 cent', '2 cent', '2 cent']`  
 `calculate_change(price=61, inserted_money=100)`  
@@ -589,7 +617,7 @@ Welche Daten sollen als Konstanten gespeichert werden und welche werden über Pa
 # Lohnverrechnung revisited
 
 .box.moody[.label[Aufgabe]  
-Löse die Aufgabe <a href="chapter3.html#lohnverrechnung">Lohnverrechnung im Jahr</a> mittels Funktion(en) und List comprehensions.
+Löse die Aufgabe <a href="chapter3.html#lohnverrechnung_jahr">Lohnverrechnung im Jahr</a> mittels Funktion(en) und List comprehensions.
 
 Versuche, die gewünschten Daten deklarativ zu definieren (z.B. ohne eine Liste Stück für Stück mit `append` aufzubauen).
 ]
@@ -609,7 +637,29 @@ Versuche, die gewünschten Daten deklarativ zu definieren (z.B. ohne eine Liste 
 9
 ```
 
+---
 
+# Beispiel: Eigene Sortierung
+
+```
+>>> students = ['Charlie', 'Bob', 'Alice']
+>>> sorted(students)
+['Alice', 'Bob', 'Charlie']
+>>> def my_key_function(s): return len(s)
+... 
+>>> sorted(students, key=my_key_function)
+['Bob', 'Alice', 'Charlie']
+```
+Oder auch:
+```
+>>> sorted(students, key=lambda x: len(x))
+['Bob', 'Alice', 'Charlie']
+```
+Oder auch:
+```
+>>> sorted(students, key=len)
+['Bob', 'Alice', 'Charlie']
+```
 
     </textarea>
     <script type="text/javascript">
