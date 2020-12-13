@@ -5,6 +5,7 @@ Weitere inhalte:
   example: report files for every month, then add formula in every file
   https://towardsdatascience.com/automate-these-3-boring-excel-tasks-with-python-666b4ded101b
 * schedule ( code-examples/my_schedule.py ) + mail ( code-examples/mail.py )
+* linear programming: beispiel von tutorial durchgehen
 
 
 gute pandas infos (in ./pandas-intros):

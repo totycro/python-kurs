@@ -804,15 +804,15 @@ Statt:
 numbers = [3, 5, 8]
 squares = []
 
-for n in numbers:
-    squares.append(n ** 2)
+for number in numbers:
+    squares.append(number ** 2)
 ```
 
 Einfach:
 
 ```
 numbers = [3, 5, 8]
-squares = [(n ** 2) for n in numbers]
+squares = [(number ** 2) for number in numbers]
 ```
 
 ---
@@ -840,9 +840,9 @@ Auch Auswahl möglich:
 ```
 numbers = [3, 5, 8]
 squares_large = [
-    n ** 2
-    for n in numbers
-    if n > 4
+    number ** 2
+    for number in numbers
+    if number > 4
 ]
 ```
 
@@ -851,9 +851,9 @@ Vergleiche:
 numbers = [3, 5, 8]
 squares_large = []
 
-for n in number:
-    if n > 4:
-        squares.append(n ** 2)
+for number in numbers:
+    if number > 4:
+        squares.append(number ** 2)
 ```
 
 ---
@@ -862,15 +862,15 @@ for n in number:
 
 Auf gute Lesbarkeit achten:
 ```
-squares_large = [(n ** 2) for n in numbers if n > 4]
+squares_large = [(number ** 2) for number in numbers if number > 4]
 ```
 VS
 
 ```
 squares_large = [
-    n ** 2
-    for n in numbers
-    if n > 4
+    number ** 2
+    for number in numbers
+    if number > 4
 ]
 ```
 
@@ -911,7 +911,7 @@ Berechne mit einer Comprehension, wie viele Zahlen in einer Liste größer oder 
 
 # In-place Modifizierung vs Ergebnis als neue Liste
 
-* Mehrere "Namen" auf für gleiche Liste
+* Mehrere "Namen" für gleiche Liste
 * "in-place"-Änderung verändert alle
 ```
 >>> a = [5, 3, 8]
@@ -929,7 +929,7 @@ Berechne mit einer Comprehension, wie viele Zahlen in einer Liste größer oder 
 
 # In-place Modifizierung vs Ergebnis als neue Liste
 
-* Mehrere "Namen" auf für gleiche Liste
+* Mehrere "Namen" für gleiche Liste
 * Änderung durch Erzeugung einer Ergebnisliste und Namen neu vergeben  
   &rArr; keine Änderung von anderen "Namen"
 
@@ -1032,10 +1032,11 @@ average_expected_finish_years = statistics.mean(expected_finish_years)
 # Beispiel: Lösung List comprehension
 
 * Achtung bei Typen von Vergleichen
-* Auswahl der nicht-PH-Studierenden:
-  * bei list comprehension mittels Zwischenliste
-  * bei `for`-Schleife durch Ablaufsteuerung (alle Studierenden im `if` sind von der PH)
-
+* Bei `for`-Schleife:  
+  Eigenschaften von Daten durch Ablaufsteuerung  
+  (alle Studierenden im `if` sind von der PH)
+* Bei List comprehension:  
+  Eigenschaften von Daten als Zwischenergebnis in Liste mit eigenem Namen
 
 
 
