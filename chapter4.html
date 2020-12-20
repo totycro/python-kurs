@@ -122,14 +122,14 @@ Beispiel: Variablen nach Berechnung in einem Wertebereich halten:
 MAX = 5.0
 MIN = 3.0
 
-a = f(1)
+a = f(x)
 
 if a < MIN:
      a = MIN
 elif a > MAX:
     a = MAX
 
-b = f(5)
+b = g(a, y)
 
 if b < MIN:
      b = MIN
@@ -216,10 +216,10 @@ after
 Code mit Parameterübergabe:
 
 ```
-def f(l, a):
-   l.append(a)
-   a = a + 1
-   l.append(a)
+def f(l, value):
+   l.append(value)
+   value = value + 1
+   l.append(value)
 
 
 my_list = [5]
@@ -303,11 +303,23 @@ None
 
 # Funktionen
 
- .box.moody[.label[Aufgabe]
- <br/>
- Definiere eine Funktion `trim_value`, die im Code auf der Folie 2 eingesetzt werden könnte.
- ]
- &nbsp;
+.box.moody[.label[Aufgabe]  
+Definiere eine Funktion `trim_value`, die im Code auf der Folie 2 eingesetzt werden könnte.
+
+Sie soll so verwendet werden können:
+
+```
+a = 7.3
+a = trim_value(a)
+\# a hat jetzt den Wert 5.0
+a = 4.5
+a = trim_value(a)
+\# a hat immer noch den Wert 4.5
+```
+
+]
+&nbsp;
+
 ---
 
 # Scope (Sichtbarkeitsbereich)
@@ -393,7 +405,7 @@ print(a)
 
 # `main`
 
-Empfehlung: Code immer nur in Funktionen, nie im globalen Scope ausführen:
+Empfehlung: Code möglichst in Funktionen, nicht im globalen Scope ausführen:
 ```
 def calculate_foo(x):
     return x + 1
@@ -457,6 +469,7 @@ Output:
 
 # Beispiel Exceldateien einlesen: 2 Varianten
 
+### Variante: Positional Arguments
 ```
 data = pandas.read_excel(
     "file.xlsx",
@@ -472,6 +485,15 @@ data = pandas.read_excel(
     ['Ja'],
     ['Nein'],
 )
+```
+
+---
+
+# Beispiel Exceldateien einlesen: 2 Varianten
+
+### Variante: Keyword arguments / default arguments
+
+```
 data = pandas.read_excel(
     "file.xlsx",
     sheet_name="2. Schicht",
@@ -509,12 +531,12 @@ Output:
  Implementiere die Funktion `epsilon_equals`, die überprüft, ob die Differenz zwischen zwei Fließkommazahlen höchstens `epsilon` ist.  
 Überprüfe anhand dieser Eingaben:
 ```
-epsilon_equals(0.4, 0.4, 1e-12) == True
-epsilon_equals(0.4, 0.5, 1e-12) == False
-epsilon_equals(0.400001, 0.4, 1e-6) == True
-epsilon_equals(0.1 + 0.2, 0.3, 1e-10) == True
-epsilon_equals(0.3, 0.1 + 0.2, 1e-10) == True
-epsilon_equals(0.3000001, 0.1 + 0.2, 1e-9) == False
+epsilon_equals(0.4, 0.4, epsilon=1e-12) == True
+epsilon_equals(0.4, 0.5, epsilon=1e-12) == False
+epsilon_equals(0.400001, 0.4, epsilon=1e-6) == True
+epsilon_equals(0.1 + 0.2, 0.3, epsilon=1e-10) == True
+epsilon_equals(0.3, 0.1 + 0.2, epsilon=1e-10) == True
+epsilon_equals(0.3000001, 0.1 + 0.2, epsilon=1e-9) == False
 ```
 <br/>
 Definiere auch einen default value für `epsilon`.
