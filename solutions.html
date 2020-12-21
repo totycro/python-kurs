@@ -568,6 +568,77 @@ for index in range(len(l) - 2):
         print(index, next_index, l[index])
 ```
 
+---
+
+name: outliers-lc
+
+# Outliers list comprehension
+
+```
+measurements = [4, 7, 2, 5, 9]
+print([measurement for measurement in measurements if measurement > 5])
+# oder lesbarer geschrieben:
+print([
+    measurement
+    for measurement in measurements
+    if measurement > 5
+])
+```
+
+---
+
+name: safe-lc
+
+# Safe: list comprehension
+
+```
+l = ["a", "j", "i", "d", "e"]
+forbidden = ["i", "j"]
+safe = [
+    letter
+    for letter in l
+    if letter not in forbidden
+]
+
+# mit Strings:
+l = "ajide"
+forbidden = "ij"
+# gleiche Implementierung!
+safe = [
+    letter
+    for letter in l
+    if letter not in forbidden
+]
+```
+
+---
+
+name: auswahl-lc
+
+# Auswahl: list comprehension
+
+```
+values = [1, 3, 9, 7, 4]
+print(len([
+    value
+    for value in values
+    if value >= 3 and value < 7
+]))
+
+# oder so hingeschrieben:
+print(
+    len(
+        [
+            value
+            for value in values
+            if value >= 3 and value < 7
+        ]
+    )
+)
+```
+
+
+
 
 
     </textarea>
