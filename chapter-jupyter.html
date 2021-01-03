@@ -114,7 +114,7 @@ https://totycro.github.io/python-kurs
 
 ---
 
-# Jupter Notebooks
+# Jupyter Notebooks
 
 * Python Code direkt über Browser ausführen
 * *Literate programming*: Mischung von Code-Zellen und Beschreibungszellen/Grafiken
@@ -124,7 +124,7 @@ https://totycro.github.io/python-kurs
 
 ---
 
-# Jupter Notebooks: Vor-/Nachteile
+# Jupyter Notebooks: Vor-/Nachteile
 
 Großer Vor- und Nachteil:
 * Zellen können interaktiv neu ausgeführt werden
@@ -162,12 +162,36 @@ Hier downloaden:
 
 # Python Module selbst schreiben
 
-TODO:
-* dateiname
-* verzeichnisse (`__init__.py`?)
-* import in notebook
-* warnung: kein reload in notebook, python execute schon
- * nicht mal neu ausführen (auch nicht "alle neu ausführen") führt zu updates, nur "restart kernel and execute all"
+* Code in Module verpacken um ihn in Notebook (oder anderer Pythondatei) zu verwenden
+* Dateiname ist Modulname:  
+  `timber_production.py` &rarr; `import timber_production`
+* Auch Verzeichnisse möglich:  
+  `timber_production/__init__.py`  
+  `timber_production/statistics.py`  
+  ```
+  import timber_production.statistics
+  timber_production.statistics.calculate_output()
+  ```
+* Achtung:
+  * Notebook merkt sich "alten Codestand"
+  * Neu ausführen von `import`-Zelle hat keinen Effekt
+  * Wenn ein Modul upgedatet wurde, unbedingt "Restart kernel and execute all"
+
+---
+
+# Jupyter Notebooks
+
+.box.moody[.label[Aufgabe]  
+Experimentiere mit Notebooks:
+* Was gefällt dir an Notebooks besser und was an anderen Entwicklungsumgebungen wie Thonny?
+* Versuche Code in Modulen zu strukturieren
+
+]
+Tipp: Hotkeys erleichtern die Bedienung von Notebooks, z.B.
+* `Shift-Enter` / `Ctrl-Enter` (Ausführen)
+* `Tab` (Completion)
+* Navigation: `Esc`, `J`/`K`/Pfeil oben/Pfeil unten, `Enter`
+
   
     </textarea>
     <script type="text/javascript">
