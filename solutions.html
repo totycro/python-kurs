@@ -637,6 +637,167 @@ print(
 )
 ```
 
+---
+
+name: trim
+
+# `trim_value`
+
+```
+def trim_value(a, min_=3.0, max_=5.0):
+   if a > max_:
+       return max_
+   elif a < min_:
+       return min_
+   else:
+       return a
+
+
+```
+
+---
+
+name: epsilon_equals
+
+# `epsilon_equals`
+
+```
+def epsilon_equals(a, b, epsilon=1e-9):
+    return abs(a - b) < epsilon
+```
+
+---
+
+name: safe_list_get
+
+# `safe_list_get`
+
+```
+def safe_list_get(l, index, default_value='not found'):
+    if index < len(l):
+        return l[index]
+    else:
+        return default_value
+
+```
+
+
+
+---
+
+name: list_of_students
+
+# `print_students`
+
+```
+def print_students(students, message=""):
+    if message:
+        print(message)
+    else:
+        print(str(len(students)) + " Studierende:")
+
+    for student in students:
+        print("* " + student)
+```
+Variante:
+```
+def print_students(students, message=""):
+    if not message:
+        message = str(len(students)) + " Studierende:"
+    print(message)
+
+    students_formatted = ["* " + student for student in students]
+    print("\n".join(students_formatted))
+```
+
+
+
+
+---
+
+name: calculate_change
+
+# `calculate_change`
+
+Variante auf nächstem Slide
+
+```
+def calculate_change(price, inserted_money):
+    change_amount = inserted_money - price
+    change_coins = []
+
+    if change_amount > 50:
+        change_coins.append('50 cent')
+        change_amount = change_amount - 50
+
+    if change_amount > 20:
+        change_coins.append('20 cent')
+        change_amount = change_amount - 20
+
+    if change_amount > 20:
+        change_coins.append('20 cent')
+        change_amount = change_amount - 20
+
+    if change_amount > 10:
+        change_coins.append('10 cent')
+        change_amount = change_amount - 10
+    # similar for 5, 2, and 1
+    return change_coins
+```
+
+---
+
+# `calculate_change`
+
+```
+EURO_COINS = [50, 20, 10, 5, 2, 1]
+
+def calculate_change(price, inserted_money):
+    change_amount = inserted_money - price
+    change_coins = []
+
+    for coin in EURO_COINS:
+        # max 2 for each coin
+        for unused in range(2):
+            if change_amount >= coin:
+                change_coins.append(str(coin) + " cent")
+                change_amount = change_amount - coin
+
+    return change_coins
+```
+
+
+
+---
+
+name: lohnverrechnung_jahr_lc
+
+# Lohnverrechnung mittels comprehensions
+
+```
+BASE_SALARY = 20
+OVERTIME_FACTOR = 1.5
+REGULAR_HOURS = 40
+
+def calculate_amount_overtime(hours):
+    if hours > REGULAR_HOURS:
+        return hours - REGULAR_HOURS
+    else:
+        return 0
+
+def salary_for_week(hours):
+    overtime_hours = calculate_amount_overtime(hours)
+    regular_hours = hours - overtime_hours
+
+    return (regular_hours * BASE_SALARY) + \
+        (overtime_hours * BASE_SALARY * OVERTIME_FACTOR)
+
+hours_per_week = [38, 39, 43, 40.5, 30]
+salaries_per_week = [salary_for_week(h) for h in hours_per_week]
+
+
+```
+
 
 
 
