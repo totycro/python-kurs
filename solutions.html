@@ -794,12 +794,30 @@ def salary_for_week(hours):
 
 hours_per_week = [38, 39, 43, 40.5, 30]
 salaries_per_week = [salary_for_week(h) for h in hours_per_week]
-
-
 ```
 
+---
 
+name: recursion
 
+# Summe ohne Schleife
+
+```
+def my_sum(numbers):
+
+    if numbers:
+
+        current_number = numbers[0]
+
+        remaining_numbers = numbers[1:]
+        sum_remaining = my_sum(remaining_numbers)
+
+        return current_number + sum_remaining
+
+    else:
+
+        return 0
+```
 
 
     </textarea>
