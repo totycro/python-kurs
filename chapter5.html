@@ -114,6 +114,33 @@ https://totycro.github.io/python-kurs
 
 ---
 
+# Dictionaries: Motivation
+
+* Listen speichern eine Anzahl von einem Datentyp
+* Wie mehrere Eigenschaften eines Objekts speichern?
+
+Beispiel: Messungen eines Wertes an verschiedenen Orten mit verschiedenen Methoden.
+
+```
+measurement = {
+   "location": "Kaiserwasser",
+   "e.coli": [12.3, 11.2],
+   "enterokokken": [4],
+}
+measurement2 = {
+   "location": "Gänsehäufel",
+   "e.coli": [21.2, 8.6, 12.4],
+   "enterokokken": [1, 5],
+}
+```
+
+
+  
+
+
+
+---
+
 # Dictionaries
 
 * Dictionaries ordnen Werte andere Werte zu (Key-Value)
@@ -121,14 +148,14 @@ https://totycro.github.io/python-kurs
 
 ```
 dictionary = {
-    "language": "Sprache",
-    "value": "Wert",
+    "apple": "Apfel",
+    "pear": "Birne",
 }
-print(dictionary["value"])
+print(dictionary["apple"])
 ```
 Output:
 ```
-Wert
+Apfel
 ```
 
 ---
@@ -232,7 +259,7 @@ highest_price = max(prices.values())
 
 number_of_products = len(prices)
 
-# "in" arbeitet mit Keys (vgl. Telefonbuch)
+# "in" bezieht sich auf Keys (vgl. Telefonbuch)
 have_apples = "apple" in prices
 ```
 
@@ -445,8 +472,6 @@ Achtung: Keys können den gleichen Value haben. Deswegen muss der Value-Typ beim
 ---
 
 # Kassensystem (Bonus)
-
-&rArr; In der Einheit lösen oder als Hausübung?
 
 .box.moody[.label[Aufgabe]  
 Wir haben eine Preistabelle (Dictionary) für die Produkte und eine Liste von jä-Kunden. Diese Kunden erhalten 20% Rabatt.
