@@ -1,0 +1,6 @@
+Amsterdam Wien 1
+Wien Helsinki 2
+Amsterdam Helsinki 3
+Helsinki Stockholm 4
+Stockholm Berlin 2
+Wien Berlin 1
