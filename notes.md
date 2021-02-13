@@ -2,15 +2,41 @@
 
 
 ## Plan 2020 / 2021
- * mails versenden -> smtp
- * file / path handling (pathlib, file operations)
- * datetime
- * error handling (exceptions)
- * testing / git
- * linear programming
- * cron: jeden tag um 9 arbeiten -> schedule https://pypi.org/project/schedule/
- * pip (requirements.txt, venv, conda, conda env)
- * OOP
+* file / path handling (pathlib, file operations)
+* datetime
+* error handling (exceptions)
+* testing / git
+* linear programming
+* pip (requirements.txt, venv, conda, conda env)
+* openpyxl durchgehen
+  https://towardsdatascience.com/automate-excel-reporting-with-python-233dd61fb0f2
+  example: report files for every month, then add formula in every file
+  https://towardsdatascience.com/automate-these-3-boring-excel-tasks-with-python-666b4ded101b
+* schedule ( code-examples/my_schedule.py )
+  cron: jeden tag um 9 arbeiten -> schedule https://pypi.org/project/schedule/
+* mail ( code-examples/mail.py )  
+* linear programming: beispiel von tutorial durchgehen
+* regular expressions (find, substitute)
+* OOP: classes, data hiding, inheritance, polymorphism
+* IDEs: linting, type checking, completion, documentation
+* SQL: Datenbank und Abfragen (sqlite?)
+* Webserver programmieren
+* advanced python features:
+  * type annotations
+  * with statement
+  * decorators
+  * generator expression
+  * magic methods, __iter__
+  * generators
+  * coroutinges
+* multiprocessing, dask
+
+
+gute pandas infos (in ./pandas-intros):
+https://towardsdatascience.com/data-preprocessing-with-python-pandas-part-3-normalisation-5b5392d27673
+
+* geopandas lightning talk https://gist.github.com/jorisvandenbossche/7b30ed43366a85af8626
+* GIS ganze lecture: https://automating-gis-processes.github.io/CSC18/#
 
 
 ### ferner
