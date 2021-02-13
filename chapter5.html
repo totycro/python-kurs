@@ -134,17 +134,12 @@ measurement2 = {
 }
 ```
 
-
-  
-
-
-
 ---
 
 # Dictionaries
 
 * Dictionaries ordnen Werte andere Werte zu (Key-Value)
-* Z.B. Wörterbuch, Telefonbuch:
+* Z.B. buchstäblich als Wörterbuch, oder Telefonbuch, oder Daten von Messungen, ...
 
 ```
 dictionary = {
@@ -261,6 +256,9 @@ number_of_products = len(prices)
 
 # "in" bezieht sich auf Keys (vgl. Telefonbuch)
 have_apples = "apple" in prices
+
+# Aufsummieren, wenn Wert nicht immer vorhanden:
+sum([m.get("number_of_things", 0) for m in measurements])
 ```
 
 ---
@@ -320,13 +318,14 @@ Bei neueren Python-Versionen sind die Keys nach der Einfügereihenfolge gereiht.
 
 
 .box.moody[.label[Aufgabe]  
-Erstelle eine Liste von Dictionaries, wobei die Dictionaries deine Lehrveranstaltungen aus diesem Semester beschreiben. Als Keys sollen zumindest `name`, `lecturer` und `grade` enthalten sein. Falls du noch keine Note bekommen hast, lass das `grade`-Feld aus.
+Erstelle eine Liste von Dictionaries, wobei die Dictionaries deine Lehrveranstaltungen aus diesem Semester beschreiben. Als Keys sollen zumindest `name` (LVA-name), `lecturer` und `grade` enthalten sein. Falls du noch keine Note bekommen hast, lass das `grade`-Feld aus.
 
-Schreibe dann Code, der jeweils folgendes berechnet:
+Schreibe Funktionen für folgende Datenabfragen:
 
 1. Alphabetisch sortierte Liste der Namen der Kurse
 1. Liste der Namen der Lehrenden (ohne Duplikate)
 1. Namen der Kurse, die noch keine Note haben
+1. Notendurchschnitt
 1. Namen der Kurse mit der Note 1, 2 oder 3
 1. Füge einen neuen Kurs hinzu
 1. Trag eine Note für einen bestehenden Kurs ein
@@ -413,8 +412,8 @@ course.setdefault("participants", []).append("Alex")
 .box.moody[.label[Aufgabe]  
 Schreibe eine Funktion, welche die Vorkommnisse von Elementen in einem Iterable zählt:
 ```
->>> count_occurrences([1, 3, 2, 1, 2, 2])
-{1: 2, 3: 1, 2: 3}
+>>> count_occurrences([10, 30, 20, 10, 20, 20])
+{10: 2, 30: 1, 20: 3}
 >>> count_occurrences("access")
 {'a': 1, 'c': 2, 'e': 1, 's': 2}
 ```
@@ -428,7 +427,7 @@ Schreibe eine Funktion, welche die Vorkommnisse von Elementen in einem Iterable 
 
 ---
 
-# Vorkommnisse zählen 2
+# Klassifizieren
 
 .box.moody[.label[Aufgabe]  
 Schreibe eine Funktion, die die Verteilung der Anzahl der KursteilnehmerInnen beschreibt.
@@ -482,9 +481,69 @@ Wenn ein Kunde zur Kassa kommt, erhalten wir von unserem biometrischen Erkennung
 
 Berechne die Summe, die der Kunde bezahlen muss.
 
-Hinweis: Verwende einfach Strings um die Kundennamen und Produkte zu modellieren.
+Hinweis: Verwende Strings um die Kundennamen und Produkte zu modellieren.
 ]
 &nbsp;
+
+---
+
+# Dictionaries vs Keyword Arguments
+
+Keyword Arguments sind auch Key-Value-Zuordnungen:
+```
+plt.scatter(
+    x=ausbeute,
+    y=temperatur,
+    c=colors,
+)
+```
+
+Konvertierung Dictionaries &lrarr; Keyword Arguments möglich:
+
+```
+kwargs = {
+    "x": ausbeute,
+    "y": temperatur,
+    "c": colors,
+}
+plt.scatter(**kwargs)
+```
+
+Nützlich um `kwargs` vor dem Aufruf zu bearbeiten
+
+---
+
+# Dictionaries vs Keyword Arguments
+
+Keyword Arguments zu Dictionaries konvertieren:
+```
+kwargs = dict(
+    x=ausbeute,
+    y=temperatur,
+    c=colors,
+)
+```
+
+---
+
+# Beispiel: `csv`
+
+csv: Eingeschränkes Tabellenformat, <a href="./files/measurements.csv">Beispiel</a>
+
+<img src="img/csv.png"/ >
+
+```
+import csv
+for measurement in csv.DictReader(open("measurements.csv")):
+    print(measurement)
+```
+Output:
+```
+{'Messung': 'A34', 'Ausbeute': '55', 'Temperatur': '25.4'}
+{'Messung': 'B43', 'Ausbeute': '70', 'Temperatur': '24.2'}
+```
+
+Achtung: Zahlen sind hier als String dargestellt.
 
     </textarea>
     <script type="text/javascript">
