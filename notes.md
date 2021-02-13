@@ -5,10 +5,12 @@
  * mails versenden -> smtp
  * file / path handling (pathlib, file operations)
  * datetime
+ * error handling (exceptions)
  * testing / git
  * linear programming
  * cron: jeden tag um 9 arbeiten -> schedule https://pypi.org/project/schedule/
  * pip (requirements.txt, venv, conda, conda env)
+ * OOP
 
 
 ### ferner

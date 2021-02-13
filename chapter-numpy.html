@@ -131,7 +131,7 @@ https://totycro.github.io/python-kurs
 
 # Python und Excel
 
-### NumPy
+### NumPy / Pandas
 
 * NumPy ist nur für numerische Daten gedacht (Messungen, Vektoren, Matrizen, Koordinaten, ...)
 * Excel-Dateien können Input und Output sein, aber keine "schönen" Excel-Berichte
@@ -315,6 +315,31 @@ array([2, 3, 4])
 
 ---
 
+# Effizienz der Datenstrukturen
+
+NumPy kann bei größeren Datenmengen viel schneller sein:
+```
+>>> import timeit
+>>> values = list(range(1_000_000))
+>>> timeit.timeit("sum(values)", globals=globals(), number=1000)
+10.97652653802652
+>>> np_values = np.arange(1_000_000)
+>>> timeit.timeit("np_values.sum()", globals=globals(), number=1000)
+1.0708115589804947
+```
+
+Vor allem bei kleineren muss es aber nicht so sein:
+```
+>>> values = list(range(100))
+>>> timeit.timeit("sum(values)", globals=globals(), number=100_000)
+0.1949408070067875
+>>> np_values = np.arange(100)
+>>> timeit.timeit("np_values.sum()", globals=globals(), number=100_000)
+0.3197400019853376
+```
+
+---
+
 # NumPy array: Mehr als Python list
 
 ```
@@ -337,7 +362,7 @@ array([2, 3, 4])
 
 # NumPy: `arange`, `linspace`
 
-Einfache Hilfskontrukte:
+Einfache Hilfsfunktionen:
 
 * `arange`: Wie `range`, gibt aber `numpy` Array zurück
 * `linspace`: Auch ähnlich, man kann sich aber aussuchen, wieviele Werte man in dem Interval haben möchte
@@ -352,6 +377,26 @@ array([ 5.        ,  5.26315789,  5.52631579,  5.78947368,  6.05263158,
         7.63157895,  7.89473684,  8.15789474,  8.42105263,  8.68421053,
         8.94736842,  9.21052632,  9.47368421,  9.73684211, 10.        ])
 ```
+
+---
+
+# NumPy: `arange`, `linspace`
+
+Praktisch, um Funktion in Bereich zu evaluieren und plotten:
+```
+>>> x = np.linspace(0, 5)
+>>> y = x ** 2 - 3 * x - 10
+>>> plt.plot(x, y)
+```
+
+`x ** 2 - 3 * x - 10` sieht aus wie Algebra, ist aber:
+
+`a = x ** 2` &rArr; Quadrat auf Werte des Arrays  
+`b = 3 * x` &rArr; Addition auf Werte des Arrays  
+`c = a - b` &rArr; Elementweise Differenz von 2 Arrays  
+`c - 10` &rArr; `-10` angewendet auf alle Elemente des Arrays
+
+
 
 ---
 
@@ -400,8 +445,26 @@ array([[1, 2, 3],
 2
 ```
 
+---
+
+# Darstellungen der NumPy Datenstrukturen
+
+Gute Visualisierung von NumPy Daten und Funktionen:
+
+Kurzvariante:  
+https://jalammar.github.io/visual-numpy/
+
+Deep dive:  
+https://medium.com/better-programming/numpy-illustrated-the-visual-guide-to-numpy-3b1d4976de1d
+
+---
+
+# Fancy Indexing mit NumPy
+
 ```
-# Fancy indexing nur mit `numpy` array:
+>>> numpy_matrix
+array([[1, 2, 3],
+       [4, 5, 6]])
 >>> numpy_matrix[1, 2]
 6
 >>> numpy_matrix[1, (0, 1)] # 2 elemente der 2. dimension ausgewählt
@@ -410,6 +473,35 @@ array([4, 5])
 array([[2, 3],
        [5, 6]])
 ```
+```
+>>> x_and_y_values = np.array([[1, 10], [2, 20], [3, 30]])
+>>> x_and_y_values
+array([[ 1, 10],
+       [ 2, 20],
+       [ 3, 30]])
+>>> x_and_y_values[:, 0]  # x values (first of each pair)
+array([1, 2, 3])
+>>> x_and_y_values[:, 1]  # y values (second of each pair)
+array([10, 20, 30])
+```
+
+---
+
+# Fancy Indexing mit NumPy
+
+Auch Updates über Fancy Indexing:
+```
+>>> numpy_matrix
+array([[1, 2, 3],
+       [4, 5, 6]])
+>>> numpy_matrix[:, 1]
+array([2, 5])
+>>> numpy_matrix[:, 1] = [6, 12]
+>>> numpy_matrix
+array([[ 1,  6,  3],
+       [ 4, 12,  6]])
+```
+
 ---
 
 # Matrizen in Python
@@ -453,6 +545,8 @@ Gleichungsystem übersetzen und lösen mit [solve](https://numpy.org/doc/stable/
 from numpy.linalg import solve
 coefficients = [[1, 3], [5, -4]]
 result = [-7, 22]
+# Input kann Python List oder NumPy Array sein  
+# Output immer NumPy Array
 print(solve(coefficients, result))
 ```
 
@@ -527,13 +621,13 @@ Je nach Parameter kann es mehrere Rückgabewerte geben:
 
 # Beispiel: Curve fitting mit beliebigen Funktionen
 
-Disclaimer: Das ist ein Rechenbeispiel mit Daten zu COVID-19, keine Interpretation!  <a href="files/cases_second_half_2020.txt">Daten</a>
+Disclaimer: Das ist ein Rechenbeispiel mit Daten zu COVID-19, keine Interpretation!  <a href="files/cases_2020_since_june.txt">Daten</a>
 ```
 import scipy.optimize
 def curve_function(x, a, b, c, d):
     return a ** x + b * x ** 2 + c * x + d
 
-relevant_numbers = cases_second_half_2020[:170]  # 170 beliebig!
+relevant_numbers = cases_2020_since_june[:170]  # 170 beliebig!
 x = np.arange(len(relevant_numbers))
 parameters, covariance = scipy.optimize.curve_fit(
     f=curve_function, xdata=x, ydata=relevant_numbers,
@@ -548,18 +642,6 @@ plt.plot(
     curve_function(x, parameters[0], parameters[1], parameters[2], parameters[3])
 )
 ```
-
----
-
-# Darstellungen der NumPy Datenstrukturen
-
-Gute Visualisierung von NumPy Daten und Funktionen:
-
-Kurzvariante:  
-https://jalammar.github.io/visual-numpy/
-
-Deep dive:  
-https://medium.com/better-programming/numpy-illustrated-the-visual-guide-to-numpy-3b1d4976de1d
 
 ---
 
