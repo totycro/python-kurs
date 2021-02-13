@@ -1,17 +1,22 @@
 # Boku Python Kurs
 
 
-## Plan 2020
- * [DONE] excel sheet parsen und stats
- * [DONE (außer openpyxl] grafiken -> matplotlib, openpyxl in excel
+## Plan 2020 / 2021
+ * mails versenden -> smtp
+ * file / path handling (pathlib, file operations)
  * datetime
  * testing / git
+ * linear programming
+ * cron: jeden tag um 9 arbeiten -> schedule https://pypi.org/project/schedule/
+ * pip (requirements.txt, venv, conda, conda env)
+
+
+### ferner
+ * [DONE] excel sheet parsen und stats
+ * [DONE (außer openpyxl] grafiken -> matplotlib, openpyxl in excel
  * jupyter notebooks
    * erstes notebook: https://github.com/inwe-boku/lecture-scientific-computing/blob/master/lecture03-python-introduction/lecture03.ipynb
    * public toilets: https://github.com/inwe-boku/lecture-scientific-computing/blob/master/lecture04-python-scientific-ecosystem/lecture04.ipynb
- * cron: jeden tag um 9 arbeiten -> schedule https://pypi.org/project/schedule/
- * mails versenden -> smtp
- * file / path handling
  * project euler? (see recap)
 
 ## Kurs Inhalt
