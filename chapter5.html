@@ -114,6 +114,26 @@ https://totycro.github.io/python-kurs
 
 ---
 
+# Dictionaries
+
+* Dictionaries ordnen Werte andere Werte zu (Key-Value)
+* Z.B. buchstäblich als Wörterbuch, oder Telefonbuch, oder Daten von Messungen, ...
+
+```
+dictionary = {
+    "apple": "Apfel",
+    "pear": "Birne",
+}
+print(dictionary["apple"])
+```
+Output:
+```
+Apfel
+```
+
+
+---
+
 # Dictionaries: Motivation
 
 * Listen speichern eine Anzahl von einem Datentyp
@@ -132,25 +152,6 @@ measurement2 = {
    "e.coli": [21.2, 8.6, 12.4],
    "enterokokken": [1, 5],
 }
-```
-
----
-
-# Dictionaries
-
-* Dictionaries ordnen Werte andere Werte zu (Key-Value)
-* Z.B. buchstäblich als Wörterbuch, oder Telefonbuch, oder Daten von Messungen, ...
-
-```
-dictionary = {
-    "apple": "Apfel",
-    "pear": "Birne",
-}
-print(dictionary["apple"])
-```
-Output:
-```
-Apfel
 ```
 
 ---
@@ -219,22 +220,22 @@ Zugriff mit `get()` erlaubt Angabe von default-Wert:
 
 Keys:
 ```
-for product in prices:
-    print(product)  # apple, pear
-for product in prices.keys():
-    print(product)  # apple, pear
+>>> [product for product in prices]
+['apple', 'pear']
+>>> [product for product in prices.keys()]
+['apple', 'pear']
 ```
 
 Items:
 ```
-for product, price in prices.items():
-    print(product, price)  # apple 3, pear 2
+>>> [[product, price] for product, price in prices.items()]
+[['apple', 3], ['pear', 2]]
 ```
 
 Values:
 ```
-for price in prices.values():
-    print(price)  # 3, 2
+>>> [price for price in prices.values()]
+[3, 2]
 ```
 
 ---
@@ -256,9 +257,6 @@ number_of_products = len(prices)
 
 # "in" bezieht sich auf Keys (vgl. Telefonbuch)
 have_apples = "apple" in prices
-
-# Aufsummieren, wenn Wert nicht immer vorhanden:
-sum([m.get("number_of_things", 0) for m in measurements])
 ```
 
 ---
@@ -287,6 +285,59 @@ most_expensive_product = max(
     (price, product) for product, price in prices.items()
 )[1]
 ```
+
+---
+
+# Dictionaries: Beispiele
+
+```
+measurements = [
+    {
+        "location": "Kaiserwasser",
+        "e.coli": [1.4, 2.3],
+    },
+    {
+        "location": "Gänsehäufel",
+        "enterokokken": [3],
+    },
+]
+
+# Aufsummieren, wenn Wert nicht immer vorhanden:
+total_number_of_ecoli_measurements = sum([
+    len(measurement.get("e.coli", []))
+    for measurement in measurements
+])
+```
+
+---
+
+# Dictionaries: Alternative Modellierung
+
+```
+measurements = [
+    {
+        "location": "Kaiserwasser",
+        "values": {
+            "e.coli": [1.4, 2.3],
+            "enterokokken": [3],
+        },
+    },
+    {
+        "location": "Gänsehäufel",
+        "values": {
+            "enterokokken": [2],
+        },
+    },
+]
+
+import statistics
+avg_measured_kinds = statistics.mean([
+    len(measurement["values"])
+    for measurement in measurements
+])
+```
+
+
 ---
 
 # Dictionaries: Verändern
