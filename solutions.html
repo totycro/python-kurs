@@ -819,6 +819,74 @@ def my_sum(numbers):
         return 0
 ```
 
+---
+
+name: mycourses
+
+# My Courses
+
+<a href="solutions/mycourses.py">Siehe hier</a>
+
+---
+
+name: count_occurences
+
+# `count_occurences`
+
+
+```
+def count_occurences(iterable):
+    occurences = {}
+    for element in iterable:
+        if element in occurences:
+            occurences[element] += 1
+        else:
+            occurences[element] = 1
+    return occurences
+```
+
+---
+
+name: klassifizieren
+
+# Klassifizieren
+
+```
+# NOTE: this is more flexible than the original exercise
+def participant_counts(courses, classifier):
+    counts = {}
+    for course in courses:
+        group = classifier(course)
+        if group not in counts:
+            counts[group] = 0
+        counts[group] = counts[group] + 1
+    return counts
+
+def classifier_participants(course):
+    participants = len(course['participants'])
+    if participants <= 4:
+        return "0-4"
+    elif participants <= 10:
+        return "5-10"
+    else:
+        return "10-"
+```
+
+---
+
+name: invert_dictionary
+
+# `invert_dictionary`
+
+```
+def invert_dictionary(d):
+    inverted = {}
+    for key, value in d.items():
+        inverted.setdefault(value, []).append(key)
+    return inverted
+
+```
+
 
     </textarea>
     <script type="text/javascript">
