@@ -2,10 +2,10 @@
 
 
 ## Plan 2020 / 2021
+* testing / git (fix einbauen!)
+* datetime (auch durchmachen, ist nicht so lange)
 * file / path handling (pathlib, file operations)
-* datetime
 * error handling (exceptions)
-* testing / git
 * linear programming
 * pip (requirements.txt, venv, conda, conda env)
 * openpyxl durchgehen
