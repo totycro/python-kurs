@@ -122,9 +122,10 @@ https://totycro.github.io/python-kurs
 * Bietet effiziente Datenstrukturen für (große) numerische Berechnungen  
 * Verhältnismäßig einfache API (Application Programming Interface)
 * Wichtige Erweiterungen (gerne alle gleich installieren):
- * Pandas: Praktische Datenstrukturen und Operationen auf Basis von NumPy
+ * Pandas: Tabellarische Datenstrukturen und Operationen auf Basis von NumPy
  * Matplotlib: Erzeugt Grafiken
  * SciPy: Weitere nützliche Algorithmen
+ * scikit-learn: Klassifizierung, Machine Learning
 
 
 ---
@@ -323,7 +324,7 @@ NumPy kann bei größeren Datenmengen viel schneller sein:
 >>> values = list(range(1_000_000))
 >>> timeit.timeit("sum(values)", globals=globals(), number=1000)
 10.97652653802652
->>> np_values = np.arange(1_000_000)
+>>> np_values = np.array(values)
 >>> timeit.timeit("np_values.sum()", globals=globals(), number=1000)
 1.0708115589804947
 ```
@@ -333,7 +334,7 @@ Vor allem bei kleineren muss es aber nicht so sein:
 >>> values = list(range(100))
 >>> timeit.timeit("sum(values)", globals=globals(), number=100_000)
 0.1949408070067875
->>> np_values = np.arange(100)
+>>> np_values = np.array(values)
 >>> timeit.timeit("np_values.sum()", globals=globals(), number=100_000)
 0.3197400019853376
 ```
@@ -418,7 +419,7 @@ x = np.linspace(68, 103)
 slope, intercept, r_value, p_value, std_err = \
     scipy.stats.linregress(ausbeute, temperatur)
 # Achtung: Berechnung mit vielen Werten auf einmal:
-regression = intercept + slope * x
+regression = slope * x + intercept
 plt.plot(x, regression)
 print("r-value", r_value)
 print("r-value squared", r_value ** 2)
@@ -587,6 +588,8 @@ Ergebnis:
 Polynome verschiedenen Grades
 
 ```
+from numpy.polynomial import Polynomial
+
 y = np.array([1, 4, 8, 18, 25])
 x = np.arange(1, len(y) + 1)
 
@@ -595,12 +598,12 @@ plt.plot(x, y, 'o')
 space = np.linspace(x[0] - 0.5, x[-1] + 0.5, 100)
 
 for fitting_degree, style in [(1, '.'), (2, "--"), (4, '-')]:
-    coefficients = np.polyfit(x=x, y=y, deg=fitting_degree)
-    polynom = np.poly1d(coefficients)
-    plt.plot(space, polynom(space), style)
+    polynomial = Polynomial.fit(x=x, y=y, deg=fitting_degree)
+
+    plt.plot(space, polynomial(space), style)
 
     print("\nPolynom Grad " + str(fitting_degree) + ":")
-    print(polynom)
+    print(polynomial)
 
 plt.show()
 ```
@@ -612,9 +615,8 @@ plt.show()
 Je nach Parameter kann es mehrere Rückgabewerte geben:
 
 ```
->>> coefficients = np.polyfit(x=x, y=y, deg=1)
->>> coefficients, residuals, rank, singular_values, rcond = \
-        np.polyfit(x=x, y=y, deg=1, full=True)
+>>> p, (resid, rank, sv, rcond) = \
+     Polynomial.fit(x=x, y=y, deg=1, full=True)
 ```
 
 ---
@@ -662,7 +664,7 @@ https://scipy-lectures.org/
 # NumPy: Übungen
 
 .box.moody[.label[Aufgabe]  
-Rechne die Beispiele auf den letzen Folien mit geänderten Zahlen nach.
+Rechne die Beispiele auf den letzen Folien mit eigenen Beispieldaten.
 Schau in der Dokumentation nach, wie die man die Funktionen aufrufen kann!
 ]&nbsp;
 

@@ -1,6 +1,16 @@
 # Boku Python Kurs
 
 
+## Plan pandas, etc
+
+gute pandas infos (in ./downloaded-blog-posts):  
+https://towardsdatascience.com/data-preprocessing-with-python-pandas-part-3-normalisation-5b5392d27673
+
+scikit learn: iris clustering example:
+https://jakevdp.github.io/PythonDataScienceHandbook/05.02-introducing-scikit-learn.html
+
+
+
 ## Plan 2020 / 2021
 * testing / git (fix einbauen!)
 * datetime (auch durchmachen, ist nicht so lange)
@@ -31,9 +41,6 @@
   * coroutinges
 * multiprocessing, dask
 
-
-gute pandas infos (in ./pandas-intros):
-https://towardsdatascience.com/data-preprocessing-with-python-pandas-part-3-normalisation-5b5392d27673
 
 * geopandas lightning talk https://gist.github.com/jorisvandenbossche/7b30ed43366a85af8626
 * GIS ganze lecture: https://automating-gis-processes.github.io/CSC18/#
