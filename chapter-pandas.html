@@ -230,6 +230,33 @@ Viele Werte Indexzugriffsmöglichkeiten (Filterungen, mehrere Zeilen aussuchen).
 
 # Series
 
+Index kann wie Werte verändert werden (quasi zweite Liste):
+
+```
+>>> series = pd.Series([6, 7, 8])
+>>> series[0]
+6
+>>> series
+0    6
+1    7
+2    8
+dtype: int64
+>>> series.index
+RangeIndex(start=0, stop=3, step=1)
+>>> series.index = ['A', 'B', 'C']
+>>> series
+A    6
+B    7
+C    8
+dtype: int64
+>>> series['A']
+6
+```
+
+---
+
+# Series
+
 Ähnlichkeiten zu Dictionaries:
 
 ```
@@ -282,6 +309,21 @@ Name: speed, dtype: int64
 0.9501651394030409
 >>> machines_frame['speed'].corr(machines_frame['thickness']) ** 2
 0.9028137921368002
+>>> machines_frame.corr()
+              speed  thickness
+speed      1.000000   0.950165
+thickness  0.950165   1.000000
+>>> machines_frame.corr() ** 2
+              speed  thickness
+speed      1.000000   0.902814
+thickness  0.902814   1.000000
+```
+
+---
+
+# DataFrame: Viele nützliche Funktionen
+
+```
 >>> machines_frame.describe()
             speed  thickness
 count    3.000000   3.000000
@@ -297,6 +339,22 @@ max    100.000000   4.300000
 >>> machines_frame.plot.scatter(x="speed", y="thickness")
 ```
 
+---
+
+# DataFrame: Alles nur Listen
+
+```
+>>> machines_frame.index
+Index(['Maschine A', 'Maschine K', 'Maschine L'], dtype='object')
+>>> machines_frame.columns
+Index(['speed', 'thickness'], dtype='object')
+>>> machines_frame.values
+array([[100. ,   4.3],
+       [ 50. ,   1.2],
+       [ 80. ,   2.2]])
+>>> type(machines_frame.values)
+<c&#8203;lass 'numpy.ndarray'>
+```
 ---
 
 # Pandas: Spalten
@@ -318,11 +376,32 @@ K     5000
 L    70000
 Name: price, dtype: int64
 >>> # später löschen mit: del df['price']
+```
+
+---
+
+# Pandas: Spalten
+
+```
 >>> df[ ['speed', 'price'] ]
    speed  price
 A    100  10000
 K     50   5000
 L     80  70000
+>>> df['speed']
+A    100
+K     50
+L     80
+Name: speed, dtype: int64
+>>> type(df['speed'])
+<c&#8203;lass 'pandas.core.series.Series'>
+>>> df[ ['speed'] ]  # Achtung: Liste der Länge 1
+   speed
+A    100
+K     50
+L     80
+>>> type(df[ ['speed'] ])
+<c&#8203;lass 'pandas.core.frame.DataFrame'>
 ```
 
 ---
@@ -358,14 +437,30 @@ K     50   5000
 10000
 >>> df['price']['A']
 10000
->>> df.at["A", "price"]
+>>> df.at["A", "price"]  # geht nur auf Einzelwerte
 10000
 >>> df.loc['A']['price']
 10000.0  # Achtung: Konvertierung zu Series
          #          -> Einheitlicher Datentyp (float)
+
+# Auch mehrere Spalten/Zeilen auswählbar:
+>>> df.loc[['A', 'K'], ['speed', 'thickness']]
+   speed  thickness
+A    100        4.3
+K     50        1.2
 ```
 
-`iloc` ähnlich zu `loc`, verwendet aber Zahl, nicht Name (integer location)
+Achtung:
+`df.loc[ ['A', 'K'] ]`
+&ne;
+`df.loc['A', 'K']`
+
+---
+
+# Daten auswählen
+
+
+`iloc` ähnlich zu `loc`, verwendet aber Zahl, nicht Name (integer position location)
 
 Ausführliche Einführung zu Indexing:  
 https://medium.com/dunder-data/selecting-subsets-of-data-in-pandas-6fcd0170be9c
@@ -553,10 +648,18 @@ df['Ausbeute qualitativ'] = \
     df['Ausbeute nach Fehlerkappung [%]'].apply(ausbeute_quality)
 ```
 
+---
+
+# Pandas: Funktionen auf Daten anwenden
+
 `apply` auf DataFrame (ganze Datensätze verarbeiten):
 ```
 def mean_scan(row):
-    columns = ["Scanparameter Röntgen", "Scanparameter Laser", "Scanparameter Farbkamera"]
+    columns = [
+        "Scanparameter Röntgen",
+        "Scanparameter Laser",
+        "Scanparameter Farbkamera",
+    ]
     return row[ columns ].mean()
 
 df['Scanparameter mean'] = df.apply(mean_scan, axis='columns')
@@ -585,7 +688,7 @@ df.query("`Ausbeute qualitativ` == 'hoch'")
 
 # Hohe Ausbeute und hohe Luftfeuchtigkeit
 
-Filterung: "und" via Operator `&`
+Filterung: "und" auf bool-array via Operator `&`
 ```
 # Klammerung wichtig!
 df[
@@ -601,7 +704,7 @@ df.query(
 )
 ```
 
-"Oder" geht analog mit `|` bzw `or`, auch 
+"Oder" geht analog mit `|` bzw `or`
 
 ---
 
@@ -609,15 +712,23 @@ df.query(
 
 Kombination Filterung und `loc`:
 ```
-df.loc[df["Ausbeute qualitativ"] == 'hoch', 'rel. Luftfeuchtigkeit [%]']
+df.loc[
+    df["Ausbeute qualitativ"] == 'hoch',
+    'rel. Luftfeuchtigkeit [%]'
+]
 ```
 
 Query und Spaltenauswahl:
 ```
-df.query("`Ausbeute qualitativ` == 'hoch'")['rel. Luftfeuchtigkeit [%]']
+df.query(
+    "`Ausbeute qualitativ` == 'hoch'"
+)['rel. Luftfeuchtigkeit [%]']
 ```
 
-Hinweis: Updates nur über `loc` garantiert (sofern keine weiteren Filterungen):
+---
+
+# Updates
+
 ```
 # Schreiboperation automatisch auf alle Zellen angewendet:
 df.loc[
@@ -625,6 +736,9 @@ df.loc[
     'Scanparameter Röntgen':'Scanparameter Farbkamera'
 ] = 100
 ```
+
+Hinweis: Updates nur über `loc` garantiert (sofern keine weiteren Filterungen).
+
 
 ---
 
@@ -671,7 +785,7 @@ Temperatur [°C]
 
 # Beispiel: `groupby`
 
-Flexiblere Aggregation mit `agg`: Mehrere Spalten mit verschiednene Operationen
+Flexiblere Aggregation mit `agg`: Mehrere Spalten mit verschiedene Operationen
 ```
 >>> sheet1.groupby("Temperatur [°C]").agg({
     "Ausbeute nach Fehlerkappung [%]": "mean",
@@ -724,6 +838,37 @@ Temperatur [°C]
 # Beispiel: `groupby`
 
 Hinweis: Jede dieser Auswertungen kann sofort geplottet werden, einfach `.plot()` am Ende!
+
+---
+
+# Übung
+
+.box.moody[.label[Aufgabe]  
+Du hast ein Excel-Sheet mit Matr.Nr. von Studierenden, die an einer Vorlesung teilnehmen.
+
+1) Für eine Prüfung sollen alle mit gerader Matr.Nr. dem Prüfungsraum 'A' zugewiesen werden, die anderen 'B'. Erstelle entsprechend eine automatisch generierte Spalte.
+
+Nach der Prüfung erhältst du ein Email mit den Noten in folgendem Schema ("Matr.Nr: Note"):  
+a0100101: 2  
+e8484848: 4  
+
+2) Schreib ein Programm, das alle Noten in das Excel-Sheet einträgt. Nachdem es hunderte Einträge sind, möchtest du diese nicht händisch abtippen.
+]&nbsp;
+
+---
+
+# Übung
+
+.box.moody[.label[Aufgabe]  
+3) Gibt es mehr Einser in einem der Prüfungsräume?  
+4) Zeichne Histogramme der Notenverteilung insgesamt und pro Raum.  
+5) Erstelle eine neue Spalte "Bestanden" vom Typ bool, die entsprechend aus der Note berechnet wird.  
+6) Nächstes Semester erhältst du ein neues Excel-Sheet mit den Anmeldungen zur weiterführenden Vorlesung. Berechne die Liste von Studierenden, die auf der neuen Liste stehen, aber die erste Vorlesung noch nicht bestanden haben.  
+Bonus: Es gibt für jedes Semester eigene Excel-Sheets. Schau in bei jedem nach, ob die Studierenden damals die Vorlesung bestanden haben.  
+7) In dazugehörigen Übung gibt es 3 Übungstests. Man muss bei mindestens 2 Übungen teilnehmen und einen Notenschnitt von mindestens 3 bei den Tests haben, um zu bestehen. Berechne auch hier die "Bestanden"-Spalte.
+]&nbsp;
+
+
 ---
 
 # Pandas: Achtung bei NaN
