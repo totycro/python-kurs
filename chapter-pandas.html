@@ -335,6 +335,9 @@ min     50.000000   1.200000
 75%     90.000000   3.250000
 max    100.000000   4.300000
 
+>>> machines_frame['speed'].unique()
+array([100,  50,  80])
+
 # Eingebautes matplotlib-Interface:
 >>> machines_frame.plot.scatter(x="speed", y="thickness")
 ```
@@ -396,6 +399,27 @@ K     5000
 L    70000
 Name: price, dtype: int64
 >>> # später löschen mit: del df['price']
+```
+
+---
+
+# Pandas: Spalten
+
+```
+# Beispiel: Zwischen 0 und 1 normalisieren
+>>> df['price'] / df['price'].max()
+A    0.142857
+K    0.071429
+L    1.000000
+Name: price, dtype: float64
+
+# Beispiel: Auch normalisieren, aber begonnen bei 0
+>>> price = df['price']
+>>> (price - price.min()) / (price.max() - price.min())
+A    0.076923
+K    0.000000
+L    1.000000
+Name: price, dtype: float64
 ```
 
 ---
@@ -546,9 +570,10 @@ L     80        2.2
 
 ---
 
-# Excel-Daten einlesen
+# Tabellarische Daten einlesen
 ```
 pd.read_excel("file.xlsx")
+pd.read_csv("file.csv")
 ```
 
 Wichtige Parameter:
@@ -572,7 +597,7 @@ df = pd.read_excel(
 
 ---
 
-# Excel-Daten einlesen
+# Tabellarische Daten einlesen
 
 <a href="files/not_normalized.xlsx">Beispiel .xlsx File</a>  
 <a href="files/pandas-read-excel.ipynb">Beispiel Notebook</a>
@@ -666,6 +691,25 @@ def ausbeute_quality(ausbeute):
 
 df['Ausbeute qualitativ'] = \
     df['Ausbeute nach Fehlerkappung [%]'].apply(ausbeute_quality)
+```
+
+---
+
+# Pandas: Funktionen auf Daten anwenden
+
+Beispiel: Logarithmisch skalieren mit Behandlung von 0
+```
+def apply_if_not_zero(value):
+   if value != 0:
+       return np.log(value)
+   else:
+       return 0
+
+df['column'] = df['column'].apply(apply_if_not_zero)
+
+# Alternativ:
+nonzeros = df['column'] != 0
+df.loc[nonzeros, 'column'] = np.log(df.loc[nonzeros, 'column'])
 ```
 
 ---
@@ -861,7 +905,7 @@ Hinweis: Jede dieser Auswertungen kann sofort geplottet werden, einfach `.plot()
 
 ---
 
-# Übung
+# Prüfungsverwaltung
 
 .box.moody[.label[Aufgabe]  
 Du hast ein Excel-Sheet mit Matr.Nr. von Studierenden, die an einer Vorlesung teilnehmen.
@@ -877,7 +921,7 @@ e8484848: 4
 
 ---
 
-# Übung
+# Prüfungsverwaltung
 
 .box.moody[.label[Aufgabe]  
 3) Gibt es mehr Einser in einem der Prüfungsräume?  
@@ -888,6 +932,20 @@ Bonus: Es gibt für jedes Semester eigene Excel-Sheets. Schau in bei jedem nach,
 7) In dazugehörigen Übung gibt es 3 Übungstests. Man muss bei mindestens 2 Übungen teilnehmen und einen Notenschnitt von mindestens 3 bei den Tests haben, um zu bestehen. Berechne auch hier die "Bestanden"-Spalte.
 ]&nbsp;
 
+---
+
+# Outlier
+
+.box.moody[.label[Aufgabe]  
+Schreibe eine Funktion, die alle Einträge aus einem DataFrame löscht, die in einer Spalte einen Outlier aufweisen.
+
+Definiere dabei selbst, was für dich ein Outlier ist, zB:
+* Abstand zum Durchschnitt größer als 2 Standardabweichungen (`zscore`) ODER
+* untere und obere 15% löschen (Quantile)
+
+Die Funktion soll dabei printen, wieviele Werte gelöscht wurden.
+
+]&nbsp;
 
 ---
 
