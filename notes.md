@@ -3,6 +3,8 @@
 
 ## Plan pandas, etc
 
+csv von beispiel lesen
+
 gute pandas infos (in ./downloaded-blog-posts):  
 https://towardsdatascience.com/data-preprocessing-with-python-pandas-part-3-normalisation-5b5392d27673
 

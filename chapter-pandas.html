@@ -341,6 +341,26 @@ max    100.000000   4.300000
 
 ---
 
+# DataFrame: Viele nützliche Funktionen
+
+```
+>>> machines_frame.sum()
+speed        230.0
+thickness      7.7
+dtype: float64
+>>> type(machines_frame.sum())
+<c&#8203;lass 'pandas.core.series.Series'>
+
+# Rechenoperation DataFrame und Series
+>>> machines_frame / machines_frame.sum()
+               speed  thickness
+Maschine A  0.434783   0.558442
+Maschine K  0.217391   0.155844
+Maschine L  0.347826   0.285714
+```
+
+---
+
 # DataFrame: Alles nur Listen
 
 ```
@@ -939,6 +959,25 @@ Binder Nr.
 460     0.0
 461    81.0
 Name: Delaminierung %, Length: 461, dtype: float64
+```
+
+---
+
+# Pandas: Achtung bei NaN
+
+Anzahl / Anteil der NaN-Werte
+```
+# Trick: boolsche Werte True/False entsprechen 0 beim Rechnen
+>>> sum([True, False, False]) == 1
+True
+>>> nan_count = df['Delaminierung %'].isna().sum()
+
+# Oder ohne Trick:
+>>> nan_count = df['Delaminierung %'].isna().value_counts()['True']
+>>> nan_count = df['Delaminierung %'].value_counts(dropna=False)[np.nan]
+>>> nan_count = len(df[ df['Delaminierung %'].isna() ])
+
+>>> nan_ratio = nan_count / len(df)
 ```
 
 ---
