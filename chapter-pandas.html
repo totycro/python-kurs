@@ -117,14 +117,11 @@ https://totycro.github.io/python-kurs
 # Pandas
 
 * Paket für tabellarische Daten (vgl. Excel)
+  * Für kleinste Aufgaben eher Excel verwenden
+  * Für aufwendigere Berechnungen, langlebige Dateien oder wiederholende Aktion eher Pandas verwenden
 * Bequemes Handling von Spalten und Indices
 * Basiert auf `numpy`
 * Ähnlichkeiten zu data frame in R
-
-```
-# Konvention:
-import pandas as pd
-```
 
 Hilfreiche Links:
 
@@ -154,10 +151,11 @@ https://ourcodingclub.github.io/tutorials/pandas-python-intro/
 
 # Series
 
-* Grunddatentyp von Pandas
 * Kombiniert ein normales `numpy`-Array mit einem Index
 
 ```
+# Konvention:
+>>> import pandas as pd
 >>> thickness = pd.Series([4.3, 1.2, 2.2, 9.1])
 >>> thickness
 0    4.3
