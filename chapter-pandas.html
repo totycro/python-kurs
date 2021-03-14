@@ -572,8 +572,7 @@ L     80        2.2
 
 # Tabellarische Daten einlesen
 ```
-pd.read_excel("file.xlsx")
-pd.read_csv("file.csv")
+pd.read_excel("file.xlsx")  # für csv: pd.read_csv("file.csv")
 ```
 
 Wichtige Parameter:
@@ -1223,18 +1222,67 @@ Wende jede dieser Operationen auf dein eigenes Excel-File an.
 # Timeseries
 
 ```
-resample()
+# Spalte als datetime parsen
+>>> df = pd.read_csv(
+    "Manufacturing_Process.csv",
+    parse_dates=['time_stamp'],
+    index_col=0,
+)
+# Rechenoperationen auf Datum
+>>> df.index.max() - df.index.min()
+Timedelta('0 days 03:54:47')
+# Messungen normieren (Durchschnitt)
+>>> df.resample("1min").mean()
+                     AmbientHumidity.U.Actual  ...  Setpoint
+time_stamp                                     ...          
+2019-03-06 10:52:00                 17.240000  ...     11.71
+2019-03-06 10:53:00                 17.240000  ...     11.71
+>>> df.resample("1min").ngroups
+236
 ```
-https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html
-
-https://pandas.pydata.org/docs/getting_started/intro_tutorials/09_timeseries.html
-
 
 ---
 
-zur abrundung nochmal tutorials durchgehen?
+# Timeseries
 
-https://pandas.pydata.org/docs/getting_started/intro_tutorials/index.html
+```
+# Zugriff auf Properties der Datetime
+>>> df.index.hour
+Int64Index([10, 10, 10, 10, 10, 10, 10, 10, 10, 10,
+            ...
+            14, 14, 14, 14, 14, 14, 14, 14, 14, 14],
+           dtype='int64', name='time_stamp', length=14088)
+>>> df.index.weekday
+Int64Index([2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+            ...
+            2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
+           dtype='int64', name='time_stamp', length=14088)
+# Beispiel: Durchschnittswerte pro Wochentag
+>>> df.groupby(df.index.weekday).mean()
+```
+
+---
+
+# Timeseries
+
+```
+df['Machine1.Zone1Temperature.C.Actual'].plot()
+# Rolling window
+df['Machine1.Zone1Temperature.C.Actual'].rolling(
+    500, center=True,
+).mean().plot()  # statt mean() auch z.B. sum()
+```
+<img alt="timeseries plot" src="img/timeseries.png" width="90%"/>
+
+---
+
+# Timeseries
+
+Pandas Doku:  
+https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html
+
+E-Book Kapitel über Time Series:  
+https://jakevdp.github.io/PythonDataScienceHandbook/03.11-working-with-time-series.html
 
 
 
