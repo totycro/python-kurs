@@ -378,6 +378,31 @@ array([[100. ,   4.3],
 ```
 ---
 
+# DataFrame
+
+```
+>>> pd.DataFrame({"thickness": [4.3, 1.2], "speed": [100, 50]})
+   thickness  speed
+0        4.3    100
+1        1.2     50
+>>> pd.DataFrame(np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]]))
+   0  1  2
+0  1  2  3
+1  4  5  6
+2  7  8  9
+>>> pd.DataFrame(
+    data=np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]]),
+    columns=["thickness", "speed", "costs"],
+    index=["A", "K", "L"],
+)
+   thickness  speed  costs
+A          1      2      3
+K          4      5      6
+L          7      8      9
+```
+
+---
+
 # Pandas: Spalten
 
 ```
@@ -391,7 +416,9 @@ array([[100. ,   4.3],
 A    100        4.3  10000
 K     50        1.2   5000
 L     80        2.2  70000
->>> df.price  # gleiche Bedeutung wie df['price']
+
+# gleiche Bedeutung wie df['price']
+>>> df.price  # Achtung: geht nicht bei Leer-/Sonderzeichen
 A    10000
 K     5000
 L    70000
@@ -445,6 +472,14 @@ L     80
 >>> type(df[ ['speed'] ])
 <c&#8203;lass 'pandas.core.frame.DataFrame'>
 ```
+
+---
+
+# Pandas: Spalten plotten
+
+<img src="./img/df-plot.png" alt="Dataframe Plot" width="100%">
+
+<a href="files/praxisbeispiel-2019-import.ipynb">Notebook</a>
 
 ---
 
@@ -568,6 +603,30 @@ L     80        2.2
 
 ---
 
+# Pandas: Daten filtern
+
+Mehrdeutigkeiten in bezug auf boolsche Arrays:
+
+```
+>>> df[ ['speed', 'thickness'] ]  # Spalten auswählen
+   speed  thickness
+A    100        4.3
+K     50        1.2
+L     80        2.2
+>>> df[ [True, False, True] ]  # Zeilen auswählen (bool array)
+   speed  thickness
+A    100        4.3
+L     80        2.2
+>>> df.loc[ [True, False, True] ] # Zeilen auswählen (bool array) #2
+   speed  thickness
+A    100        4.3
+L     80        2.2
+```
+
+
+
+---
+
 # Tabellarische Daten einlesen
 ```
 pd.read_excel("file.xlsx")  # für csv: pd.read_csv("file.csv")
@@ -649,10 +708,55 @@ Braucht das Python-Paket `openpyxl`, ggf. über Thonny installieren.
 # Pandas: Daten filtern
 
 .box.moody[.label[Aufgabe]  
-Filtere ein Excel-File, das du im Studium, beruflich oder privat verwendest, nach interessanten Gesichtspunkten.
+Filtere ein Excel-File, das du im Studium, beruflich oder privat verwendest, nach interessanten Gesichtspunkten und versuche Schlüsse daraus zu ziehen.
 
 Bitte um Zusendung für praxisnahe Beispieldaten!
 ]&nbsp;
+
+---
+
+# Prüfungsverwaltung
+
+.box.moody[.label[Aufgabe]  
+Angenommen du hast ein Excel-Sheet mit Matr.Nr. von Studierenden, die an einer Vorlesung teilnehmen.
+
+1) Für eine Prüfung sollen alle mit gerader Matr.Nr. dem Prüfungsraum 'A' zugewiesen werden, die anderen 'B'. Erstelle entsprechend eine automatisch generierte Spalte.
+
+2) Nach der Prüfung erhältst du ein Email mit den Noten in folgendem Schema ("Matr.Nr: Note"):  
+a0100101: 2  
+e8484848: 4  
+m1231231: 1  
+Schreib ein Programm, das alle Noten in das Excel-Sheet einträgt. Nachdem es hunderte Einträge sind, möchtest du diese nicht händisch abtippen.
+]&nbsp;
+
+---
+
+# Prüfungsverwaltung
+
+.box.moody[.label[Aufgabe]  
+3) Gibt es mehr Einser in einem der Prüfungsräume?  
+4) Zeichne Histogramme der Notenverteilung insgesamt und pro Raum.  
+5) Erstelle eine neue Spalte "Bestanden" vom Typ bool, die entsprechend aus der Note berechnet wird.  
+6) Nächstes Semester erhältst du ein neues Excel-Sheet mit den Anmeldungen zur weiterführenden Vorlesung. Berechne die Liste von Studierenden, die auf der neuen Liste stehen, aber die erste Vorlesung noch nicht bestanden haben.  
+Bonus: Es gibt für jedes Semester eigene Excel-Sheets. Schau in bei jedem nach, ob die Studierenden damals die Vorlesung bestanden haben.  
+7) In dazugehörigen Übung gibt es 3 Übungstests. Man muss bei mindestens 2 Übungen teilnehmen und einen Notenschnitt von mindestens 3 bei den Tests haben, um zu bestehen. Berechne auch hier die "Bestanden"-Spalte.
+]&nbsp;
+
+---
+
+# Outlier
+
+.box.moody[.label[Aufgabe]  
+Schreibe eine Funktion, die alle Einträge aus einem DataFrame löscht, die in einer Spalte einen Outlier aufweisen.
+
+Definiere dabei selbst, was für dich ein Outlier ist, zB:
+* Abstand zum Durchschnitt größer als 2 Standardabweichungen (`zscore`) ODER
+* untere und obere 15% löschen (Quantile)
+
+Die Funktion soll dabei printen, wieviele Werte gelöscht wurden.
+
+]&nbsp;
+
 
 ---
 
@@ -900,49 +1004,6 @@ Temperatur [°C]
 
 Hinweis: Jede dieser Auswertungen kann sofort geplottet werden, einfach `.plot()` am Ende!
 
----
-
-# Prüfungsverwaltung
-
-.box.moody[.label[Aufgabe]  
-Du hast ein Excel-Sheet mit Matr.Nr. von Studierenden, die an einer Vorlesung teilnehmen.
-
-1) Für eine Prüfung sollen alle mit gerader Matr.Nr. dem Prüfungsraum 'A' zugewiesen werden, die anderen 'B'. Erstelle entsprechend eine automatisch generierte Spalte.
-
-Nach der Prüfung erhältst du ein Email mit den Noten in folgendem Schema ("Matr.Nr: Note"):  
-a0100101: 2  
-e8484848: 4  
-
-2) Schreib ein Programm, das alle Noten in das Excel-Sheet einträgt. Nachdem es hunderte Einträge sind, möchtest du diese nicht händisch abtippen.
-]&nbsp;
-
----
-
-# Prüfungsverwaltung
-
-.box.moody[.label[Aufgabe]  
-3) Gibt es mehr Einser in einem der Prüfungsräume?  
-4) Zeichne Histogramme der Notenverteilung insgesamt und pro Raum.  
-5) Erstelle eine neue Spalte "Bestanden" vom Typ bool, die entsprechend aus der Note berechnet wird.  
-6) Nächstes Semester erhältst du ein neues Excel-Sheet mit den Anmeldungen zur weiterführenden Vorlesung. Berechne die Liste von Studierenden, die auf der neuen Liste stehen, aber die erste Vorlesung noch nicht bestanden haben.  
-Bonus: Es gibt für jedes Semester eigene Excel-Sheets. Schau in bei jedem nach, ob die Studierenden damals die Vorlesung bestanden haben.  
-7) In dazugehörigen Übung gibt es 3 Übungstests. Man muss bei mindestens 2 Übungen teilnehmen und einen Notenschnitt von mindestens 3 bei den Tests haben, um zu bestehen. Berechne auch hier die "Bestanden"-Spalte.
-]&nbsp;
-
----
-
-# Outlier
-
-.box.moody[.label[Aufgabe]  
-Schreibe eine Funktion, die alle Einträge aus einem DataFrame löscht, die in einer Spalte einen Outlier aufweisen.
-
-Definiere dabei selbst, was für dich ein Outlier ist, zB:
-* Abstand zum Durchschnitt größer als 2 Standardabweichungen (`zscore`) ODER
-* untere und obere 15% löschen (Quantile)
-
-Die Funktion soll dabei printen, wieviele Werte gelöscht wurden.
-
-]&nbsp;
 
 ---
 
