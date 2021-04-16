@@ -1,4 +1,5 @@
 import math
+import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -73,17 +74,61 @@ def analyse_grades(df):
         print("Anzahl 1 in ", room, ":", in_room_and_grade_1['Note'].count())
 
 
+def add_passed(df):
+    # 5)
+    df['Bestanden'] = df['Note'] < 5
+
+
+def check_admission(previous_year_df, new_registrations_df):
+    # 6)
+    # Liste der Matr.Nr., die letztes Jahr bestanden haben:
+    previous_passing_entries = previous_year_df[ previous_year_df['Bestanden'] ]
+    previous_passing_matr_nr = previous_passing_entries['Matr.Nr.']
+
+    # Manueller Lookup:
+    new_registrations_df['Zugelassen'] = [
+        new_matr_nr in previous_passing_matr_nr.values
+        for new_matr_nr in new_registrations_df['Matr.Nr.']
+    ]
+
+    # Schlauere Variante: Schnittmenge zwischen Anmeldungen und Bestanden
+    before_passing_and_registered_now = \
+        np.intersect1d(previous_passing_matr_nr, new_registrations_df['Matr.Nr.'])
+    # pandas isin: Checke bei jedem Element, ob es in anderer Liste vorkommt
+    new_registrations_df['Zugelassen2'] = \
+        new_registrations_df['Matr.Nr.'].isin(before_passing_and_registered_now)
+
+
+def add_passed_for_exercise():
+    # 7)
+    # Vorgangsweise:
+    # Zeilen iterieren und Wert für jede Zeile berechnen
+    # ODER DataFrame.apply
+    # Für jede Zeile dann Teilnahmen zählen und Notenschnitt berechnen
+    pass
+
+
 def main():
     df = pd.read_excel("exams.xlsx")
     print_df(df, "Daten initial")
 
     assign_exam_room(df)
-    print_df(df, "Mit exam room")
+    print_df(df, "Mit Raum")
 
     add_grades(df=df, grades_mail=GRADES_MAIL)
-    print_df(df, "Mit grades")
+    print_df(df, "Mit Note")
 
     analyse_grades(df)
+
+    add_passed(df)
+    print_df(df, "Mit Bestanden")
+
+    new_registrations_df = pd.read_excel("new_registrations.xlsx")
+    check_admission(
+        previous_year_df=df,
+        new_registrations_df=new_registrations_df,
+    )
+    print_df(new_registrations_df, "Zugelassene nächstes Jahr")
 
     # 4)
     df.hist(
