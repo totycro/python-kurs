@@ -807,6 +807,7 @@ def apply_if_not_zero(value):
        return 0
 
 df['column'] = df['column'].apply(apply_if_not_zero)
+# hier auch map statt apply möglich (ersetzt Werte inplace)
 
 # Alternativ:
 nonzeros = df['column'] != 0
