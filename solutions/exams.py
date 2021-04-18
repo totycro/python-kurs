@@ -41,7 +41,6 @@ def add_grades(df, grades_mail):
         matr_nr: int(grade)
         for matr_nr, grade in lines_pairs
     }
-    import math
     df['Note'] = [
         grades_dict.get(matr_nr, math.nan)
         for matr_nr in df['Matr.Nr.']
