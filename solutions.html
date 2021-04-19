@@ -887,6 +887,43 @@ def invert_dictionary(d):
 
 ```
 
+---
+
+name: exams
+
+# Prüfungsverwaltung
+
+<a href="solutions/exams.py">exams.py</a>  
+<a href="solutions/exams.xlsx">exams.xlsx</a>  
+<a href="solutions/new_registrations.xlsx">new_registrations.xlsx</a>
+
+
+---
+
+name: outlier_pandas
+
+# Outlier
+
+```
+import numpy as np
+from scipy.stats import zscore
+
+def remove_outlier(df):
+    value_zscore = np.abs(zscore(df['value']))
+
+    print("Will delete", list(value_zscore > 2).count(True), "entries")
+
+    # filtern ohne df zu ändern:
+    new_df = df.loc[value_zscore <= 2]
+
+    # df an sich ändern:
+    df.drop(
+        # Auswahl der Indexe der zu löschenden Zeilen:
+        index=df.index[ value_zscore > 2 ],
+        inplace=True,
+    )
+```
+
 
     </textarea>
     <script type="text/javascript">
