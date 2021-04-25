@@ -775,6 +775,21 @@ Spalten auswählen:
 df.loc[:, 'Scanparameter Röntgen':'Scanparameter Farbkamera']
 ```
 
+---
+
+# Pandas: Über Zeilen iterieren
+
+Falls möglich nicht iterieren, sondern eingebaute Pandas-Funktionen verwenden
+```
+# Durchschnitt von 3 Spalten:
+>>> df[
+        ["Scanparameter Röntgen", "Scanparameter Laser", "Scanparameter Farbkamera"]
+    ].mean(axis='columns')
+0    12.0
+1    93.0
+2    34.0
+dtype: float64
+```
 
 ---
 
@@ -830,6 +845,26 @@ def mean_scan(row):
 
 df['Scanparameter mean'] = df.apply(mean_scan, axis='columns')
 
+```
+
+---
+
+# Pandas: Über Zeilen iterieren
+
+Diese Funktionen sollten selten notwendig sein!
+
+`iterrows()` gibt alle Zeilen als `Series` zurück
+
+```
+a = [f(row['Spalte1'], row['Spalte2']) for index, row in df.iterrows()]
+for index, row in df.iterrows():
+    f(row['Spalte1'], row['Spalte2'])
+```
+`itertuples()` gibt alle Zeilen als `NamedTuple` zurück
+```
+a = [f(row.Spalte1, row.Spalte2) for index, row in df.itertuples()]
+for index, row in df.itertuples():
+    f(row.Spalte1, row.Spalte2)
 ```
 
 ---
