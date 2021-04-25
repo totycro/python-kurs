@@ -795,7 +795,9 @@ dtype: float64
 
 # Pandas: Funktionen auf Daten anwenden
 
-`apply` auf Series (einzelne Werte verarbeiten):
+`apply` auf Series: Funktion transformiert ein Wert in anderen.  `apply()` wendet Funktion
+automatisch auf alle Werte an und erzeugt Ergebnis-`Series`.
+
 ```
 def ausbeute_quality(ausbeute):
     if ausbeute < 80:
@@ -845,6 +847,30 @@ def mean_scan(row):
 
 df['Scanparameter mean'] = df.apply(mean_scan, axis='columns')
 
+```
+
+---
+
+# Pandas: Funktionen auf Daten anwenden
+
+Mehrere Daten auf einmal zurückgeben
+```
+def analyze_matr(row):
+    return [row['Matr.Nr.'][0], int(row['Matr.Nr.'][1:])]
+>>> df.apply(analyze_matr, axis='columns')
+0    [a, 123]
+1    [m, 345]
+dtype: object
+>>> df_mat = df.apply(analyze_matr, axis='columns', result_type='expand')
+>>> df_mat
+   0    1
+0  a  123
+1  m  345
+>>> df_mat = df_mat.rename(columns={0: "Univ", 1: "Matr.Nr."})
+>>> df_mat
+  Univ  Matr.Nr.
+0    a       123
+1    m       345
 ```
 
 ---

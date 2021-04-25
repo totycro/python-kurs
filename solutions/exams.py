@@ -97,6 +97,10 @@ def check_admission(previous_year_df, new_registrations_df):
     new_registrations_df['Zugelassen2'] = \
         new_registrations_df['Matr.Nr.'].isin(before_passing_and_registered_now)
 
+    # Bei mehreren Excel-Dateien: Path.glob / rglob aus pathlib
+    # Entweder in Python jede Datei einzeln durchsuchen
+    # Oder previous_passing_matr_nr von jeder Datei mit pd.concat verknüpfen
+
 
 def add_passed_for_exercise():
     # 7)
