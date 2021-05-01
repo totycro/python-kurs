@@ -888,9 +888,9 @@ for index, row in df.iterrows():
 ```
 `itertuples()` gibt alle Zeilen als `NamedTuple` zurück
 ```
-a = [f(row.Spalte1, row.Spalte2) for index, row in df.itertuples()]
-for index, row in df.itertuples():
-    f(row.Spalte1, row.Spalte2)
+a = [f(row.Spalte1, row.Spalte2) for row in df.itertuples()]
+for row in df.itertuples():
+    f(row.Index, row.Spalte1, row.Spalte2)
 ```
 
 ---
@@ -1353,7 +1353,7 @@ Wende jede dieser Operationen auf dein eigenes Excel-File an.
 >>> df.index.max() - df.index.min()
 Timedelta('0 days 03:54:47')
 # Messungen normieren (Durchschnitt)
->>> df.resample("1min").mean()
+>>> df.resample("1min").mean()  # statt mean() auch nearest()
                      AmbientHumidity.U.Actual  ...  Setpoint
 time_stamp                                     ...          
 2019-03-06 10:52:00                 17.240000  ...     11.71
@@ -1361,6 +1361,19 @@ time_stamp                                     ...
 >>> df.resample("1min").ngroups
 236
 ```
+
+---
+
+# Timeseries
+
+TODO: get_loc nearest
+
+https://adriangcoder.medium.com/pandas-tricks-and-tips-a7b87c3748ea
+
+
+essentials generell: 
+https://pandas.pydata.org/pandas-docs/stable/user_guide/basics.html
+
 
 ---
 

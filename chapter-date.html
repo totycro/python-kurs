@@ -95,27 +95,210 @@
     <body onload="var slideshow = remark.create({highlightLanguage: 'python'});">
         <textarea id="source">
 
+layout: true
 
+<div class="footer">Python Kurs 2020/2021</div>
+---
+
+class: center, middle
 
 # Python Kurs 2020/2021
 
-Bernhard Mallinger | `b.mallinger [at] gmx.at`  
+# Date, Time, Timeseries
+
+### Bernhard Mallinger
+
+### `b.mallinger [at] gmx.at`
+
 https://totycro.github.io/python-kurs
 
-1. <a href="chapter1.html">Einführung, Shell, Strings, Variablen</a> <!-- <a href="pdf/chapter1.pdf">(pdf)</a> -->
-1. <a href="chapter2.html">Programme, Vergleiche, If, Kommentare</a> <!-- <a href="pdf/chapter2.pdf">(pdf)</a> -->
-1. <a href="chapter3.html">Listen, Schleifen</a>
-1. <a href="chapter4.html">Funktionen</a>
-1. <a href="chapter-jupyter.html">Jupyter Notebooks</a>
-1. <a href="chapter-matplotlib.html">Grafiken</a>
-1. <a href="chapter5.html">Dictionaries</a>
-1. <a href="chapter-numpy.html">NumPy: Basis für Weiterführende Berechnungen</a>
-1. <a href="chapter-pandas.html">Pandas: Tabellarische Daten</a>
-1. <a href="chapter-date.html">Date, Time, Timeseries</a>
+---
 
-***
+# Datetime
 
-<a href="2019-2020">Unterlagen 2019-2020</a>
+* `datetime` enthält Datentypen für ein Datum (`date`), Datum+Uhrzeit (`datetime`) und Zeitdauer (`timedelta`).
+* Sinnvolle Operationen wie `<`, `+`, `-` werden unterstützt
+* Kümmert sich bei Berechnungen um variable Monatslänge, auch Schalttage
+
+```
+>>> import datetime
+>>> march_30 = datetime.date(2020, 3, 30)
+>>> this_day = datetime.date.today()
+>>> march_30 > this_day
+True
+>>> march_30 - datetime.date(2020, 2, 5)
+datetime.timedelta(days=54)
+>>> march_30.month  # other properties: day, year
+3
+>>> march_30 + datetime.timedelta(days=4)
+datetime.date(2020, 4, 3)
+
+```
+
+---
+
+# Datetime
+
+Achtung: Das Modul und der Datentyp heißen `datetime`.
+
+<img src="img/datetime.png" alt="datetime" width="65%"/>
+
+---
+
+# Datetime
+
+Formatierte Ausgabe mittels [Codes](https://docs.python.org/3/library/datetime.html#strftime-and-strptime-format-codes) und `strftime`:
+```
+>>> now = datetime.datetime.now()
+>>> now.strftime("%Y-%m-%d")
+'2020-06-21'
+```
+
+Mit timezone-aware Datum arbeite (Sommer-/Winterzeitprobleme vermeiden)
+```
+>>> import pytz
+>>> nown.astimezone(pytz.timezone('Europe/Vienna'))
+datetime.datetime(2020, 6, 21, 16, 18, 29, 678644, tzinfo=<DstTzInfo 'Europe/Vienna' CEST+2:00:00 DST>)
+>>> pytz.UTC.localize(datetime.datetime.utcnow())
+datetime.datetime(2020, 6, 21, 14, 24, 30, 418818, tzinfo=<UTC>)
+```
+
+
+
+---
+
+# `dateutil`
+
+Empfohlene `datetime`-Erweiterung: `python-dateutil`
+
+Ggf. Installation über Thonny: Tools &rarr; Manage packages
+
+<img src="img/thonny-dateutil.png" alt="dateutil Installation" width="70%"/>
+
+---
+
+# `dateutil`
+
+Ermöglicht erweiterte Datumsoperationen
+
+```
+>>> from dateutil.relativedelta import relativedelta, MO
+>>> datetime.date(2020, 1, 31) + relativedelta(months=1)
+datetime.date(2020, 2, 29)
+>>> datetime.date(2020, 1, 31) + relativedelta(months=1, day=1)
+datetime.date(2020, 2, 1)  # der erste Tag am nächsten Monat
+>>> datetime.date(2020, 1, 31) + relativedelta(weekday=MO)
+datetime.date(2020, 2, 3)  # nächster Montag
+```
+Alter berechnen:
+```
+>>> datetime.date.today() - datetime.date(1989, 6, 13)
+datetime.timedelta(days=11218)
+>>> relativedelta(datetime.date.today(), datetime.date(1989, 6, 13))
+relativedelta(years=+30, months=+8, days=+16)
+```
+
+---
+
+# `dateutil`
+
+`dateutil` stellt auch [Parser](https://dateutil.readthedocs.io/en/stable/examples.html#parse-examples) zur Verfügung
+
+```
+>>> from dateutil.parser import parse
+>>> parse("2020-01-05")
+datetime.datetime(2020, 1, 5, 0, 0)
+>>> parse("5.1.2020")  # Achtung!
+datetime.datetime(2020, 5, 1, 0, 0)
+>>> parse("5.1.2020", dayfirst=True)
+datetime.datetime(2020, 1, 5, 0, 0)
+```
+---
+
+# Kassensystem 2
+
+.box.moody[.label[Aufgabe]  
+Erweitere das Kassensystem:
+
+Am Dienstag ist Studierendentag. Alle Studierenden bekommen 15% zusätzlichen Rabatt.
+Das System hat eine Liste von Studierenden.
+
+Am Donnerstag ist Seniorentag. Alle über 65 erhalten 65% zusätzlichen Rabatt.
+Im System gibt es ein Dictionary, das die Geburtstage aller Kunden gespeichert hat.
+
+]
+&nbsp;
+
+---
+
+# Datetime in numpy/pandas
+
+NumPy hat eigenständige Datentypen:
+
+```
+# Erzeugen nur mit strings:
+>>> np.datetime64("2020-04")
+numpy.datetime64('2020-04')
+>>> np.datetime64("2020-04-05T12:10")
+numpy.datetime64('2020-04-05T12:10')
+>>> np.datetime64("2020-04-05T12:10:02.123456")
+numpy.datetime64('2020-04-05T12:10:02.123456')
+>>> delta_16h = np.timedelta64(16, 'h')
+>>> np.datetime64("2020-04-05T12:10:02.123456") + delta_16h
+numpy.datetime64('2020-04-06T04:10:02.123456')
+```
+
+Erlaubt Setzen der Grundeinheit:
+```
+>>> np.datetime64("2020-04-05T12:10", "W")  # week
+numpy.datetime64('2020-04-02')
+>>> np.datetime64("2020-04-05T12:10", "W") + 2
+numpy.datetime64('2020-04-16')
+```
+
+---
+
+# Datetime in numpy/pandas
+
+
+```
+# NumPy datetime funktioniert mit NumPy-Funktionen
+>>> dates = np.arange(np.datetime64('2020-01-01'), '2020-02-01', 3)
+>>> dates
+array(['2020-01-01', '2020-01-04', '2020-01-07', '2020-01-10',
+       '2020-01-13', '2020-01-16', '2020-01-19', '2020-01-22',
+       '2020-01-25', '2020-01-28', '2020-01-31'], dtype='datetime64[D]')
+>>> plt.plot(dates, range(len(dates)))
+```
+<img src="img/date_plot.png" alt="datetime" width="75%"/>
+
+
+---
+
+# Pandas Timestamp
+
+Pandas kombiniert `datetime` und `np.datetime64`:
+
+```
+>>> pd.Timestamp(2020, 1, 3)
+Timestamp('2020-01-03 00:00:00')
+>>> pd.to_datetime("10.04.2020", dayfirst=True)
+Timestamp('2020-04-10 00:00:00')
+>>> pd.to_datetime("10.04.2020 17:30", dayfirst=True)
+Timestamp('2020-04-10 17:30:00')
+```
+
+
+
+---
+
+
+
+
+
+
+
+
 
 
 
