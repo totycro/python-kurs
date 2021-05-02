@@ -969,7 +969,7 @@ Hinweis: Updates nur über `loc` garantiert (sofern keine weiteren Filterungen).
 
 ---
 
-# Scanparameter relativ zueinander
+# Spalten relativ zueinander
 
 Filterung:
 ```
@@ -980,6 +980,68 @@ Query:
 ```
 df.query("`Scanparameter Röntgen` < `Scanparameter Laser`")
 ```
+
+---
+
+# Eintrag mit maximaler Ausbeute
+
+Maximum finden mit `max`, `desribe()`, ...
+```
+>>> df['Ausbeute'].max()
+0.98
+```
+Schlechter Stil: An Pandas vorbeiarbeiten und in Python implementieren
+```
+>>> [row for index, row in df.iterrows() if row['Ausbeute'] == 0.98]
+[Prozess              C
+Maschinentyp        X3
+Temperatur      23.150
+Parameter1           7
+Parameter2           3
+Ausbeute         0.980
+Fehlerquote      0.002
+Name: 2, dtype: object]
+```
+
+---
+
+# Eintrag mit maximaler Ausbeute
+
+Besser: Filtern direkt mit Pandas-Funktionen
+```
+>>> df['Ausbeute'] == df['Ausbeute'].max()
+0    False
+1    False
+2     True
+3    False
+Name: Ausbeute, dtype: bool
+>>> df[ df['Ausbeute'] == df['Ausbeute'].max() ]
+  Prozess Maschinentyp  Temperatur  Parameter1  Parameter2  Ausbeute  Fehlerquote
+2       C           X3       23.15           7           3      0.98        0.002
+```
+
+---
+
+# Eintrag mit maximaler Ausbeute
+
+
+
+Noch besser: Spezifische Pandas-Funktoin verwenden
+
+```
+>>> df['Ausbeute'].argmax()
+2
+>>> df.iloc[ df['Ausbeute'].argmax() ]
+Prozess              C
+Maschinentyp        X3
+Temperatur      23.150
+Parameter1           7
+Parameter2           3
+Ausbeute         0.980
+Fehlerquote      0.002
+Name: 2, dtype: object
+```
+
 
 ---
 

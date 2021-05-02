@@ -402,6 +402,35 @@ Bei `get_loc` `method` sowie `resample` Aggregierung auch möglich: `backfill`, 
 
 
 ---
+
+# Timeseries Datenbereinigung: Index
+
+```
+>>> df.resample("1min").nearest()
+ValueError: cannot reindex a non-unique index with a method or limit
+>>> len(df)
+14088
+>>> len(df.index.unique())
+14074
+>>> df.index.duplicated()
+array([False, False, False, ..., False, False, False])
+# Anzahl Duplikate?
+>>> df.index.duplicated().sum()  # Trick: True wird auf 1 konvertiert
+14
+>>> df = df[ ~df.index.duplicated() ]  # Selektion mit Verneinung
+# Alternativ: Gruppierung
+>>> df = df.groupby("time_stamp").first()  # Auch mean möglich
+# Alternativ: drop_duplicates (geht nicht direkt auf Index)
+>>> df = df.reset_index().drop_duplicates(subset=['time_stamp']).set_index('time_stamp')
+>>> df.resample("1min").nearest()
+                     AmbientConditions.AmbientHumidity.U.Actual  ...
+time_stamp                                                       ...
+2019-03-06 10:52:00                                       17.24  ...
+```
+
+---
+
+
 https://adriangcoder.medium.com/pandas-tricks-and-tips-a7b87c3748ea
 
 
