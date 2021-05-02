@@ -238,7 +238,7 @@ Im System gibt es ein Dictionary, das die Geburtstage aller Kunden gespeichert h
 
 ---
 
-# Datetime in numpy/pandas
+# Datetime in numpy
 
 NumPy hat eigenständige Datentypen:
 
@@ -257,7 +257,7 @@ numpy.datetime64('2020-04-06T04:10:02.123456')
 
 ---
 
-# Datetime in numpy/pandas
+# Datetime in numpy
 
 Erlaubt Setzen der Grundeinheit:
 ```
@@ -273,7 +273,7 @@ numpy.datetime64('2020-04-05T12:10:02')
 
 ---
 
-# Datetime in numpy/pandas
+# Datetime in numpy
 
 
 ```
@@ -304,6 +304,11 @@ Timestamp('2020-04-10 17:30:00')
 # Unterstützt Zeitzonen:
 >>> pd.to_datetime('2018-01-01 02:00:00+07:00')
 Timestamp('2018-01-01 02:00:00+0700', tz='pytz.FixedOffset(420)')
+# Eigene Syntax für Berechnungen:
+>>> pd.Timestamp(2021, 5, 1) + pd.offsets.Hour(2)
+Timestamp('2021-05-01 02:00:00')
+>>> pd.Timestamp(2021, 5, 1) + 2 * pd.offsets.BusinessDay()
+Timestamp('2021-05-04 00:00:00')
 ```
 
 ---
@@ -311,7 +316,7 @@ Timestamp('2018-01-01 02:00:00+0700', tz='pytz.FixedOffset(420)')
 # Pandas Timeseries
 
 ```
-# Spalte als datetime parsen
+# Spalte als Timestamp parsen und als Index verwenden
 >>> df = pd.read_csv(
     "Manufacturing_Process.csv",
     parse_dates=['time_stamp'],
@@ -351,6 +356,32 @@ ax1.tick_params(axis='y', labelcolor="red")
 ```
 
 <img alt="resampled plot" src="img/resample.png" width="40%"/>
+
+---
+
+# Pandas Timeseries
+
+Auswahl von Daten
+```
+# Wie gewohnt nach Key
+>>> df.loc["2019-03-06 14:41:17"]
+AmbientConditions.AmbientHumidity.U.Actual         13.94
+AmbientConditions.AmbientTemperature.U.Actual      24.43
+...
+# Auch größere Zeiteinheiten, hier ganze Minute:
+>>> df.loc["2019-03-06 14:41"]
+                     AmbientConditions.AmbientHumidity.U.Actual  ...
+time_stamp                                                       ...
+2019-03-06 14:41:00                                       13.94  ...
+2019-03-06 14:41:01                                       13.94  ...
+2019-03-06 14:41:02                                       13.94  ...
+...
+2019-03-06 14:41:58                                       13.94  ...
+2019-03-06 14:41:59                                       13.94  ...
+
+[60 rows x 115 columns]
+```
+
 
 ---
 
@@ -403,7 +434,7 @@ Bei `get_loc` `method` sowie `resample` Aggregierung auch möglich: `backfill`, 
 
 ---
 
-# Timeseries Datenbereinigung: Index
+# Timeseries Datenbereinigung: Index-Duplikate
 
 ```
 >>> df.resample("1min").nearest()
@@ -427,16 +458,6 @@ array([False, False, False, ..., False, False, False])
 time_stamp                                                       ...
 2019-03-06 10:52:00                                       17.24  ...
 ```
-
----
-
-
-https://adriangcoder.medium.com/pandas-tricks-and-tips-a7b87c3748ea
-
-
-essentials generell: 
-https://pandas.pydata.org/pandas-docs/stable/user_guide/basics.html
-
 
 ---
 
