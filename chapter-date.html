@@ -157,7 +157,7 @@ Formatierte Ausgabe mittels [Codes](https://docs.python.org/3/library/datetime.h
 Mit timezone-aware Datum arbeite (Sommer-/Winterzeitprobleme vermeiden)
 ```
 >>> import pytz
->>> nown.astimezone(pytz.timezone('Europe/Vienna'))
+>>> now.astimezone(pytz.timezone('Europe/Vienna'))
 datetime.datetime(2020, 6, 21, 16, 18, 29, 678644, tzinfo=<DstTzInfo 'Europe/Vienna' CEST+2:00:00 DST>)
 >>> pytz.UTC.localize(datetime.datetime.utcnow())
 datetime.datetime(2020, 6, 21, 14, 24, 30, 418818, tzinfo=<UTC>)
@@ -190,12 +190,12 @@ datetime.date(2020, 2, 1)  # der erste Tag am nächsten Monat
 >>> datetime.date(2020, 1, 31) + relativedelta(weekday=MO)
 datetime.date(2020, 2, 3)  # nächster Montag
 ```
-Alter berechnen:
+Zeiträume berechnen:
 ```
->>> datetime.date.today() - datetime.date(1989, 6, 13)
-datetime.timedelta(days=11218)
->>> relativedelta(datetime.date.today(), datetime.date(1989, 6, 13))
-relativedelta(years=+30, months=+8, days=+16)
+>>> datetime.date.today() - datetime.date(1991, 6, 1)
+datetime.timedelta(days=10928)
+>>> relativedelta(datetime.date.today(), datetime.date(1991, 6, 1))
+relativedelta(years=+29, months=+11, days=+1)
 ```
 
 ---
@@ -213,6 +213,13 @@ datetime.datetime(2020, 5, 1, 0, 0)
 >>> parse("5.1.2020", dayfirst=True)
 datetime.datetime(2020, 1, 5, 0, 0)
 ```
+
+Falls ihr das Format selbst bestimmen könnet, ist der ISO-Standard empfohlen:
+```
+"2021-05-02T15:13:43+00:00"
+```
+https://en.wikipedia.org/wiki/ISO_8601
+
 ---
 
 # Kassensystem 2
@@ -248,12 +255,20 @@ numpy.datetime64('2020-04-05T12:10:02.123456')
 numpy.datetime64('2020-04-06T04:10:02.123456')
 ```
 
+---
+
+# Datetime in numpy/pandas
+
 Erlaubt Setzen der Grundeinheit:
 ```
 >>> np.datetime64("2020-04-05T12:10", "W")  # week
 numpy.datetime64('2020-04-02')
 >>> np.datetime64("2020-04-05T12:10", "W") + 2
 numpy.datetime64('2020-04-16')
+>>> np.datetime64("2020-04-05T12:10", "D") + 2
+numpy.datetime64('2020-04-07')
+>>> np.datetime64("2020-04-05T12:10", "s") + 2
+numpy.datetime64('2020-04-05T12:10:02')
 ```
 
 ---
@@ -317,10 +332,76 @@ time_stamp                                     ...
 
 ---
 
-# Timeseries
+# Beispiel: Plot mit `resample`
 
-TODO: get_loc nearest
+```
+resampled_column = df[
+    'AmbientConditions.AmbientHumidity.U.Actual'
+].resample("5min")
+fig, ax0 = plt.subplots()
 
+resampled_column.mean().plot(ax=ax0, color="blue")#####
+ax0.set_ylabel('mean', color="blue")
+ax0.tick_params(axis='y', labelcolor="blue")
+
+ax1 = ax0.twinx()
+resampled_column.std().plot(ax=ax1, color="red")
+ax1.set_ylabel('std', color="red")
+ax1.tick_params(axis='y', labelcolor="red")
+```
+
+<img alt="resampled plot" src="img/resample.png" width="40%"/>
+
+---
+
+# Timeseries Beispiel: Nähesten Eintrag finden
+
+```
+>>> df = pd.DataFrame({"measurement": [3, 4]}, index=pd.DatetimeIndex(["2020-01-01", "2020-01-20"]))
+>>> df
+           measurement
+2020-01-01           3
+2020-01-20           4
+>>> df.index.get_loc("2020-01-20")
+1
+>>> df.index.get_loc("2020-01-15")
+KeyError: '2020-01-15'
+>>> df.index.get_loc("2020-01-15", method='nearest')
+1
+>>> df.index.get_loc("2020-01-03", method='nearest')
+0
+# Werte auslesen:
+>>> df.index[ df.index.get_loc("2020-01-15", method='nearest') ]
+Timestamp('2020-01-20 00:00:00')
+>>> df.iloc[ df.index.get_loc("2020-01-15", method='nearest') ]
+measurement    4
+Name: 2020-01-20 00:00:00, dtype: object
+```
+
+---
+
+# Timeseries Beispiel: Werte alle 15 Tage
+
+Schlechte Möglichkeit (pandas-Funktion nachimplementiert):
+```
+>>> [
+    df['measurement'].iloc[ df.index.get_loc(d, method='nearest') ]
+    for d in np.arange(np.datetime64("2020-01-01"), "2020-01-31", 15)
+    ]
+[3, 4]
+```
+Besser (bleibt in pandas-Welt):
+```
+>>> df.resample("15d").nearest()
+            measurement
+2020-01-01            3
+2020-01-16            4
+```
+
+Bei `get_loc` `method` sowie `resample` Aggregierung auch möglich: `backfill`, `ffill`, `interpolate` etc.
+
+
+---
 https://adriangcoder.medium.com/pandas-tricks-and-tips-a7b87c3748ea
 
 
