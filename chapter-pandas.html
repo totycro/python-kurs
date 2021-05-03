@@ -855,8 +855,8 @@ df['Scanparameter mean'] = df.apply(mean_scan, axis='columns')
 
 Mehrere Daten auf einmal zurückgeben
 ```
-def analyze_matr(row):
-    return [row['Matr.Nr.'][0], int(row['Matr.Nr.'][1:])]
+>>> def analyze_matr(row):
+        return [row['Matr.Nr.'][0], int(row['Matr.Nr.'][1:])]
 >>> df.apply(analyze_matr, axis='columns')
 0    [a, 123]
 1    [m, 345]
@@ -1018,6 +1018,12 @@ Name: Ausbeute, dtype: bool
 >>> df[ df['Ausbeute'] == df['Ausbeute'].max() ]
   Prozess Maschinentyp  Temperatur  Parameter1  Parameter2  Ausbeute  Fehlerquote
 2       C           X3       23.15           7           3      0.98        0.002
+>>> df.query("Ausbeute == " + str(df['Ausbeute'].max()))
+  Prozess Maschinentyp  Temperatur  Parameter1  Parameter2  Ausbeute  Fehlerquote
+2       C           X3       23.15           7           3      0.98        0.002
+>>> df.query(f"Ausbeute == {df['Ausbeute'].max()}")
+  Prozess Maschinentyp  Temperatur  Parameter1  Parameter2  Ausbeute  Fehlerquote
+2       C           X3       23.15           7           3      0.98        0.002
 ```
 
 ---
@@ -1026,7 +1032,7 @@ Name: Ausbeute, dtype: bool
 
 
 
-Noch besser: Spezifische Pandas-Funktoin verwenden
+Noch besser: Spezifische Pandas-Funktion verwenden
 
 ```
 >>> df['Ausbeute'].argmax()
@@ -1207,7 +1213,7 @@ Name: Delaminierung %, Length: 461, dtype: float64
 
 Anzahl / Anteil der NaN-Werte
 ```
-# Trick: boolsche Werte True/False entsprechen 0 beim Rechnen
+# Trick: boolsche Werte True und False entsprechen 1 und 0 beim Rechnen
 >>> sum([True, False, False]) == 1
 True
 >>> nan_count = df['Delaminierung %'].isna().sum()
