@@ -127,7 +127,21 @@ class: center, middle
   &rArr; Programm funktioniert nicht mehr
   * Änderung rückgängig gemacht  
   &rArr; Programm funktioniert auch nicht?!?
-* Änderungen sollen getrackt werden
+--
+* Auch: "Eigentlich sind meine Ergebnisse seit 2 Monaten seltsam, was hat sich da im Code verändert?"
+--
+* &rArr; Änderungen sollen getrackt werden
+--
+* Bonus: Backup automatich dabei wenn man Server verwendet
+--
+* Tools unterstützen auch Änderungen durch mehrere Personen gleichzeitig  
+  &rArr; Unterstützung wenn 2 Personen das gleiche editieren  
+
+
+---
+
+# Versionskontrolle
+
 * Universelle Versionskontrollsysteme
   * Leider nur in Softwareindustrie weit verbreitet (Masterarbeit?)
 * Heutzutage Standardsystem: git
@@ -141,10 +155,7 @@ class: center, middle
 * Bei Zwischenstufen aktuelle Änderungen einchecken (*commit*: Menge von Änderungen)
   * Gerne oft committen, z.b. wenn Tests durchgehen, wenn ein (Teil-)Feature funktioniert
   * Alle Änderungen immer nachvollziehbar und umkehrbar!
-* Hervorragende Unterstützung für gleichzeitiges Arbeiten verschiedener Leute an einem Projekt (branches)
-  * Mergen von Änderungen, auch an gleichen Dateien
-  * inheränte Komplexität trotzdem hoch
-  * out of scope hier
+* *Commits* werden zum Server *gepusht*
 
 
 ---
@@ -157,10 +168,11 @@ class: center, middle
   * de-facto Standard: github.com (Microsoft)
 * Workflow mit Server:
   * Repository z.B. auf github.com anlegen
-  * Repository *clonen*
+  * Repository *clonen* (downloaden)
   * Commits zu Server *push*en
   * Andere können dort *pull*en
-  * Konflikte ggf. mit git lösen (out of scope hier)
+  * Falls gleiche Zeilen editiert &rarr; Konflikt
+  * Konfliktlösung mittels git bzw. manuell
 
 ---
 
@@ -170,12 +182,12 @@ class: center, middle
 
 ---
 
-# Demo
+# Demo 1
 
-* Graphische Oberfläche für git:
-  * gitk: Log ansehen
-  * git-gui: Commits erstellen  
-  (Gibt Alternativen, alle mit Vor- und Nachteilen)
+* gitk: Log ansehen
+* git-gui: Commits erstellen  
+* Gibt Alternativen, alle mit Vor- und Nachteilen
+* IDE-Integration oft nützlich
 * Kommandezeilentool `git` sehr gebräuchlich
 * Unter Linux normalerweise mitgeliefert, für Win &amp; Mac gibt es Downloads:
 https://git-scm.com/downloads
@@ -216,6 +228,18 @@ Erweiterung: Verwende git bei deinen Uniprojekten, vor allem länger andauernde.
 https://towardsdatascience.com/getting-started-with-git-and-github-6fcd0f2d4ac6  
 https://www.freecodecamp.org/news/learn-the-basics-of-git-in-under-10-minutes-da548267cc91/  
 https://product.hubspot.com/blog/git-and-github-tutorial-for-beginners  
+
+---
+
+# Demo 2: Branching, Konflikte
+
+### Schritte
+
+* 2 User, einer pusht, ander pullt
+* 2 User, beide pushen, kein Konflikt 
+* 2 User, beide pushen, mit Konflikt 
+* Branches mit mergen
+* Umgang mit Notebooks
 
 
 ---
