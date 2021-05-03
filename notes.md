@@ -10,36 +10,52 @@ https://jakevdp.github.io/PythonDataScienceHandbook/05.02-introducing-scikit-lea
 
 
 ## Plan 2020 / 2021
-* testing / git (fix einbauen!)
-* datetime (auch durchmachen, ist nicht so lange)
-* file / path handling (pathlib, file operations)
-* error handling (exceptions)
-* linear programming
-* pip (requirements.txt, venv, conda, conda env)
-* openpyxl durchgehen
-  https://towardsdatascience.com/automate-excel-reporting-with-python-233dd61fb0f2
-  example: report files for every month, then add formula in every file
-  https://towardsdatascience.com/automate-these-3-boring-excel-tasks-with-python-666b4ded101b
-* schedule ( code-examples/my_schedule.py )
-  cron: jeden tag um 9 arbeiten -> schedule https://pypi.org/project/schedule/
-* mail ( code-examples/mail.py )  
-* linear programming: beispiel von tutorial durchgehen
-* regular expressions (find, substitute)
-* OOP: classes, data hiding, inheritance, polymorphism
-* IDEs: linting, type checking, completion, documentation
-* SQL: Datenbank und Abfragen (sqlite?)
-* Webserver programmieren
-* advanced python features:
-  * type annotations
+* [DONE] file / path handling (pathlib, file operations)
+* [PLANNED] testing / git (fix einbauen!)
+* [PLANNED] datetime (auch durchmachen, ist nicht so lange)
+
+### Programmierung
+* Fehlerbehandlung (Exceptions)
+* Objektorientiert Programmierung: Objekte, Klassen, data hiding, inheritance, polymorphism
+* Funktionale Programmierung: Funktionen höherer Ordnung, Immutability, ...
+* Advanced Python Features:
   * with statement
   * decorators
   * generator expression
-  * magic methods, __iter__
   * generators
-  * coroutinges
-* multiprocessing, dask
+  * magic methods
+  * coroutines
+* Rekursion
+* dataclass: "Typisierte Dictionaries"
+
+### Muss man auch wissen
+* Paketverwaltung: pip, requirements.txt, venv, conda, conda env
+* IDEs: linting, completion, documentation
+* Type annotations, type checking (mypy)
+* Logging
+* Docker: Ausführung im Container
+* Testing strategies (fixtures, mocking)
+* Debugging strategies (pdb, IDE-debugger, print-statements)
 
 
+### Anwendung
+* Wir lösen gemeinsam Deinen Anwendungfall
+* Regular Expressions: Patterns zur Verarbeitung von Strings 
+* Algorithmen auf Graphen (networkx)
+* Scraping: Webseiten mit Python-Scripts "lesen" und Daten extrahieren 
+* Web-APIs verwenden (requests, json)
+* Angewandte Kryptographie: Verschlüsseln und Signieren
+* Linear Programming: Produktionsprozesse optimieren
+* Openpyxl: Mit Excel-Files wie in Excel arbeiten, aber automatisiert
+  <!--  https://towardsdatascience.com/automate-excel-reporting-with-python-233dd61fb0f2 example: report files for every month, then add formula in every file https://towardsdatascience.com/automate-these-3-boring-excel-tasks-with-python-666b4ded101b -->
+* Schedule: Aktionen zeitgesteuert ausführen <!-- ( code-examples/my_schedule.py ) https://pypi.org/project/schedule/ -->
+* Mails verschicken <!-- ( code-examples/mail.py )   -->
+* SQL: Datenbank und Abfragen (sqlite?)
+* Webserver programmieren
+* Parallelisierung: multiprocessing, dask
+
+
+### PR
 * geopandas lightning talk https://gist.github.com/jorisvandenbossche/7b30ed43366a85af8626
 * GIS ganze lecture: https://automating-gis-processes.github.io/CSC18/#
 
