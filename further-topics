@@ -1,0 +1,57 @@
+Grundlagen anwendungen:
+
+Scraping:
+* Daten von Webseiten downloaden, typischerweise regelmäßig
+* Daten dann speichern (csv, pandas dataframe, SQL datenbank)
+* Abfragen interaktiv (SQL shell, Python shell) oder mittels Script oder Web-/Desktop-Anwendung
+
+
+Daten aus Internet verwenden:
+* API (Application Programming Interface): Schnittstelle für Maschinen gedacht
+Einfach Funktionen liefern Daten direkt als Listen/Dictionaries (oder auch pd.DataFrame):
+```
+def fetch_data():
+    return json.loads(urlopen(Request(
+        "https://disease.sh/v3/covid-19/countries?sort=cases",
+        headers={"User-Agent": "Mozilla/5.0"},
+    )).read())
+```
+* Webseiten: Darstellung in HTML, ggf. dynamisch mit JavaScript aufgebaut
+Nicht direkt verwendbar, Muss geparsed werden,
+z.B. Anzahl der Ergebnisse bei Google-Suche:
+```
+<div style="position:relative">
+    <div class="WE0UJf" id="slim_appbar">
+        <div class="LHJvCe">
+            <div id="result-stats">
+                Ungefähr 16&nbsp;100 Ergebnisse<nobr> (0,48 Sekunden)&nbsp;</nobr>
+            </div>
+        </div>
+    </div>
+</div>
+```
+
+
+Webserver:
+* Daten über Internet zur Verfügung stellen
+* Wie vorher, entweder APIs (Daten maschinenlesbar kodieren) oder als HTML/JavaScript-Webseiten
+
+
+SQL:
+* Datenstrukturdefinition (tabellen schemas)
+* Datenmanipulation (insert, update, delete)
+* Abfragen
+
+~ pandas dataframe erlaubt auch viele ähnliche abfragen, SQL ist mehr fokussiert auf verknüpfungen zwischen tabellen
+https://pandas.pydata.org/pandas-docs/stable/getting_started/comparison/comparison_with_sql.html
+
+SQL ist Sprache, man braucht konkrete Datenbank dafür (z.b. PostgreSQL, MSSQL, Oracle, MySQL, MariaDB, sqlite)
+sqlite geht ohne server, nur mit Datei als Datenbank
+
+frameworks wie django schreiben SQL automatisch, es reicht, python funktionen zu verwenden
+
+
+
+Beispiel moderne Webanwendung:
+* Webserver: Content als HTML/JS
+* Generiert mittels SQL-Server ("Gib mir die 10 neuesten Instagram-Posts meiner Freunde inklusive Kommentare")
