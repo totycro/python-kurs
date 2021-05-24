@@ -135,10 +135,26 @@ Datenmodifizierungen: Hinzufügen, Löschen, Ändern
 Datenabfragen: Für viele User der am meisten verwendete Bereich von SQL 
 
 
-sqliteexplorer
+zuerst: sqliteexplorer
 
+dann: notebook
+
+grundoperationen durchgehen (immer mit vergleiche zu pandas / python):
+
+* CREATE TABLE
+* INSERT
+* DELETE
+* SELECT: etwas genauer, mit where, bis hin zu join
+* UPDATE
+
+SELECT NAME FROM bruecken WHERE bezirk = 3;
+-> [ bruecke.name for bruecke in bruecken if bruecke['bezirk'] == 3 ]
+-> df[ df.bezirk == 3 ].name
+
+wichtiges feature von SQL: foreign keys:
 select bruecken.NAME, bruecken.NUMMER, bezirke.Name FROM bruecken inner join bezirke on bruecken.NUMMER = bezirke.Nummer ;
 
+auch erwähnen: pd.read_sql_query
 
 
 
