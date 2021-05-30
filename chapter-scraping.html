@@ -114,22 +114,165 @@ https://totycro.github.io/python-kurs
 
 ---
 
-* wozu (viele daten downloaden oder periodisch)
-* API vs scraping
-* konkret:
-  * seite laden (requests, selenium erwähnen)
-  * analysieren: HTML erklären, beautifulsoup
-  * in python weiterarbeiten (in datenbank/files speichern)
+# Web Scraping
 
-erklären mit konkreter anwendung: verschiedene wetterberichte downloaden, später vergleichen
-TODO: temperatur bei orf prognose
+* ~ Maschinelles Datenextrahieren aus Webresourcen
+* Motivation
+  * Regelmäßiges Auslesen
+  * große Datenmengen lesen
+* Nicht Server mit vielen Requests überlasten!
+* Maschineninterfaces (APIs) VS Webseiten
+* 3 Phasen:
+  1. Download
+  1. Parsing
+  1. Daten analysieren
+* Daten speichern (csv, pandas DataFrame, SQL Datenbank)
+
+---
+
+# Scraping von APIs
+
+* API (Application Programming Interface): Schnittstelle für Maschinen gedacht
+* Liefern Daten direkt als Listen/Dictionaries (oder auch pd.DataFrame):
+* Datenformat üblicherweise stabil
+
+```
+from urllib.request import urlopen, Request
+import json
+
+# 1. Download (urllib)
+raw_data = urlopen(Request(
+    "https://disease.sh/v3/covid-19/countries?sort=cases",
+    headers={"User-Agent": "Mozilla/5.0"},
+)).read()
+
+# 2. Daten parsen (json)
+parsed_data = json.loads(raw_data)
+
+# 3. Daten sofort verwendbar
+parsed_data[0]['country']  # 'USA'
+```
+
+---
+
+# Scraping von Webseiten
+
+* Webseiten: Darstellung in HTML, ggf. dynamisch mit JavaScript aufgebaut
+* Nicht direkt verwendbar, muss manuell geparsed werden
+* Probleme bei Redesign der Webseite
+* z.B. Anzahl der Ergebnisse bei Google-Suche:
+```html
+<div style="position:relative">
+        <div class="WE0UJf" id="slim_appbar">
+            <div class="LHJvCe">
+                <div id="result-stats">
+                    Ungefähr 16.100 Ergebnisse<nobr> (0,48 Sekunden)&nbsp;</nobr>
+                </div>
+            </div>
+        </div>
+</div>
+```
+
+`div`: Box-Element  
+`class`: Styling von Box  
+`id`: Identifizierung von Box
 
 
-links:
+---
 
-* https://realpython.com/beautiful-soup-web-scraper-python/
-* https://automatetheboringstuff.com/2e/chapter12/
+# Scraping von Webseiten: Download
 
+* Einfachster Fall: URL laden liefert direkt Ergebnisse
+* Komplexer bei notwendigen Interaktion bevor Daten angezeigt werden, z.B. Login
+* Seitenaufbau durch JavaScript
+* Steuerung von Browser (Bsp: Selenium)
+* CAPTCHA verunmöglichen Scraping
+
+Direkter Download über `requests`-Library:
+```
+import requests
+response = requests.get("https://wetter.orf.at/wien/prognose")
+response.raise_for_status()
+print(response.content)  # Webseite als ein langer String
+```
+
+---
+
+# Scraping von Webseiten: Parsing
+
+* Tipp: HTML in Browser anschauen (Rechtsklick &rArr; Inspect)
+* Strategie überlegen, wie ein Programm Element finden kann:
+  * Best case: Element mit ID
+  * Alle Elemente mit einem gewissen Styling
+  * Das dritte Element nach einer Überschrift
+* In einfachsten Fällen reichen Stringoperationen:
+  ```
+  content = "Bla bla Summe: 5 bla bla"
+  marker = "Summe: "
+  start = content.find(marker)
+  relevant_content = content[start:]
+  print( relevant_content[len(marker)] )
+  ```
+  Sehr eingeschränkt einsetzbar!
+
+---
+
+# Scraping von Webseiten: Parsing
+
+* Schlauerer Zugang: HTML "verstehen" mit BeautifulSoup
+
+```
+content = """<div style="position:relative">
+    <div class="WE0UJf" id="slim_appbar">
+        <div class="LHJvCe">
+            <div id="result-stats">
+                Ungefähr 16.100 Ergebnisse<nobr> (0,48 Sekunden)&nbsp;</nobr>
+            </div>
+        </div>
+    </div>
+</div>"""
+
+from bs4 import BeautifulSoup
+
+soup = BeautifulSoup(content, "html.parser")
+
+element = soup.find(id="result-stats")
+print(element.text)
+# Ungefähr 16.100 Ergebnisse (0,48 Sekunden) 
+print(element.contents)
+# ['\n                Ungefähr 16.100 Ergebnisse', <nobr> (0,48 Sekunden) </nobr>, '\n']
+
+```
+
+---
+
+# Scraping von Webseiten: Vollständiges Beispiel
+
+```
+def retrieve_current_forecast():
+    page = requests.get("https://wetter.orf.at/wien/prognose")
+    soup = BeautifulSoup(page.content, "html.parser")
+
+    story_text = soup.find(id="ss-storyText")
+
+    first_paragraph = story_text.find("p")
+    text_of_first_paragraph = first_paragraph.text
+
+    first_headline = story_text.find("h2")
+    text_of_first_headline = first_headline.text
+
+    return {
+        "headline": text_of_first_headline,
+        "text": text_of_first_paragraph,
+    }
+```
+
+---
+
+# Scraping: Links
+
+https://realpython.com/beautiful-soup-web-scraper-python/  
+https://automatetheboringstuff.com/2e/chapter12/
 
 
 
