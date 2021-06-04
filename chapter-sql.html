@@ -114,30 +114,219 @@ https://totycro.github.io/python-kurs
 
 ---
 
-~ pandas dataframe erlaubt auch viele ähnliche abfragen, SQL ist mehr fokussiert auf verknüpfungen zwischen tabellen
-https://pandas.pydata.org/pandas-docs/stable/getting_started/comparison/comparison_with_sql.html
+# Datenbanken: Motivation
 
-SQL ist Sprache, man braucht konkrete Datenbank dafür (z.b. PostgreSQL, MSSQL, Oracle, MySQL, MariaDB, sqlite)
-sqlite geht ohne server, nur mit Datei als Datenbank
-
-frameworks wie django schreiben SQL automatisch, es reicht, python funktionen zu verwenden
+* Datenkbank: Serverprogramme
+  * haben Daten griffbereit
+  * beantworten Anfragen
+  * verarbeiten Datenänderungsbefehle
+* SQL: Sprache für Abfragen und Datenänderungsbefehle  
+  (gibt Alternativen, aber SQL mit Abstand seit Jahrzehnten am beliebtesten)
+* Viele konkrete SQL-Datenbankserver: (PostgreSQL, MSSQL, Oracle, MySQL, MariaDB, **sqlite**)
+* Frameworks wie Django/SQLAlchemy schreiben SQL automatisch
 
 ---
+
+# SQL
+
+* SQL: Tabellenmodell mit fixen Datentypen wie DataFrames
+* Sehr gute Unterstützung für Beziehungen zwischen Tabellen
+* Sprache nur für Datenbankoperationen:
+    * Datenschemadefinition: Tabelle mit Spalten mit Datentypen
+    * Datenmodifizierungen: Hinzufügen, Löschen, Ändern
+    * Datenabfragen: Für viele User der am meisten verwendete Bereich von SQL  
+
+---
+
+# Studierendenstatistik in sqlite
+
+
+```
+# In Python:
+studierende_liste = [
+    {
+        "Datum": datetime.date(2020, 1, 1),
+        "Inland_Frauen": 3,
+        "Inland_Maenner": 3,
+    },
+    {
+        "Datum": datetime.date(2020, 1, 8),
+        "Inland_Frauen": 6,
+        "Inland_Maenner": 5,
+    },
+]
+```
+
+```
+# Als Pandas Dataframe
+>>> df = pd.DataFrame(studierende_liste).set_index("Datum")
+            Inland_Frauen  Inland_Maenner
+Datum                                    
+2020-01-01              3               3
+2020-01-08              6               5
+```
+
+
+---
+
+# Studierendenstatistik in sqlite
+
+* Via Tool (z.B. sqliteexplorer)
+* Datenschemadefinition:
+
+```sql
+CREATE TABLE "Studierendenstatistik" (
+	"Datum"	TEXT,
+	"Inland_Frauen"	INTEGER,
+	"Inland_Maenner"	INTEGER
+);
+```
+
+* In Python/Pandas Typen oft automatisch, in SQL im Vorfeld definiert
+* Leider kein datetime in sqlite
+
+
+```
+>>> df.dtypes
+Inland Frauen     int64
+Inland Männer     int64
+gesamt            int64
+dtype: object
+```
+
+---
+
+# Studierendenstatistik in sqlite
+
+* Daten einfügen:
+
+```
+studierende_liste.append(
+    {"Datum": "2020-01-01", "Inland Frauen": 3, "Inland Männer": 3}
+)
+```
+
+```sql
+INSERT INTO
+Studierendenstatistik(Datum, Inland_Frauen, Inland_Maenner)
+VALUES ("2020-01-01", 3, 3);
+
+INSERT INTO
+Studierendenstatistik(Datum, Inland_Frauen, Inland_Maenner)
+VALUES ("2020-01-08", 6, 5);
+```
+
+* In pandas via `df.append` möglich, aber weniger typisch
+
+---
+
+# Studierendenstatistik in sqlite: `SELECT`
+
+```sql
+SELECT Datum, Inland_Frauen, Inland_Maenner
+FROM Studierendenstatistik;
+```
+
+```sql
+SELECT Datum, Inland_Frauen, Inland_Maenner
+FROM Studierendenstatistik
+WHERE Datum = "2020-01-05";
+```
+
+```
+# Python:
+>>> [row for row in studierende_liste if row['Datum'] == datetime.date(2020, 1, 8)]
+[{'Datum': datetime.date(2020, 1, 8), 'Inland_Frauen': 6, 'Inland_Maenner': 5}]
+# DataFrame
+>>> df.loc[datetime.date(2020, 1, 8)]
+Inland_Frauen     6
+Inland_Maenner    5
+Name: 2020-01-08, dtype: int64
+>>> df[ df['Inland_Frauen'] == 3 ]
+            Inland_Frauen  Inland_Maenner
+Datum                                    
+2020-01-01              3               3
+```
+
+---
+
+# Studierendenstatistik in sqlite
+
+```
+import sqlite3
+
+# Datenbankdatei öffnen
+connection = sqlite3.connect('verzeichnis/database.db')
+# Bei anderen Datenbanken: Verbindung zu Datenbankserver
+# Bsp: Postgres
+# psycopg2.connect(host="example.com", user="foo", password="bar")
+
+# Cursor zum Abschicken von Abfragen
+cursor = connection.cursor()
+# SQL als String in Python
+cursor.execute("""
+    SELECT Datum, Inland_Frauen, Inland_Maenner
+    FROM Studierendenstatistik;
+""")
+
+# Ergebnisse abholen (Achtung: nur 1 Mal möglich!)
+result = cursor.fetchall()
+# Ergebnis ist Liste aus Tupeln
+# [('2020-01-01', 3, 3), ('2020-01-08', 6, 5)]
+```
+
+---
+
+# Weiter SQL-Operationen
+
+Zeile löschen:
+```sql
+DELETE FROM Studierendenstatistik WHERE Datum = "2020-04-01";
+```
+
+```
+# Python
+>>> studierende_liste = [
+    row for row in studierende_liste
+    if row['Datum'] != datetime.date(2020, 1, 8)
+]
+# DataFrame
+>>> df.drop(datetime.date(2020, 1, 8))
+>>> df[ df['Inland_Frauen'] != 3 ]
+```
+
+---
+
+# Weiter SQL-Operationen
+
+Zeile updaten:
+```
+UPDATE Studierendenstatistik SET Inland_Frauen = 4 WHERE Datum = "2020-01-01";
+```
+
+* Das sind alle zentralen SQL-Befehle!
+* Komplexität bei SELECT-Abfragen
+
+---
+
+# SQL Links
+
+Schritt für Schritt Tutorial:  
+https://www.w3schools.com/sql/default.asp  
+
+Detaillierter Sqlite in Python:  
+https://medium.com/analytics-vidhya/programming-with-databases-in-python-using-sqlite-4cecbef51ab9
+
+Pandas VS SQL:  
+https://pandas.pydata.org/pandas-docs/stable/getting_started/comparison/comparison_with_sql.html
+
+---
+
+
 
 <!--
 https://medium.com/analytics-vidhya/programming-with-databases-in-python-using-sqlite-4cecbef51ab9
 -->
-
-Zentrales Objekt: Tabelle (vgl Dataframe, Liste mit Tupeln)
-
-Datenschemadefinition: Tabelle mit Spalten mit Datentypen
-Datenmodifizierungen: Hinzufügen, Löschen, Ändern
-Datenabfragen: Für viele User der am meisten verwendete Bereich von SQL 
-
-
-zuerst: sqliteexplorer
-
-dann: notebook
 
 grundoperationen durchgehen (immer mit vergleiche zu pandas / python):
 
