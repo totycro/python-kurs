@@ -116,7 +116,7 @@ https://totycro.github.io/python-kurs
 
 # Datenbanken: Motivation
 
-* Datenkbank: Serverprogramme
+* Datenbank: Serverprogramme
   * haben Daten griffbereit
   * beantworten Anfragen
   * verarbeiten Datenänderungsbefehle
@@ -124,6 +124,17 @@ https://totycro.github.io/python-kurs
   (gibt Alternativen, aber SQL mit Abstand seit Jahrzehnten am beliebtesten)
 * Viele konkrete SQL-Datenbankserver: (PostgreSQL, MSSQL, Oracle, MySQL, MariaDB, **sqlite**)
 * Frameworks wie Django/SQLAlchemy schreiben SQL automatisch
+---
+
+# Datenbanken: Motivation
+
+Datenverarbeitung auch mit Python / DataFrames möglich, aber Datenbanken oft besser geeignet:
+* Integritätschecks
+* Foreign Key Constraints
+* Laufende Updates zentral verwalten
+* Extrem schlauer Umgang mit komplexen Abfragen 
+* Backup/Restore-Funktionalität
+* Hohe Verfügbarkeit
 
 ---
 
@@ -190,7 +201,6 @@ CREATE TABLE "Studierendenstatistik" (
 >>> df.dtypes
 Inland Frauen     int64
 Inland Männer     int64
-gesamt            int64
 dtype: object
 ```
 
@@ -206,6 +216,8 @@ studierende_liste.append(
 )
 ```
 
+In pandas via `df.append` möglich, aber weniger typisch
+
 ```sql
 INSERT INTO
 Studierendenstatistik(Datum, Inland_Frauen, Inland_Maenner)
@@ -216,27 +228,18 @@ Studierendenstatistik(Datum, Inland_Frauen, Inland_Maenner)
 VALUES ("2020-01-08", 6, 5);
 ```
 
-* In pandas via `df.append` möglich, aber weniger typisch
 
 ---
 
 # Studierendenstatistik in sqlite: `SELECT`
 
-```sql
-SELECT Datum, Inland_Frauen, Inland_Maenner
-FROM Studierendenstatistik;
-```
-
-```sql
-SELECT Datum, Inland_Frauen, Inland_Maenner
-FROM Studierendenstatistik
-WHERE Datum = "2020-01-05";
-```
+Datenabfragen: Wieviele Studierenden gab es an Datum X?
 
 ```
 # Python:
 >>> [row for row in studierende_liste if row['Datum'] == datetime.date(2020, 1, 8)]
 [{'Datum': datetime.date(2020, 1, 8), 'Inland_Frauen': 6, 'Inland_Maenner': 5}]
+
 # DataFrame
 >>> df.loc[datetime.date(2020, 1, 8)]
 Inland_Frauen     6
@@ -250,7 +253,24 @@ Datum
 
 ---
 
-# Studierendenstatistik in sqlite
+# Studierendenstatistik in sqlite: `SELECT`
+
+SQL: Auswahl von Daten einer Tabelle mit `SELECT` und `WHERE`:
+
+```sql
+SELECT Datum, Inland_Frauen, Inland_Maenner
+FROM Studierendenstatistik;
+```
+
+```sql
+SELECT Datum, Inland_Frauen, Inland_Maenner
+FROM Studierendenstatistik
+WHERE Datum = "2020-01-05";
+```
+
+---
+
+# Studierendenstatistik in sqlite in Python
 
 ```
 import sqlite3
@@ -280,10 +300,6 @@ result = cursor.fetchall()
 # Weiter SQL-Operationen
 
 Zeile löschen:
-```sql
-DELETE FROM Studierendenstatistik WHERE Datum = "2020-04-01";
-```
-
 ```
 # Python
 >>> studierende_liste = [
@@ -294,12 +310,24 @@ DELETE FROM Studierendenstatistik WHERE Datum = "2020-04-01";
 >>> df.drop(datetime.date(2020, 1, 8))
 >>> df[ df['Inland_Frauen'] != 3 ]
 ```
+```sql
+DELETE FROM Studierendenstatistik WHERE Datum = "2020-04-01";
+```
 
 ---
 
 # Weiter SQL-Operationen
 
 Zeile updaten:
+```
+# Python
+for row in studierende_liste:
+    if row['Datum'] == datetime.date(2020, 1, 1):
+        row['Inland_Frauen'] = 4
+
+# DataFrame
+df.loc[ datetime.date(2020, 1, 1) , 'Inland_Frauen' ] = 4
+```
 ```
 UPDATE Studierendenstatistik SET Inland_Frauen = 4 WHERE Datum = "2020-01-01";
 ```
@@ -311,7 +339,7 @@ UPDATE Studierendenstatistik SET Inland_Frauen = 4 WHERE Datum = "2020-01-01";
 
 # SQL Links
 
-Schritt für Schritt Tutorial:  
+Schritt für Schritt Tutorial (mit Online Testdatenbank):  
 https://www.w3schools.com/sql/default.asp  
 
 Detaillierter Sqlite in Python:  
