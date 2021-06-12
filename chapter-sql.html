@@ -409,6 +409,43 @@ WHERE
 
 Wie würde das in Python oder Pandas funktionieren?
 
+---
+
+# SQL Statistik
+
+Wieviele Posts hat User 1 erstellt?
+```sql
+SELECT COUNT(*) FROM Post WHERE UserID = 1;
+```
+
+---
+
+# SQL Statistik
+
+Wieviele Posts haben die User jeweils erstellt? 
+
+
+```sql
+SELECT Name, COUNT(Post.PostID) 
+FROM 
+  User 
+  LEFT JOIN Post ON Post.UserID = User.UserID 
+GROUP BY User.UserID;
+```
+
+```sql
+SELECT 
+  Name, 
+  (
+    SELECT COUNT(*) 
+    FROM 
+      Post 
+    WHERE 
+      Post.UserID = User.UserID
+  ) 
+FROM User;
+```
+
 
 ---
 
