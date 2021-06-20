@@ -30,18 +30,26 @@ def statistik_view():
 
 def fetch_data():
 
-    connection = sqlite3.connect("database.db")
+    connection = sqlite3.connect("stud.db")
     cursor = connection.cursor()
 
-    cursor.execute("SELECT NAME, BEZIRK FROM bruecken ORDER BY BEZIRK;")
+    cursor.execute(
+        "SELECT Datum, Inland_Frauen, Inland_Maenner FROM Studierendenstatistik ORDER BY Datum;"
+    )
     db_result = cursor.fetchall()
 
     pprint.pprint(db_result)
 
     # Auch list-comprehension möglich
     formatted_result = []
-    for name, bezirk in db_result:
-        formatted_result.append({"name": name, "bezirk": bezirk})
+    for datum, inland_frauen, inland_maenner in db_result:
+        formatted_result.append(
+            {
+                "datum": datum,
+                "inland_frauen": inland_frauen,
+                "inland_maenner": inland_maenner,
+            }
+        )
 
     return formatted_result
 

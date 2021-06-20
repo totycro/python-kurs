@@ -5,20 +5,31 @@
     </head>
 
     <body>
-        <h1>Bruecken</h1>
 
-        <table class="table table-striped">
-            <tr>
-                <th>Name</th>
-                <th>Bezirk</th>
-            </tr>
-            {% for entry in formatted_result %}
-            <tr>
-                <td>{{ entry['name'] }}</td>
-                <td>{{ entry['bezirk'] }}</td>
-            </tr>
-            {% endfor %}
-        </table>
+        <div class="col-lg-8 mx-auto p-3 py-md-5">
+            <h1>Studierendenstatistikauswertung</h1>
+
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Datum</th>
+                        <th>Inland Frauen</th>
+                        <th>Inland Männer</th>
+                        <th>Geschlechterdifferenz</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for entry in formatted_result %}
+                    <tr>
+                        <td class="text-end">{{ entry['datum'] }}</td>
+                        <td class="text-end">{{ entry['inland_maenner'] }}</td>
+                        <td class="text-end">{{ entry['inland_frauen'] }}</td>
+                        <td class="text-end">{{ entry['inland_maenner'] - entry['inland_frauen'] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
     </body>
 </html>
